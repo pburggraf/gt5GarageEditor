@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -152,7 +153,7 @@ namespace GT5_Garage_Editor
                 _currentCar.UpdateBlob1(gclass1_3);
                 _currentCar.UpdateBlob2(gclass1_3);
                 _currentCar.UpdateBlob3(gclass1_3);
-                method_8('a');
+                LoadCarSheet('a');
             }
             catch
             {
@@ -175,7 +176,7 @@ namespace GT5_Garage_Editor
             comboBox_DModel.Items.Clear();
             comboBox_DMake.Enabled = true;
             comboBox_DModel.Enabled = true;
-            smethod_2(ref dataGridView_Dest);
+            RemoveDgvRows(ref dataGridView_Dest);
         }
 
         private void comboBox__gift_paintCat_SelectedIndexChanged(object sender, EventArgs e)
@@ -247,14 +248,14 @@ namespace GT5_Garage_Editor
             var num = (int)MessageBox.Show("Car has been permanently borrowed", "Info", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
-        public void method_4()
+        public void LoadTempCarDetails()
         {
-            textBox_SYear.Text = _tempCar.GetYear().ToString();
+            textBox_SYear.Text = _tempCar.GetYear().ToString(CultureInfo.InvariantCulture);
             textBox_SDT.Text = _tempCar.GetDt();
             textBox_SCountry.Text = _tempCar.GetCountry();
         }
 
-        public void method_5()
+        public void LoadCurrentCarDetails()
         {
             try
             {
@@ -281,7 +282,7 @@ namespace GT5_Garage_Editor
             try
             {
                 _tempCar = new Car();
-                method_4();
+                LoadTempCarDetails();
                 GetDistinctCarsByManufacturer(_sqlHelper, ref dataTable_4);
                 PopulateComboBoxFromDatatable(ref comboBox_SModel, ref dataTable_4);
                 comboBox_SModel.SelectedIndex = 0;
@@ -295,14 +296,14 @@ namespace GT5_Garage_Editor
         {
             dataTable_5 = _sqlHelper.ExecuteReader("SELECT * FROM t_garage WHERE tuner_label LIKE '" + comboBox_SMake.SelectedItem + "' AND name_EN LIKE '" + comboBox_SModel.SelectedItem.ToString().Replace("'", "''") + "';");
             _tempCar = new Car(dataTable_5);
-            method_4();
-            method_7();
+            LoadTempCarDetails();
+            LoadSourceCarSheetA();
         }
 
         private void comboBox_DMake_SelectedIndexChanged(object sender, EventArgs e)
         {
             _currentCar = new Car();
-            method_5();
+            LoadCurrentCarDetails();
             GetCarsByManufacturer(_sqlHelper2, ref dataTable_7, ref comboBox_DMake);
             PopulateComboBoxFromDatatable(ref comboBox_DModel, ref dataTable_7);
         }
@@ -311,8 +312,8 @@ namespace GT5_Garage_Editor
         {
             dataTable_8 = _sqlHelper2.ExecuteReader("SELECT * FROM t_garage WHERE garage_id LIKE " + dataTable_7.Rows[comboBox_DModel.SelectedIndex].ItemArray[1]);
             _currentCar = new Car(dataTable_8);
-            method_5();
-            method_8(_char0);
+            LoadCurrentCarDetails();
+            LoadCarSheet(_char0);
             groupBox_Sheet.Enabled = true;
         }
 
@@ -321,59 +322,58 @@ namespace GT5_Garage_Editor
             comboBox_DMake.SelectedIndex = 0;
         }
 
-        public void method_7()
+        public void LoadSourceCarSheetA()
         {
-            var newCar = new Car();
-            var tempCar = this._tempCar;
+            var tempCar = _tempCar;
             textBox_SYear.Text = tempCar.GetYear().ToString();
             textBox_SDT.Text = tempCar.GetDt();
             textBox_SCountry.Text = tempCar.GetCountry();
             dataGridView_Source.Rows.Clear();
-            smethod_0(ref dataGridView_Source, "Tune Sheet", 0U);
-            smethod_0(ref dataGridView_Source, "Paint", tempCar.GetBlob1().method_104());
-            smethod_0(ref dataGridView_Source, "Body", tempCar.GetBlob1().method_116());
-            smethod_0(ref dataGridView_Source, "Colour", tempCar.GetBlob1().method_102());
-            smethod_0(ref dataGridView_Source, "Brakes", tempCar.GetBlob1().method_118());
-            smethod_0(ref dataGridView_Source, "_198_201", tempCar.GetBlob1().method_120());
-            smethod_0(ref dataGridView_Source, "Chassis", tempCar.GetBlob1().method_122());
-            smethod_0(ref dataGridView_Source, "Engine", tempCar.GetBlob1().method_124());
-            smethod_0(ref dataGridView_Source, "Drivetrain", tempCar.GetBlob1().method_126());
-            smethod_0(ref dataGridView_Source, "Transmission", tempCar.GetBlob1().method_128());
-            smethod_0(ref dataGridView_Source, "Suspension", tempCar.GetBlob1().method_130());
-            smethod_0(ref dataGridView_Source, "LSD", tempCar.GetBlob1().method_132());
-            smethod_0(ref dataGridView_Source, "_226_229", tempCar.GetBlob1().method_134());
-            smethod_0(ref dataGridView_Source, "WReduction", tempCar.GetBlob1().method_136());
-            smethod_0(ref dataGridView_Source, "_234_237", tempCar.GetBlob1().method_138());
-            smethod_0(ref dataGridView_Source, "_238_241", tempCar.GetBlob1().method_140());
-            smethod_0(ref dataGridView_Source, "ECU", tempCar.GetBlob1().method_142());
-            smethod_0(ref dataGridView_Source, "Engine Tune", tempCar.GetBlob1().method_144());
-            smethod_0(ref dataGridView_Source, "Turbo", tempCar.GetBlob1().method_146());
-            smethod_0(ref dataGridView_Source, "Flywheel", tempCar.GetBlob1().method_148());
-            smethod_0(ref dataGridView_Source, "Clutch", tempCar.GetBlob1().method_150());
-            smethod_0(ref dataGridView_Source, "Driveshaft", tempCar.GetBlob1().method_152());
-            smethod_0(ref dataGridView_Source, "Exhaust", tempCar.GetBlob1().method_154());
-            smethod_0(ref dataGridView_Source, "_270_273", tempCar.GetBlob1().method_156());
-            smethod_0(ref dataGridView_Source, "ASM Controller", tempCar.GetBlob1().method_158());
-            smethod_0(ref dataGridView_Source, "TCS Controller", tempCar.GetBlob1().method_160());
-            smethod_0(ref dataGridView_Source, "_282_285", tempCar.GetBlob1().method_162());
-            smethod_0(ref dataGridView_Source, "Supercharger", tempCar.GetBlob1().method_164());
-            smethod_0(ref dataGridView_Source, "Intake Manifold", tempCar.GetBlob1().method_166());
-            smethod_0(ref dataGridView_Source, "Exhaust Manifold", tempCar.GetBlob1().method_168());
-            smethod_0(ref dataGridView_Source, "Catalytic Converter", tempCar.GetBlob1().method_170());
-            smethod_0(ref dataGridView_Source, "Air Filter", tempCar.GetBlob1().method_172());
-            smethod_0(ref dataGridView_Source, "_306_309", tempCar.GetBlob1().method_174());
-            smethod_0(ref dataGridView_Source, "WindowWR", tempCar.GetBlob1().method_176());
-            smethod_0(ref dataGridView_Source, "Hood", tempCar.GetBlob1().method_178());
-            smethod_0(ref dataGridView_Source, "FrBumper", tempCar.GetBlob1().method_180());
-            smethod_0(ref dataGridView_Source, "RrBumper", tempCar.GetBlob1().method_182());
-            smethod_0(ref dataGridView_Source, "Extension", tempCar.GetBlob1().method_184());
-            smethod_0(ref dataGridView_Source, "Wing", tempCar.GetBlob1().method_186());
-            smethod_0(ref dataGridView_Source, "_334_337", tempCar.GetBlob1().method_188());
-            smethod_0(ref dataGridView_Source, "Reinforcement", tempCar.GetBlob1().method_190());
-            smethod_0(ref dataGridView_Source, "NoS", tempCar.GetBlob1().method_192());
+            AddColumnToDgv(ref dataGridView_Source, "Tune Sheet", 0U);
+            AddColumnToDgv(ref dataGridView_Source, "Paint", tempCar.GetBlob1().Paint());
+            AddColumnToDgv(ref dataGridView_Source, "Body", tempCar.GetBlob1().Body());
+            AddColumnToDgv(ref dataGridView_Source, "Colour", tempCar.GetBlob1().Colour());
+            AddColumnToDgv(ref dataGridView_Source, "Brakes", tempCar.GetBlob1().Brakes());
+            AddColumnToDgv(ref dataGridView_Source, "_198_201", tempCar.GetBlob1()._198_201());
+            AddColumnToDgv(ref dataGridView_Source, "Chassis", tempCar.GetBlob1().Chassis());
+            AddColumnToDgv(ref dataGridView_Source, "Engine", tempCar.GetBlob1().Engine());
+            AddColumnToDgv(ref dataGridView_Source, "Drivetrain", tempCar.GetBlob1().DriveTrain());
+            AddColumnToDgv(ref dataGridView_Source, "Transmission", tempCar.GetBlob1().Transmission());
+            AddColumnToDgv(ref dataGridView_Source, "Suspension", tempCar.GetBlob1().Suspension());
+            AddColumnToDgv(ref dataGridView_Source, "LSD", tempCar.GetBlob1().LSD());
+            AddColumnToDgv(ref dataGridView_Source, "_226_229", tempCar.GetBlob1().method_134());
+            AddColumnToDgv(ref dataGridView_Source, "WReduction", tempCar.GetBlob1().WReduction());
+            AddColumnToDgv(ref dataGridView_Source, "_234_237", tempCar.GetBlob1().method_138());
+            AddColumnToDgv(ref dataGridView_Source, "_238_241", tempCar.GetBlob1().method_140());
+            AddColumnToDgv(ref dataGridView_Source, "ECU", tempCar.GetBlob1().ECU());
+            AddColumnToDgv(ref dataGridView_Source, "Engine Tune", tempCar.GetBlob1().EngineTune());
+            AddColumnToDgv(ref dataGridView_Source, "Turbo", tempCar.GetBlob1().Turbo());
+            AddColumnToDgv(ref dataGridView_Source, "Flywheel", tempCar.GetBlob1().Flywheel());
+            AddColumnToDgv(ref dataGridView_Source, "Clutch", tempCar.GetBlob1().Clutch());
+            AddColumnToDgv(ref dataGridView_Source, "Driveshaft", tempCar.GetBlob1().Driveshaft());
+            AddColumnToDgv(ref dataGridView_Source, "Exhaust", tempCar.GetBlob1().Exhaust());
+            AddColumnToDgv(ref dataGridView_Source, "_270_273", tempCar.GetBlob1().method_156());
+            AddColumnToDgv(ref dataGridView_Source, "ASM Controller", tempCar.GetBlob1().ASM());
+            AddColumnToDgv(ref dataGridView_Source, "TCS Controller", tempCar.GetBlob1().TCS());
+            AddColumnToDgv(ref dataGridView_Source, "_282_285", tempCar.GetBlob1().method_162());
+            AddColumnToDgv(ref dataGridView_Source, "Supercharger", tempCar.GetBlob1().Supercharger());
+            AddColumnToDgv(ref dataGridView_Source, "Intake Manifold", tempCar.GetBlob1().Intake());
+            AddColumnToDgv(ref dataGridView_Source, "Exhaust Manifold", tempCar.GetBlob1().ExhaustManifold());
+            AddColumnToDgv(ref dataGridView_Source, "Catalytic Converter", tempCar.GetBlob1().CatConverter());
+            AddColumnToDgv(ref dataGridView_Source, "Air Filter", tempCar.GetBlob1().AirFilter());
+            AddColumnToDgv(ref dataGridView_Source, "_306_309", tempCar.GetBlob1().method_174());
+            AddColumnToDgv(ref dataGridView_Source, "WindowWR", tempCar.GetBlob1().WindowWR());
+            AddColumnToDgv(ref dataGridView_Source, "Hood", tempCar.GetBlob1().Hood());
+            AddColumnToDgv(ref dataGridView_Source, "FrBumper", tempCar.GetBlob1().FrBumper());
+            AddColumnToDgv(ref dataGridView_Source, "RrBumper", tempCar.GetBlob1().RrBumper());
+            AddColumnToDgv(ref dataGridView_Source, "Extension", tempCar.GetBlob1().Extension());
+            AddColumnToDgv(ref dataGridView_Source, "Wing", tempCar.GetBlob1().Wing());
+            AddColumnToDgv(ref dataGridView_Source, "_334_337", tempCar.GetBlob1().method_188());
+            AddColumnToDgv(ref dataGridView_Source, "Reinforcement", tempCar.GetBlob1().Reinforcement());
+            AddColumnToDgv(ref dataGridView_Source, "NoS", tempCar.GetBlob1().Nos());
         }
 
-        public void method_8(char char_1)
+        public void LoadCarSheet(char sheet)
         {
             try
             {
@@ -384,139 +384,139 @@ namespace GT5_Garage_Editor
                 textBox_DCountry.Text = tempCar.GetCountry();
                 while (Convert.ToBoolean(dataGridView_Dest.Rows.Count))
                     dataGridView_Dest.Rows.Remove(dataGridView_Dest.Rows[0]);
-                switch (char_1)
+                switch (sheet)
                 {
                     case 'a':
-                        smethod_1(ref dataGridView_Dest, "Tune Sheet", 0U);
-                        smethod_1(ref dataGridView_Dest, "Paint", tempCar.GetBlob1().method_104());
-                        smethod_1(ref dataGridView_Dest, "Body", tempCar.GetBlob1().method_116());
-                        smethod_1(ref dataGridView_Dest, "Colour", tempCar.GetBlob1().method_102());
-                        smethod_1(ref dataGridView_Dest, "Brakes", tempCar.GetBlob1().method_118());
-                        smethod_1(ref dataGridView_Dest, "_198_201", tempCar.GetBlob1().method_120());
-                        smethod_1(ref dataGridView_Dest, "Chassis", tempCar.GetBlob1().method_122());
-                        smethod_1(ref dataGridView_Dest, "Engine", tempCar.GetBlob1().method_124());
-                        smethod_1(ref dataGridView_Dest, "Drivetrain", tempCar.GetBlob1().method_126());
-                        smethod_1(ref dataGridView_Dest, "Transmission", tempCar.GetBlob1().method_128());
-                        smethod_1(ref dataGridView_Dest, "Suspension", tempCar.GetBlob1().method_130());
-                        smethod_1(ref dataGridView_Dest, "LSD", tempCar.GetBlob1().method_132());
-                        smethod_1(ref dataGridView_Dest, "_226_229", tempCar.GetBlob1().method_134());
-                        smethod_1(ref dataGridView_Dest, "WReduction", tempCar.GetBlob1().method_136());
-                        smethod_1(ref dataGridView_Dest, "_234_237", tempCar.GetBlob1().method_138());
-                        smethod_1(ref dataGridView_Dest, "_238_241", tempCar.GetBlob1().method_140());
-                        smethod_1(ref dataGridView_Dest, "ECU", tempCar.GetBlob1().method_142());
-                        smethod_1(ref dataGridView_Dest, "Engine Tune", tempCar.GetBlob1().method_144());
-                        smethod_1(ref dataGridView_Dest, "Turbo", tempCar.GetBlob1().method_146());
-                        smethod_1(ref dataGridView_Dest, "Flywheel", tempCar.GetBlob1().method_148());
-                        smethod_1(ref dataGridView_Dest, "Clutch", tempCar.GetBlob1().method_150());
-                        smethod_1(ref dataGridView_Dest, "Driveshaft", tempCar.GetBlob1().method_152());
-                        smethod_1(ref dataGridView_Dest, "Exhaust", tempCar.GetBlob1().method_154());
-                        smethod_1(ref dataGridView_Dest, "_270_273", tempCar.GetBlob1().method_156());
-                        smethod_1(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob1().method_158());
-                        smethod_1(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob1().method_160());
-                        smethod_1(ref dataGridView_Dest, "_282_285", tempCar.GetBlob1().method_162());
-                        smethod_1(ref dataGridView_Dest, "Supercharger", tempCar.GetBlob1().method_164());
-                        smethod_1(ref dataGridView_Dest, "Intake Manifold", tempCar.GetBlob1().method_166());
-                        smethod_1(ref dataGridView_Dest, "Exhaust Manifold", tempCar.GetBlob1().method_168());
-                        smethod_1(ref dataGridView_Dest, "Catalytic Converter", tempCar.GetBlob1().method_170());
-                        smethod_1(ref dataGridView_Dest, "Air Filter", tempCar.GetBlob1().method_172());
-                        smethod_1(ref dataGridView_Dest, "_306_309", tempCar.GetBlob1().method_174());
-                        smethod_1(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob1().method_176());
-                        smethod_1(ref dataGridView_Dest, "Hood", tempCar.GetBlob1().method_178());
-                        smethod_1(ref dataGridView_Dest, "FrBumper", tempCar.GetBlob1().method_180());
-                        smethod_1(ref dataGridView_Dest, "RrBumper", tempCar.GetBlob1().method_182());
-                        smethod_1(ref dataGridView_Dest, "Extension", tempCar.GetBlob1().method_184());
-                        smethod_1(ref dataGridView_Dest, "Wing", tempCar.GetBlob1().method_186());
-                        smethod_1(ref dataGridView_Dest, "_334_337", tempCar.GetBlob1().method_188());
-                        smethod_1(ref dataGridView_Dest, "Reinforcement", tempCar.GetBlob1().method_190());
-                        smethod_1(ref dataGridView_Dest, "NoS", tempCar.GetBlob1().method_192());
+                        LoadItemToDgv(ref dataGridView_Dest, "Tune Sheet", 0U);
+                        LoadItemToDgv(ref dataGridView_Dest, "Paint", tempCar.GetBlob1().Paint());
+                        LoadItemToDgv(ref dataGridView_Dest, "Body", tempCar.GetBlob1().Body());
+                        LoadItemToDgv(ref dataGridView_Dest, "Colour", tempCar.GetBlob1().Colour());
+                        LoadItemToDgv(ref dataGridView_Dest, "Brakes", tempCar.GetBlob1().Brakes());
+                        LoadItemToDgv(ref dataGridView_Dest, "_198_201", tempCar.GetBlob1()._198_201());
+                        LoadItemToDgv(ref dataGridView_Dest, "Chassis", tempCar.GetBlob1().Chassis());
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine", tempCar.GetBlob1().Engine());
+                        LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.GetBlob1().DriveTrain());
+                        LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.GetBlob1().Transmission());
+                        LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.GetBlob1().Suspension());
+                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.GetBlob1().LSD());
+                        LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.GetBlob1().method_134());
+                        LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.GetBlob1().WReduction());
+                        LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.GetBlob1().method_138());
+                        LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.GetBlob1().method_140());
+                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.GetBlob1().ECU());
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.GetBlob1().EngineTune());
+                        LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.GetBlob1().Turbo());
+                        LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.GetBlob1().Flywheel());
+                        LoadItemToDgv(ref dataGridView_Dest, "Clutch", tempCar.GetBlob1().Clutch());
+                        LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.GetBlob1().Driveshaft());
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.GetBlob1().Exhaust());
+                        LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.GetBlob1().method_156());
+                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob1().ASM());
+                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob1().TCS());
+                        LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.GetBlob1().method_162());
+                        LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.GetBlob1().Supercharger());
+                        LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.GetBlob1().Intake());
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust Manifold", tempCar.GetBlob1().ExhaustManifold());
+                        LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.GetBlob1().CatConverter());
+                        LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.GetBlob1().AirFilter());
+                        LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.GetBlob1().method_174());
+                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob1().WindowWR());
+                        LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.GetBlob1().Hood());
+                        LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.GetBlob1().FrBumper());
+                        LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.GetBlob1().RrBumper());
+                        LoadItemToDgv(ref dataGridView_Dest, "Extension", tempCar.GetBlob1().Extension());
+                        LoadItemToDgv(ref dataGridView_Dest, "Wing", tempCar.GetBlob1().Wing());
+                        LoadItemToDgv(ref dataGridView_Dest, "_334_337", tempCar.GetBlob1().method_188());
+                        LoadItemToDgv(ref dataGridView_Dest, "Reinforcement", tempCar.GetBlob1().Reinforcement());
+                        LoadItemToDgv(ref dataGridView_Dest, "NoS", tempCar.GetBlob1().Nos());
                         break;
                     case 'b':
-                        smethod_1(ref dataGridView_Dest, "Tune Sheet", 0U);
-                        smethod_1(ref dataGridView_Dest, "Paint", tempCar.GetBlob2().method_104());
-                        smethod_1(ref dataGridView_Dest, "Body", tempCar.GetBlob2().method_116());
-                        smethod_1(ref dataGridView_Dest, "Colour", tempCar.GetBlob2().method_102());
-                        smethod_1(ref dataGridView_Dest, "Brakes", tempCar.GetBlob2().method_118());
-                        smethod_1(ref dataGridView_Dest, "_198_201", tempCar.GetBlob2().method_120());
-                        smethod_1(ref dataGridView_Dest, "Chassis", tempCar.GetBlob2().method_122());
-                        smethod_1(ref dataGridView_Dest, "Engine", tempCar.GetBlob2().method_124());
-                        smethod_1(ref dataGridView_Dest, "Drivetrain", tempCar.GetBlob2().method_126());
-                        smethod_1(ref dataGridView_Dest, "Transmission", tempCar.GetBlob2().method_128());
-                        smethod_1(ref dataGridView_Dest, "Suspension", tempCar.GetBlob2().method_130());
-                        smethod_1(ref dataGridView_Dest, "LSD", tempCar.GetBlob2().method_132());
-                        smethod_1(ref dataGridView_Dest, "_226_229", tempCar.GetBlob2().method_134());
-                        smethod_1(ref dataGridView_Dest, "WReduction", tempCar.GetBlob2().method_136());
-                        smethod_1(ref dataGridView_Dest, "_234_237", tempCar.GetBlob2().method_138());
-                        smethod_1(ref dataGridView_Dest, "_238_241", tempCar.GetBlob2().method_140());
-                        smethod_1(ref dataGridView_Dest, "ECU", tempCar.GetBlob2().method_142());
-                        smethod_1(ref dataGridView_Dest, "Engine Tune", tempCar.GetBlob2().method_144());
-                        smethod_1(ref dataGridView_Dest, "Turbo", tempCar.GetBlob2().method_146());
-                        smethod_1(ref dataGridView_Dest, "Flywheel", tempCar.GetBlob2().method_148());
-                        smethod_1(ref dataGridView_Dest, "Clutch", tempCar.GetBlob2().method_150());
-                        smethod_1(ref dataGridView_Dest, "Driveshaft", tempCar.GetBlob2().method_152());
-                        smethod_1(ref dataGridView_Dest, "Exhaust", tempCar.GetBlob2().method_154());
-                        smethod_1(ref dataGridView_Dest, "_270_273", tempCar.GetBlob2().method_156());
-                        smethod_1(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob2().method_158());
-                        smethod_1(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob2().method_160());
-                        smethod_1(ref dataGridView_Dest, "_282_285", tempCar.GetBlob2().method_162());
-                        smethod_1(ref dataGridView_Dest, "Supercharger", tempCar.GetBlob2().method_164());
-                        smethod_1(ref dataGridView_Dest, "Intake Manifold", tempCar.GetBlob2().method_166());
-                        smethod_1(ref dataGridView_Dest, "Exhaust Manifold", tempCar.GetBlob2().method_168());
-                        smethod_1(ref dataGridView_Dest, "Catalytic Converter", tempCar.GetBlob2().method_170());
-                        smethod_1(ref dataGridView_Dest, "Air Filter", tempCar.GetBlob2().method_172());
-                        smethod_1(ref dataGridView_Dest, "_306_309", tempCar.GetBlob2().method_174());
-                        smethod_1(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob2().method_176());
-                        smethod_1(ref dataGridView_Dest, "Hood", tempCar.GetBlob2().method_178());
-                        smethod_1(ref dataGridView_Dest, "FrBumper", tempCar.GetBlob2().method_180());
-                        smethod_1(ref dataGridView_Dest, "RrBumper", tempCar.GetBlob2().method_182());
-                        smethod_1(ref dataGridView_Dest, "Extension", tempCar.GetBlob2().method_184());
-                        smethod_1(ref dataGridView_Dest, "Wing", tempCar.GetBlob2().method_186());
-                        smethod_1(ref dataGridView_Dest, "_334_337", tempCar.GetBlob2().method_188());
-                        smethod_1(ref dataGridView_Dest, "Reinforcement", tempCar.GetBlob2().method_190());
-                        smethod_1(ref dataGridView_Dest, "NoS", tempCar.GetBlob2().method_192());
+                        LoadItemToDgv(ref dataGridView_Dest, "Tune Sheet", 0U);
+                        LoadItemToDgv(ref dataGridView_Dest, "Paint", tempCar.GetBlob2().Paint());
+                        LoadItemToDgv(ref dataGridView_Dest, "Body", tempCar.GetBlob2().Body());
+                        LoadItemToDgv(ref dataGridView_Dest, "Colour", tempCar.GetBlob2().Colour());
+                        LoadItemToDgv(ref dataGridView_Dest, "Brakes", tempCar.GetBlob2().Brakes());
+                        LoadItemToDgv(ref dataGridView_Dest, "_198_201", tempCar.GetBlob2()._198_201());
+                        LoadItemToDgv(ref dataGridView_Dest, "Chassis", tempCar.GetBlob2().Chassis());
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine", tempCar.GetBlob2().Engine());
+                        LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.GetBlob2().DriveTrain());
+                        LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.GetBlob2().Transmission());
+                        LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.GetBlob2().Suspension());
+                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.GetBlob2().LSD());
+                        LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.GetBlob2().method_134());
+                        LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.GetBlob2().WReduction());
+                        LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.GetBlob2().method_138());
+                        LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.GetBlob2().method_140());
+                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.GetBlob2().ECU());
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.GetBlob2().EngineTune());
+                        LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.GetBlob2().Turbo());
+                        LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.GetBlob2().Flywheel());
+                        LoadItemToDgv(ref dataGridView_Dest, "Clutch", tempCar.GetBlob2().Clutch());
+                        LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.GetBlob2().Driveshaft());
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.GetBlob2().Exhaust());
+                        LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.GetBlob2().method_156());
+                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob2().ASM());
+                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob2().TCS());
+                        LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.GetBlob2().method_162());
+                        LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.GetBlob2().Supercharger());
+                        LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.GetBlob2().Intake());
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust Manifold", tempCar.GetBlob2().ExhaustManifold());
+                        LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.GetBlob2().CatConverter());
+                        LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.GetBlob2().AirFilter());
+                        LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.GetBlob2().method_174());
+                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob2().WindowWR());
+                        LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.GetBlob2().Hood());
+                        LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.GetBlob2().FrBumper());
+                        LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.GetBlob2().RrBumper());
+                        LoadItemToDgv(ref dataGridView_Dest, "Extension", tempCar.GetBlob2().Extension());
+                        LoadItemToDgv(ref dataGridView_Dest, "Wing", tempCar.GetBlob2().Wing());
+                        LoadItemToDgv(ref dataGridView_Dest, "_334_337", tempCar.GetBlob2().method_188());
+                        LoadItemToDgv(ref dataGridView_Dest, "Reinforcement", tempCar.GetBlob2().Reinforcement());
+                        LoadItemToDgv(ref dataGridView_Dest, "NoS", tempCar.GetBlob2().Nos());
                         break;
                     case 'c':
-                        smethod_1(ref dataGridView_Dest, "Tune Sheet", 0U);
-                        smethod_1(ref dataGridView_Dest, "Paint", tempCar.GetBlob3().method_104());
-                        smethod_1(ref dataGridView_Dest, "Body", tempCar.GetBlob3().method_116());
-                        smethod_1(ref dataGridView_Dest, "Colour", tempCar.GetBlob3().method_102());
-                        smethod_1(ref dataGridView_Dest, "Brakes", tempCar.GetBlob3().method_118());
-                        smethod_1(ref dataGridView_Dest, "_198_201", tempCar.GetBlob3().method_120());
-                        smethod_1(ref dataGridView_Dest, "Chassis", tempCar.GetBlob3().method_122());
-                        smethod_1(ref dataGridView_Dest, "Engine", tempCar.GetBlob3().method_124());
-                        smethod_1(ref dataGridView_Dest, "Drivetrain", tempCar.GetBlob3().method_126());
-                        smethod_1(ref dataGridView_Dest, "Transmission", tempCar.GetBlob3().method_128());
-                        smethod_1(ref dataGridView_Dest, "Suspension", tempCar.GetBlob3().method_130());
-                        smethod_1(ref dataGridView_Dest, "LSD", tempCar.GetBlob3().method_132());
-                        smethod_1(ref dataGridView_Dest, "_226_229", tempCar.GetBlob3().method_134());
-                        smethod_1(ref dataGridView_Dest, "WReduction", tempCar.GetBlob3().method_136());
-                        smethod_1(ref dataGridView_Dest, "_234_237", tempCar.GetBlob3().method_138());
-                        smethod_1(ref dataGridView_Dest, "_238_241", tempCar.GetBlob3().method_140());
-                        smethod_1(ref dataGridView_Dest, "ECU", tempCar.GetBlob3().method_142());
-                        smethod_1(ref dataGridView_Dest, "Engine Tune", tempCar.GetBlob3().method_144());
-                        smethod_1(ref dataGridView_Dest, "Turbo", tempCar.GetBlob3().method_146());
-                        smethod_1(ref dataGridView_Dest, "Flywheel", tempCar.GetBlob3().method_148());
-                        smethod_1(ref dataGridView_Dest, "Clutch", tempCar.GetBlob3().method_150());
-                        smethod_1(ref dataGridView_Dest, "Driveshaft", tempCar.GetBlob3().method_152());
-                        smethod_1(ref dataGridView_Dest, "Exhaust", tempCar.GetBlob3().method_154());
-                        smethod_1(ref dataGridView_Dest, "_270_273", tempCar.GetBlob3().method_156());
-                        smethod_1(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob3().method_158());
-                        smethod_1(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob3().method_160());
-                        smethod_1(ref dataGridView_Dest, "_282_285", tempCar.GetBlob3().method_162());
-                        smethod_1(ref dataGridView_Dest, "Supercharger", tempCar.GetBlob3().method_164());
-                        smethod_1(ref dataGridView_Dest, "Intake Manifold", tempCar.GetBlob3().method_166());
-                        smethod_1(ref dataGridView_Dest, "Exhaust Manifold", tempCar.GetBlob3().method_168());
-                        smethod_1(ref dataGridView_Dest, "Catalytic Converter", tempCar.GetBlob3().method_170());
-                        smethod_1(ref dataGridView_Dest, "Air Filter", tempCar.GetBlob3().method_172());
-                        smethod_1(ref dataGridView_Dest, "_306_309", tempCar.GetBlob3().method_174());
-                        smethod_1(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob3().method_176());
-                        smethod_1(ref dataGridView_Dest, "Hood", tempCar.GetBlob3().method_178());
-                        smethod_1(ref dataGridView_Dest, "FrBumper", tempCar.GetBlob3().method_180());
-                        smethod_1(ref dataGridView_Dest, "RrBumper", tempCar.GetBlob3().method_182());
-                        smethod_1(ref dataGridView_Dest, "Extension", tempCar.GetBlob3().method_184());
-                        smethod_1(ref dataGridView_Dest, "Wing", tempCar.GetBlob3().method_186());
-                        smethod_1(ref dataGridView_Dest, "_334_337", tempCar.GetBlob3().method_188());
-                        smethod_1(ref dataGridView_Dest, "Reinforcement", tempCar.GetBlob3().method_190());
-                        smethod_1(ref dataGridView_Dest, "NoS", tempCar.GetBlob3().method_192());
+                        LoadItemToDgv(ref dataGridView_Dest, "Tune Sheet", 0U);
+                        LoadItemToDgv(ref dataGridView_Dest, "Paint", tempCar.GetBlob3().Paint());
+                        LoadItemToDgv(ref dataGridView_Dest, "Body", tempCar.GetBlob3().Body());
+                        LoadItemToDgv(ref dataGridView_Dest, "Colour", tempCar.GetBlob3().Colour());
+                        LoadItemToDgv(ref dataGridView_Dest, "Brakes", tempCar.GetBlob3().Brakes());
+                        LoadItemToDgv(ref dataGridView_Dest, "_198_201", tempCar.GetBlob3()._198_201());
+                        LoadItemToDgv(ref dataGridView_Dest, "Chassis", tempCar.GetBlob3().Chassis());
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine", tempCar.GetBlob3().Engine());
+                        LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.GetBlob3().DriveTrain());
+                        LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.GetBlob3().Transmission());
+                        LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.GetBlob3().Suspension());
+                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.GetBlob3().LSD());
+                        LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.GetBlob3().method_134());
+                        LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.GetBlob3().WReduction());
+                        LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.GetBlob3().method_138());
+                        LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.GetBlob3().method_140());
+                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.GetBlob3().ECU());
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.GetBlob3().EngineTune());
+                        LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.GetBlob3().Turbo());
+                        LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.GetBlob3().Flywheel());
+                        LoadItemToDgv(ref dataGridView_Dest, "Clutch", tempCar.GetBlob3().Clutch());
+                        LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.GetBlob3().Driveshaft());
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.GetBlob3().Exhaust());
+                        LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.GetBlob3().method_156());
+                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob3().ASM());
+                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob3().TCS());
+                        LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.GetBlob3().method_162());
+                        LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.GetBlob3().Supercharger());
+                        LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.GetBlob3().Intake());
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust Manifold", tempCar.GetBlob3().ExhaustManifold());
+                        LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.GetBlob3().CatConverter());
+                        LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.GetBlob3().AirFilter());
+                        LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.GetBlob3().method_174());
+                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob3().WindowWR());
+                        LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.GetBlob3().Hood());
+                        LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.GetBlob3().FrBumper());
+                        LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.GetBlob3().RrBumper());
+                        LoadItemToDgv(ref dataGridView_Dest, "Extension", tempCar.GetBlob3().Extension());
+                        LoadItemToDgv(ref dataGridView_Dest, "Wing", tempCar.GetBlob3().Wing());
+                        LoadItemToDgv(ref dataGridView_Dest, "_334_337", tempCar.GetBlob3().method_188());
+                        LoadItemToDgv(ref dataGridView_Dest, "Reinforcement", tempCar.GetBlob3().Reinforcement());
+                        LoadItemToDgv(ref dataGridView_Dest, "NoS", tempCar.GetBlob3().Nos());
                         break;
                 }
             }
@@ -525,20 +525,20 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public static void smethod_0(ref DataGridView dataGridView_0, string string_4, uint uint_0)
+        public static void AddColumnToDgv(ref DataGridView dgv, string item, uint value)
         {
-            var index = dataGridView_0.Rows.Add();
-            var dataGridViewRow = dataGridView_0.Rows[index];
-            dataGridViewRow.Cells["Column_Item"].Value = string_4;
-            dataGridViewRow.Cells["Column_Value"].Value = uint_0;
+            var index = dgv.Rows.Add();
+            var dataGridViewRow = dgv.Rows[index];
+            dataGridViewRow.Cells["Column_Item"].Value = item;
+            dataGridViewRow.Cells["Column_Value"].Value = value;
         }
 
-        public static void smethod_1(ref DataGridView dataGridView_0, string string_4, uint uint_0)
+        public static void LoadItemToDgv(ref DataGridView dgv, string item, uint value)
         {
-            var index = dataGridView_0.Rows.Add();
-            var dataGridViewRow = dataGridView_0.Rows[index];
-            dataGridViewRow.Cells["Column_ItemD"].Value = string_4;
-            dataGridViewRow.Cells["Column_ValueD"].Value = uint_0;
+            var index = dgv.Rows.Add();
+            var dataGridViewRow = dgv.Rows[index];
+            dataGridViewRow.Cells["Column_ItemD"].Value = item;
+            dataGridViewRow.Cells["Column_ValueD"].Value = value;
         }
 
         private void dataGridView_Source_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -733,43 +733,43 @@ namespace GT5_Garage_Editor
                             switch (num)
                             {
                                 case 1:
-                                    _currentCar.GetBlob2().method_103(_tempCar.GetBlob1().method_102());
+                                    _currentCar.GetBlob2().method_103(_tempCar.GetBlob1().Colour());
                                     break;
                                 case 2:
-                                    _currentCar.GetBlob2().method_105(_tempCar.GetBlob1().method_104());
+                                    _currentCar.GetBlob2().method_105(_tempCar.GetBlob1().Paint());
                                     break;
                                 case 3:
-                                    _currentCar.GetBlob2().method_117(_tempCar.GetBlob1().method_116());
+                                    _currentCar.GetBlob2().method_117(_tempCar.GetBlob1().Body());
                                     break;
                                 case 4:
-                                    _currentCar.GetBlob2().method_119(_tempCar.GetBlob1().method_118());
+                                    _currentCar.GetBlob2().method_119(_tempCar.GetBlob1().Brakes());
                                     break;
                                 case 5:
-                                    _currentCar.GetBlob2().method_121(_tempCar.GetBlob1().method_120());
+                                    _currentCar.GetBlob2().method_121(_tempCar.GetBlob1()._198_201());
                                     break;
                                 case 6:
-                                    _currentCar.GetBlob2().method_123(_tempCar.GetBlob1().method_122());
+                                    _currentCar.GetBlob2().method_123(_tempCar.GetBlob1().Chassis());
                                     break;
                                 case 7:
-                                    _currentCar.GetBlob2().method_125(_tempCar.GetBlob1().method_124());
+                                    _currentCar.GetBlob2().method_125(_tempCar.GetBlob1().Engine());
                                     break;
                                 case 8:
-                                    _currentCar.GetBlob2().method_127(_tempCar.GetBlob1().method_126());
+                                    _currentCar.GetBlob2().method_127(_tempCar.GetBlob1().DriveTrain());
                                     break;
                                 case 9:
-                                    _currentCar.GetBlob2().method_129(_tempCar.GetBlob1().method_128());
+                                    _currentCar.GetBlob2().method_129(_tempCar.GetBlob1().Transmission());
                                     break;
                                 case 10:
-                                    _currentCar.GetBlob2().method_131(_tempCar.GetBlob1().method_130());
+                                    _currentCar.GetBlob2().method_131(_tempCar.GetBlob1().Suspension());
                                     break;
                                 case 11:
-                                    _currentCar.GetBlob2().method_133(_tempCar.GetBlob1().method_132());
+                                    _currentCar.GetBlob2().method_133(_tempCar.GetBlob1().LSD());
                                     break;
                                 case 12:
                                     _currentCar.GetBlob2().method_135(_tempCar.GetBlob1().method_134());
                                     break;
                                 case 13:
-                                    _currentCar.GetBlob2().method_137(_tempCar.GetBlob1().method_136());
+                                    _currentCar.GetBlob2().method_137(_tempCar.GetBlob1().WReduction());
                                     break;
                                 case 14:
                                     _currentCar.GetBlob2().method_139(_tempCar.GetBlob1().method_138());
@@ -778,82 +778,82 @@ namespace GT5_Garage_Editor
                                     _currentCar.GetBlob2().method_141(_tempCar.GetBlob1().method_140());
                                     break;
                                 case 16:
-                                    _currentCar.GetBlob2().method_143(_tempCar.GetBlob1().method_142());
+                                    _currentCar.GetBlob2().method_143(_tempCar.GetBlob1().ECU());
                                     break;
                                 case 17:
-                                    _currentCar.GetBlob2().method_145(_tempCar.GetBlob1().method_144());
+                                    _currentCar.GetBlob2().method_145(_tempCar.GetBlob1().EngineTune());
                                     break;
                                 case 18:
-                                    _currentCar.GetBlob2().method_147(_tempCar.GetBlob1().method_146());
+                                    _currentCar.GetBlob2().method_147(_tempCar.GetBlob1().Turbo());
                                     break;
                                 case 19:
-                                    _currentCar.GetBlob2().method_149(_tempCar.GetBlob1().method_148());
+                                    _currentCar.GetBlob2().method_149(_tempCar.GetBlob1().Flywheel());
                                     break;
                                 case 20:
-                                    _currentCar.GetBlob2().method_151(_tempCar.GetBlob1().method_150());
+                                    _currentCar.GetBlob2().method_151(_tempCar.GetBlob1().Clutch());
                                     break;
                                 case 21:
-                                    _currentCar.GetBlob2().method_153(_tempCar.GetBlob1().method_152());
+                                    _currentCar.GetBlob2().method_153(_tempCar.GetBlob1().Driveshaft());
                                     break;
                                 case 22:
-                                    _currentCar.GetBlob2().method_155(_tempCar.GetBlob1().method_154());
+                                    _currentCar.GetBlob2().method_155(_tempCar.GetBlob1().Exhaust());
                                     break;
                                 case 23:
                                     _currentCar.GetBlob2().method_157(_tempCar.GetBlob1().method_156());
                                     break;
                                 case 24:
-                                    _currentCar.GetBlob2().method_159(_tempCar.GetBlob1().method_158());
+                                    _currentCar.GetBlob2().method_159(_tempCar.GetBlob1().ASM());
                                     break;
                                 case 25:
-                                    _currentCar.GetBlob2().method_161(_tempCar.GetBlob1().method_160());
+                                    _currentCar.GetBlob2().method_161(_tempCar.GetBlob1().TCS());
                                     break;
                                 case 26:
                                     _currentCar.GetBlob2().method_163(_tempCar.GetBlob1().method_162());
                                     break;
                                 case 27:
-                                    _currentCar.GetBlob2().method_165(_tempCar.GetBlob1().method_164());
+                                    _currentCar.GetBlob2().method_165(_tempCar.GetBlob1().Supercharger());
                                     break;
                                 case 28:
-                                    _currentCar.GetBlob2().method_167(_tempCar.GetBlob1().method_166());
+                                    _currentCar.GetBlob2().method_167(_tempCar.GetBlob1().Intake());
                                     break;
                                 case 29:
-                                    _currentCar.GetBlob2().method_169(_tempCar.GetBlob1().method_168());
+                                    _currentCar.GetBlob2().method_169(_tempCar.GetBlob1().ExhaustManifold());
                                     break;
                                 case 30:
-                                    _currentCar.GetBlob2().method_171(_tempCar.GetBlob1().method_170());
+                                    _currentCar.GetBlob2().method_171(_tempCar.GetBlob1().CatConverter());
                                     break;
                                 case 31:
-                                    _currentCar.GetBlob2().method_173(_tempCar.GetBlob1().method_172());
+                                    _currentCar.GetBlob2().method_173(_tempCar.GetBlob1().AirFilter());
                                     break;
                                 case 32:
                                     _currentCar.GetBlob2().method_175(_tempCar.GetBlob1().method_174());
                                     break;
                                 case 33:
-                                    _currentCar.GetBlob2().method_177(_tempCar.GetBlob1().method_176());
+                                    _currentCar.GetBlob2().method_177(_tempCar.GetBlob1().WindowWR());
                                     break;
                                 case 34:
-                                    _currentCar.GetBlob2().method_179(_tempCar.GetBlob1().method_178());
+                                    _currentCar.GetBlob2().method_179(_tempCar.GetBlob1().Hood());
                                     break;
                                 case 35:
-                                    _currentCar.GetBlob2().method_181(_tempCar.GetBlob1().method_180());
+                                    _currentCar.GetBlob2().method_181(_tempCar.GetBlob1().FrBumper());
                                     break;
                                 case 36:
-                                    _currentCar.GetBlob2().method_183(_tempCar.GetBlob1().method_182());
+                                    _currentCar.GetBlob2().method_183(_tempCar.GetBlob1().RrBumper());
                                     break;
                                 case 37:
-                                    _currentCar.GetBlob2().method_185(_tempCar.GetBlob1().method_184());
+                                    _currentCar.GetBlob2().method_185(_tempCar.GetBlob1().Extension());
                                     break;
                                 case 38:
-                                    _currentCar.GetBlob2().method_187(_tempCar.GetBlob1().method_186());
+                                    _currentCar.GetBlob2().method_187(_tempCar.GetBlob1().Wing());
                                     break;
                                 case 39:
                                     _currentCar.GetBlob2().method_189(_tempCar.GetBlob1().method_188());
                                     break;
                                 case 40:
-                                    _currentCar.GetBlob2().method_191(_tempCar.GetBlob1().method_190());
+                                    _currentCar.GetBlob2().method_191(_tempCar.GetBlob1().Reinforcement());
                                     break;
                                 case 41:
-                                    _currentCar.GetBlob2().method_193(_tempCar.GetBlob1().method_192());
+                                    _currentCar.GetBlob2().method_193(_tempCar.GetBlob1().Nos());
                                     break;
                             }
                         }
@@ -1044,43 +1044,43 @@ namespace GT5_Garage_Editor
                             switch (num)
                             {
                                 case 1:
-                                    _currentCar.GetBlob3().method_103(_tempCar.GetBlob1().method_102());
+                                    _currentCar.GetBlob3().method_103(_tempCar.GetBlob1().Colour());
                                     break;
                                 case 2:
-                                    _currentCar.GetBlob3().method_105(_tempCar.GetBlob1().method_104());
+                                    _currentCar.GetBlob3().method_105(_tempCar.GetBlob1().Paint());
                                     break;
                                 case 3:
-                                    _currentCar.GetBlob3().method_117(_tempCar.GetBlob1().method_116());
+                                    _currentCar.GetBlob3().method_117(_tempCar.GetBlob1().Body());
                                     break;
                                 case 4:
-                                    _currentCar.GetBlob3().method_119(_tempCar.GetBlob1().method_118());
+                                    _currentCar.GetBlob3().method_119(_tempCar.GetBlob1().Brakes());
                                     break;
                                 case 5:
-                                    _currentCar.GetBlob3().method_121(_tempCar.GetBlob1().method_120());
+                                    _currentCar.GetBlob3().method_121(_tempCar.GetBlob1()._198_201());
                                     break;
                                 case 6:
-                                    _currentCar.GetBlob3().method_123(_tempCar.GetBlob1().method_122());
+                                    _currentCar.GetBlob3().method_123(_tempCar.GetBlob1().Chassis());
                                     break;
                                 case 7:
-                                    _currentCar.GetBlob3().method_125(_tempCar.GetBlob1().method_124());
+                                    _currentCar.GetBlob3().method_125(_tempCar.GetBlob1().Engine());
                                     break;
                                 case 8:
-                                    _currentCar.GetBlob3().method_127(_tempCar.GetBlob1().method_126());
+                                    _currentCar.GetBlob3().method_127(_tempCar.GetBlob1().DriveTrain());
                                     break;
                                 case 9:
-                                    _currentCar.GetBlob3().method_129(_tempCar.GetBlob1().method_128());
+                                    _currentCar.GetBlob3().method_129(_tempCar.GetBlob1().Transmission());
                                     break;
                                 case 10:
-                                    _currentCar.GetBlob3().method_131(_tempCar.GetBlob1().method_130());
+                                    _currentCar.GetBlob3().method_131(_tempCar.GetBlob1().Suspension());
                                     break;
                                 case 11:
-                                    _currentCar.GetBlob3().method_133(_tempCar.GetBlob1().method_132());
+                                    _currentCar.GetBlob3().method_133(_tempCar.GetBlob1().LSD());
                                     break;
                                 case 12:
                                     _currentCar.GetBlob3().method_135(_tempCar.GetBlob1().method_134());
                                     break;
                                 case 13:
-                                    _currentCar.GetBlob3().method_137(_tempCar.GetBlob1().method_136());
+                                    _currentCar.GetBlob3().method_137(_tempCar.GetBlob1().WReduction());
                                     break;
                                 case 14:
                                     _currentCar.GetBlob3().method_139(_tempCar.GetBlob1().method_138());
@@ -1089,82 +1089,82 @@ namespace GT5_Garage_Editor
                                     _currentCar.GetBlob3().method_141(_tempCar.GetBlob1().method_140());
                                     break;
                                 case 16:
-                                    _currentCar.GetBlob3().method_143(_tempCar.GetBlob1().method_142());
+                                    _currentCar.GetBlob3().method_143(_tempCar.GetBlob1().ECU());
                                     break;
                                 case 17:
-                                    _currentCar.GetBlob3().method_145(_tempCar.GetBlob1().method_144());
+                                    _currentCar.GetBlob3().method_145(_tempCar.GetBlob1().EngineTune());
                                     break;
                                 case 18:
-                                    _currentCar.GetBlob3().method_147(_tempCar.GetBlob1().method_146());
+                                    _currentCar.GetBlob3().method_147(_tempCar.GetBlob1().Turbo());
                                     break;
                                 case 19:
-                                    _currentCar.GetBlob3().method_149(_tempCar.GetBlob1().method_148());
+                                    _currentCar.GetBlob3().method_149(_tempCar.GetBlob1().Flywheel());
                                     break;
                                 case 20:
-                                    _currentCar.GetBlob3().method_151(_tempCar.GetBlob1().method_150());
+                                    _currentCar.GetBlob3().method_151(_tempCar.GetBlob1().Clutch());
                                     break;
                                 case 21:
-                                    _currentCar.GetBlob3().method_153(_tempCar.GetBlob1().method_152());
+                                    _currentCar.GetBlob3().method_153(_tempCar.GetBlob1().Driveshaft());
                                     break;
                                 case 22:
-                                    _currentCar.GetBlob3().method_155(_tempCar.GetBlob1().method_154());
+                                    _currentCar.GetBlob3().method_155(_tempCar.GetBlob1().Exhaust());
                                     break;
                                 case 23:
                                     _currentCar.GetBlob3().method_157(_tempCar.GetBlob1().method_156());
                                     break;
                                 case 24:
-                                    _currentCar.GetBlob3().method_159(_tempCar.GetBlob1().method_158());
+                                    _currentCar.GetBlob3().method_159(_tempCar.GetBlob1().ASM());
                                     break;
                                 case 25:
-                                    _currentCar.GetBlob3().method_161(_tempCar.GetBlob1().method_160());
+                                    _currentCar.GetBlob3().method_161(_tempCar.GetBlob1().TCS());
                                     break;
                                 case 26:
                                     _currentCar.GetBlob3().method_163(_tempCar.GetBlob1().method_162());
                                     break;
                                 case 27:
-                                    _currentCar.GetBlob3().method_165(_tempCar.GetBlob1().method_164());
+                                    _currentCar.GetBlob3().method_165(_tempCar.GetBlob1().Supercharger());
                                     break;
                                 case 28:
-                                    _currentCar.GetBlob3().method_167(_tempCar.GetBlob1().method_166());
+                                    _currentCar.GetBlob3().method_167(_tempCar.GetBlob1().Intake());
                                     break;
                                 case 29:
-                                    _currentCar.GetBlob3().method_169(_tempCar.GetBlob1().method_168());
+                                    _currentCar.GetBlob3().method_169(_tempCar.GetBlob1().ExhaustManifold());
                                     break;
                                 case 30:
-                                    _currentCar.GetBlob3().method_171(_tempCar.GetBlob1().method_170());
+                                    _currentCar.GetBlob3().method_171(_tempCar.GetBlob1().CatConverter());
                                     break;
                                 case 31:
-                                    _currentCar.GetBlob3().method_173(_tempCar.GetBlob1().method_172());
+                                    _currentCar.GetBlob3().method_173(_tempCar.GetBlob1().AirFilter());
                                     break;
                                 case 32:
                                     _currentCar.GetBlob3().method_175(_tempCar.GetBlob1().method_174());
                                     break;
                                 case 33:
-                                    _currentCar.GetBlob3().method_177(_tempCar.GetBlob1().method_176());
+                                    _currentCar.GetBlob3().method_177(_tempCar.GetBlob1().WindowWR());
                                     break;
                                 case 34:
-                                    _currentCar.GetBlob3().method_179(_tempCar.GetBlob1().method_178());
+                                    _currentCar.GetBlob3().method_179(_tempCar.GetBlob1().Hood());
                                     break;
                                 case 35:
-                                    _currentCar.GetBlob3().method_181(_tempCar.GetBlob1().method_180());
+                                    _currentCar.GetBlob3().method_181(_tempCar.GetBlob1().FrBumper());
                                     break;
                                 case 36:
-                                    _currentCar.GetBlob3().method_183(_tempCar.GetBlob1().method_182());
+                                    _currentCar.GetBlob3().method_183(_tempCar.GetBlob1().RrBumper());
                                     break;
                                 case 37:
-                                    _currentCar.GetBlob3().method_185(_tempCar.GetBlob1().method_184());
+                                    _currentCar.GetBlob3().method_185(_tempCar.GetBlob1().Extension());
                                     break;
                                 case 38:
-                                    _currentCar.GetBlob3().method_187(_tempCar.GetBlob1().method_186());
+                                    _currentCar.GetBlob3().method_187(_tempCar.GetBlob1().Wing());
                                     break;
                                 case 39:
                                     _currentCar.GetBlob3().method_189(_tempCar.GetBlob1().method_188());
                                     break;
                                 case 40:
-                                    _currentCar.GetBlob3().method_191(_tempCar.GetBlob1().method_190());
+                                    _currentCar.GetBlob3().method_191(_tempCar.GetBlob1().Reinforcement());
                                     break;
                                 case 41:
-                                    _currentCar.GetBlob3().method_193(_tempCar.GetBlob1().method_192());
+                                    _currentCar.GetBlob3().method_193(_tempCar.GetBlob1().Nos());
                                     break;
                             }
                         }
@@ -1356,43 +1356,43 @@ namespace GT5_Garage_Editor
                         switch (num)
                         {
                             case 1:
-                                _currentCar.GetBlob1().method_103(_tempCar.GetBlob1().method_102());
+                                _currentCar.GetBlob1().method_103(_tempCar.GetBlob1().Colour());
                                 break;
                             case 2:
-                                _currentCar.GetBlob1().method_105(_tempCar.GetBlob1().method_104());
+                                _currentCar.GetBlob1().method_105(_tempCar.GetBlob1().Paint());
                                 break;
                             case 3:
-                                _currentCar.GetBlob1().method_117(_tempCar.GetBlob1().method_116());
+                                _currentCar.GetBlob1().method_117(_tempCar.GetBlob1().Body());
                                 break;
                             case 4:
-                                _currentCar.GetBlob1().method_119(_tempCar.GetBlob1().method_118());
+                                _currentCar.GetBlob1().method_119(_tempCar.GetBlob1().Brakes());
                                 break;
                             case 5:
-                                _currentCar.GetBlob1().method_121(_tempCar.GetBlob1().method_120());
+                                _currentCar.GetBlob1().method_121(_tempCar.GetBlob1()._198_201());
                                 break;
                             case 6:
-                                _currentCar.GetBlob1().method_123(_tempCar.GetBlob1().method_122());
+                                _currentCar.GetBlob1().method_123(_tempCar.GetBlob1().Chassis());
                                 break;
                             case 7:
-                                _currentCar.GetBlob1().method_125(_tempCar.GetBlob1().method_124());
+                                _currentCar.GetBlob1().method_125(_tempCar.GetBlob1().Engine());
                                 break;
                             case 8:
-                                _currentCar.GetBlob1().method_127(_tempCar.GetBlob1().method_126());
+                                _currentCar.GetBlob1().method_127(_tempCar.GetBlob1().DriveTrain());
                                 break;
                             case 9:
-                                _currentCar.GetBlob1().method_129(_tempCar.GetBlob1().method_128());
+                                _currentCar.GetBlob1().method_129(_tempCar.GetBlob1().Transmission());
                                 break;
                             case 10:
-                                _currentCar.GetBlob1().method_131(_tempCar.GetBlob1().method_130());
+                                _currentCar.GetBlob1().method_131(_tempCar.GetBlob1().Suspension());
                                 break;
                             case 11:
-                                _currentCar.GetBlob1().method_133(_tempCar.GetBlob1().method_132());
+                                _currentCar.GetBlob1().method_133(_tempCar.GetBlob1().LSD());
                                 break;
                             case 12:
                                 _currentCar.GetBlob1().method_135(_tempCar.GetBlob1().method_134());
                                 break;
                             case 13:
-                                _currentCar.GetBlob1().method_137(_tempCar.GetBlob1().method_136());
+                                _currentCar.GetBlob1().method_137(_tempCar.GetBlob1().WReduction());
                                 break;
                             case 14:
                                 _currentCar.GetBlob1().method_139(_tempCar.GetBlob1().method_138());
@@ -1401,82 +1401,82 @@ namespace GT5_Garage_Editor
                                 _currentCar.GetBlob1().method_141(_tempCar.GetBlob1().method_140());
                                 break;
                             case 16:
-                                _currentCar.GetBlob1().method_143(_tempCar.GetBlob1().method_142());
+                                _currentCar.GetBlob1().method_143(_tempCar.GetBlob1().ECU());
                                 break;
                             case 17:
-                                _currentCar.GetBlob1().method_145(_tempCar.GetBlob1().method_144());
+                                _currentCar.GetBlob1().method_145(_tempCar.GetBlob1().EngineTune());
                                 break;
                             case 18:
-                                _currentCar.GetBlob1().method_147(_tempCar.GetBlob1().method_146());
+                                _currentCar.GetBlob1().method_147(_tempCar.GetBlob1().Turbo());
                                 break;
                             case 19:
-                                _currentCar.GetBlob1().method_149(_tempCar.GetBlob1().method_148());
+                                _currentCar.GetBlob1().method_149(_tempCar.GetBlob1().Flywheel());
                                 break;
                             case 20:
-                                _currentCar.GetBlob1().method_151(_tempCar.GetBlob1().method_150());
+                                _currentCar.GetBlob1().method_151(_tempCar.GetBlob1().Clutch());
                                 break;
                             case 21:
-                                _currentCar.GetBlob1().method_153(_tempCar.GetBlob1().method_152());
+                                _currentCar.GetBlob1().method_153(_tempCar.GetBlob1().Driveshaft());
                                 break;
                             case 22:
-                                _currentCar.GetBlob1().method_155(_tempCar.GetBlob1().method_154());
+                                _currentCar.GetBlob1().method_155(_tempCar.GetBlob1().Exhaust());
                                 break;
                             case 23:
                                 _currentCar.GetBlob1().method_157(_tempCar.GetBlob1().method_156());
                                 break;
                             case 24:
-                                _currentCar.GetBlob1().method_159(_tempCar.GetBlob1().method_158());
+                                _currentCar.GetBlob1().method_159(_tempCar.GetBlob1().ASM());
                                 break;
                             case 25:
-                                _currentCar.GetBlob1().method_161(_tempCar.GetBlob1().method_160());
+                                _currentCar.GetBlob1().method_161(_tempCar.GetBlob1().TCS());
                                 break;
                             case 26:
                                 _currentCar.GetBlob1().method_163(_tempCar.GetBlob1().method_162());
                                 break;
                             case 27:
-                                _currentCar.GetBlob1().method_165(_tempCar.GetBlob1().method_164());
+                                _currentCar.GetBlob1().method_165(_tempCar.GetBlob1().Supercharger());
                                 break;
                             case 28:
-                                _currentCar.GetBlob1().method_167(_tempCar.GetBlob1().method_166());
+                                _currentCar.GetBlob1().method_167(_tempCar.GetBlob1().Intake());
                                 break;
                             case 29:
-                                _currentCar.GetBlob1().method_169(_tempCar.GetBlob1().method_168());
+                                _currentCar.GetBlob1().method_169(_tempCar.GetBlob1().ExhaustManifold());
                                 break;
                             case 30:
-                                _currentCar.GetBlob1().method_171(_tempCar.GetBlob1().method_170());
+                                _currentCar.GetBlob1().method_171(_tempCar.GetBlob1().CatConverter());
                                 break;
                             case 31:
-                                _currentCar.GetBlob1().method_173(_tempCar.GetBlob1().method_172());
+                                _currentCar.GetBlob1().method_173(_tempCar.GetBlob1().AirFilter());
                                 break;
                             case 32:
                                 _currentCar.GetBlob1().method_175(_tempCar.GetBlob1().method_174());
                                 break;
                             case 33:
-                                _currentCar.GetBlob1().method_177(_tempCar.GetBlob1().method_176());
+                                _currentCar.GetBlob1().method_177(_tempCar.GetBlob1().WindowWR());
                                 break;
                             case 34:
-                                _currentCar.GetBlob1().method_179(_tempCar.GetBlob1().method_178());
+                                _currentCar.GetBlob1().method_179(_tempCar.GetBlob1().Hood());
                                 break;
                             case 35:
-                                _currentCar.GetBlob1().method_181(_tempCar.GetBlob1().method_180());
+                                _currentCar.GetBlob1().method_181(_tempCar.GetBlob1().FrBumper());
                                 break;
                             case 36:
-                                _currentCar.GetBlob1().method_183(_tempCar.GetBlob1().method_182());
+                                _currentCar.GetBlob1().method_183(_tempCar.GetBlob1().RrBumper());
                                 break;
                             case 37:
-                                _currentCar.GetBlob1().method_185(_tempCar.GetBlob1().method_184());
+                                _currentCar.GetBlob1().method_185(_tempCar.GetBlob1().Extension());
                                 break;
                             case 38:
-                                _currentCar.GetBlob1().method_187(_tempCar.GetBlob1().method_186());
+                                _currentCar.GetBlob1().method_187(_tempCar.GetBlob1().Wing());
                                 break;
                             case 39:
                                 _currentCar.GetBlob1().method_189(_tempCar.GetBlob1().method_188());
                                 break;
                             case 40:
-                                _currentCar.GetBlob1().method_191(_tempCar.GetBlob1().method_190());
+                                _currentCar.GetBlob1().method_191(_tempCar.GetBlob1().Reinforcement());
                                 break;
                             case 41:
-                                _currentCar.GetBlob1().method_193(_tempCar.GetBlob1().method_192());
+                                _currentCar.GetBlob1().method_193(_tempCar.GetBlob1().Nos());
                                 break;
                         }
                     }
@@ -1496,9 +1496,9 @@ namespace GT5_Garage_Editor
                     _currentCar.UpdateBlob1(setUp.method_2());
                     _currentCar.UpdateBlob2(setUp.method_4());
                     _currentCar.UpdateBlob3(setUp.method_6());
-                    smethod_6(_currentCar.GetBlob1().GetBlob(), _currentCar.GetBlob1());
-                    smethod_6(_currentCar.GetBlob2().GetBlob(), _currentCar.GetBlob2());
-                    smethod_6(_currentCar.GetBlob3().GetBlob(), _currentCar.GetBlob3());
+                    UpdateBlobFromCarParam(_currentCar.GetBlob1().GetBlob(), _currentCar.GetBlob1());
+                    UpdateBlobFromCarParam(_currentCar.GetBlob2().GetBlob(), _currentCar.GetBlob2());
+                    UpdateBlobFromCarParam(_currentCar.GetBlob3().GetBlob(), _currentCar.GetBlob3());
                     method_18();
                     break;
                 case "Paint":
@@ -1509,15 +1509,15 @@ namespace GT5_Garage_Editor
                         {
                             case 'a':
                                 _currentCar.GetBlob1().method_105(paintSelector.method_0());
-                                method_8('a');
+                                LoadCarSheet('a');
                                 break;
                             case 'b':
                                 _currentCar.GetBlob2().method_105(paintSelector.method_0());
-                                method_8('b');
+                                LoadCarSheet('b');
                                 break;
                             case 'c':
                                 _currentCar.GetBlob3().method_105(paintSelector.method_0());
-                                method_8('c');
+                                LoadCarSheet('c');
                                 break;
                         }
                         method_18();
@@ -1527,51 +1527,51 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public void method_9(ref DataGridView dataGridView_0, ref byte[] byte_3)
+        public void method_9(ref DataGridView dataGridView_0, ref byte[] carParamBlob)
         {
             try
             {
-                smethod_5(byte_3, 77U, 4U, Convert.ToUInt32(dataGridView_0.Rows[1].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 157U, 4U, Convert.ToUInt32(dataGridView_0.Rows[2].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_3(byte_3, 169U, Convert.ToByte(dataGridView_0.Rows[3].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 194U, 4U, Convert.ToUInt32(dataGridView_0.Rows[4].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 198U, 4U, Convert.ToUInt32(dataGridView_0.Rows[5].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 202U, 4U, Convert.ToUInt32(dataGridView_0.Rows[6].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 206U, 4U, Convert.ToUInt32(dataGridView_0.Rows[7].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 210U, 4U, Convert.ToUInt32(dataGridView_0.Rows[8].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 214U, 4U, Convert.ToUInt32(dataGridView_0.Rows[9].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 218U, 4U, Convert.ToUInt32(dataGridView_0.Rows[10].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 222U, 4U, Convert.ToUInt32(dataGridView_0.Rows[11].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 226U, 4U, Convert.ToUInt32(dataGridView_0.Rows[12].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 230U, 4U, Convert.ToUInt32(dataGridView_0.Rows[13].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 234U, 4U, Convert.ToUInt32(dataGridView_0.Rows[14].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 238U, 4U, Convert.ToUInt32(dataGridView_0.Rows[15].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 242U, 4U, Convert.ToUInt32(dataGridView_0.Rows[16].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 246U, 4U, Convert.ToUInt32(dataGridView_0.Rows[17].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 250U, 4U, Convert.ToUInt32(dataGridView_0.Rows[18].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 254U, 4U, Convert.ToUInt32(dataGridView_0.Rows[19].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 258U, 4U, Convert.ToUInt32(dataGridView_0.Rows[20].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 262U, 4U, Convert.ToUInt32(dataGridView_0.Rows[21].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 266U, 4U, Convert.ToUInt32(dataGridView_0.Rows[22].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 270U, 4U, Convert.ToUInt32(dataGridView_0.Rows[23].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 274U, 4U, Convert.ToUInt32(dataGridView_0.Rows[24].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 278U, 4U, Convert.ToUInt32(dataGridView_0.Rows[25].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 282U, 4U, Convert.ToUInt32(dataGridView_0.Rows[26].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 286U, 4U, Convert.ToUInt32(dataGridView_0.Rows[27].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 290U, 4U, Convert.ToUInt32(dataGridView_0.Rows[28].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 294U, 4U, Convert.ToUInt32(dataGridView_0.Rows[29].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 298U, 4U, Convert.ToUInt32(dataGridView_0.Rows[30].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 302U, 4U, Convert.ToUInt32(dataGridView_0.Rows[31].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 306U, 4U, Convert.ToUInt32(dataGridView_0.Rows[32].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 310U, 4U, Convert.ToUInt32(dataGridView_0.Rows[33].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 314U, 4U, Convert.ToUInt32(dataGridView_0.Rows[34].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 318U, 4U, Convert.ToUInt32(dataGridView_0.Rows[35].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 322U, 4U, Convert.ToUInt32(dataGridView_0.Rows[36].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 326U, 4U, Convert.ToUInt32(dataGridView_0.Rows[37].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 330U, 4U, Convert.ToUInt32(dataGridView_0.Rows[38].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 334U, 4U, Convert.ToUInt32(dataGridView_0.Rows[39].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 338U, 4U, Convert.ToUInt32(dataGridView_0.Rows[40].Cells[1].EditedFormattedValue.ToString(), 16));
-                smethod_5(byte_3, 342U, 4U, Convert.ToUInt32(dataGridView_0.Rows[41].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 77U, 4U, Convert.ToUInt32(dataGridView_0.Rows[1].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 157U, 4U, Convert.ToUInt32(dataGridView_0.Rows[2].Cells[1].EditedFormattedValue.ToString(), 16));
+                UpdateBlobWithByte(carParamBlob, 169U, Convert.ToByte(dataGridView_0.Rows[3].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 194U, 4U, Convert.ToUInt32(dataGridView_0.Rows[4].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 198U, 4U, Convert.ToUInt32(dataGridView_0.Rows[5].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 202U, 4U, Convert.ToUInt32(dataGridView_0.Rows[6].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 206U, 4U, Convert.ToUInt32(dataGridView_0.Rows[7].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 210U, 4U, Convert.ToUInt32(dataGridView_0.Rows[8].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 214U, 4U, Convert.ToUInt32(dataGridView_0.Rows[9].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 218U, 4U, Convert.ToUInt32(dataGridView_0.Rows[10].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 222U, 4U, Convert.ToUInt32(dataGridView_0.Rows[11].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 226U, 4U, Convert.ToUInt32(dataGridView_0.Rows[12].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 230U, 4U, Convert.ToUInt32(dataGridView_0.Rows[13].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 234U, 4U, Convert.ToUInt32(dataGridView_0.Rows[14].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 238U, 4U, Convert.ToUInt32(dataGridView_0.Rows[15].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 242U, 4U, Convert.ToUInt32(dataGridView_0.Rows[16].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 246U, 4U, Convert.ToUInt32(dataGridView_0.Rows[17].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 250U, 4U, Convert.ToUInt32(dataGridView_0.Rows[18].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 254U, 4U, Convert.ToUInt32(dataGridView_0.Rows[19].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 258U, 4U, Convert.ToUInt32(dataGridView_0.Rows[20].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 262U, 4U, Convert.ToUInt32(dataGridView_0.Rows[21].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 266U, 4U, Convert.ToUInt32(dataGridView_0.Rows[22].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 270U, 4U, Convert.ToUInt32(dataGridView_0.Rows[23].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 274U, 4U, Convert.ToUInt32(dataGridView_0.Rows[24].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 278U, 4U, Convert.ToUInt32(dataGridView_0.Rows[25].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 282U, 4U, Convert.ToUInt32(dataGridView_0.Rows[26].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 286U, 4U, Convert.ToUInt32(dataGridView_0.Rows[27].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 290U, 4U, Convert.ToUInt32(dataGridView_0.Rows[28].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 294U, 4U, Convert.ToUInt32(dataGridView_0.Rows[29].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 298U, 4U, Convert.ToUInt32(dataGridView_0.Rows[30].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 302U, 4U, Convert.ToUInt32(dataGridView_0.Rows[31].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 306U, 4U, Convert.ToUInt32(dataGridView_0.Rows[32].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 310U, 4U, Convert.ToUInt32(dataGridView_0.Rows[33].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 314U, 4U, Convert.ToUInt32(dataGridView_0.Rows[34].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 318U, 4U, Convert.ToUInt32(dataGridView_0.Rows[35].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 322U, 4U, Convert.ToUInt32(dataGridView_0.Rows[36].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 326U, 4U, Convert.ToUInt32(dataGridView_0.Rows[37].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 330U, 4U, Convert.ToUInt32(dataGridView_0.Rows[38].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 334U, 4U, Convert.ToUInt32(dataGridView_0.Rows[39].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 338U, 4U, Convert.ToUInt32(dataGridView_0.Rows[40].Cells[1].EditedFormattedValue.ToString(), 16));
+                InsertUIntToByteArray(carParamBlob, 342U, 4U, Convert.ToUInt32(dataGridView_0.Rows[41].Cells[1].EditedFormattedValue.ToString(), 16));
             }
             catch
             {
@@ -1583,27 +1583,27 @@ namespace GT5_Garage_Editor
         {
             if (IsAlphaNumeric(dataGridView_Dest.CurrentCell.EditedFormattedValue.ToString()) && dataGridView_Dest.CurrentCell.EditedFormattedValue.ToString().Length == 8)
             {
-                var byte_3 = new byte[679];
+                var carParamBlob = new byte[679];
                 if (_char0.Equals('a'))
-                    byte_3 = _currentCar.GetBlob1().GetBlob();
+                    carParamBlob = _currentCar.GetBlob1().GetBlob();
                 if (_char0.Equals('b'))
-                    byte_3 = _currentCar.GetBlob2().GetBlob();
+                    carParamBlob = _currentCar.GetBlob2().GetBlob();
                 if (_char0.Equals('c'))
-                    byte_3 = _currentCar.GetBlob3().GetBlob();
-                method_9(ref dataGridView_Dest, ref byte_3);
+                    carParamBlob = _currentCar.GetBlob3().GetBlob();
+                method_9(ref dataGridView_Dest, ref carParamBlob);
                 if (tabControl_garage.SelectedIndex == tabControl_garage.TabPages.IndexOf(tabPage_garage))
                 {
                     UpdateCarParamBlobs(_sqlHelper2, _currentCar);
                     dataTable_8 = _sqlHelper2.ExecuteReader("SELECT * FROM t_garage WHERE garage_id LIKE " + dataTable_7.Rows[comboBox_DModel.SelectedIndex].ItemArray[1]);
                     _currentCar = new Car(dataTable_8);
-                    method_5();
+                    LoadCurrentCarDetails();
                 }
                 else
                     _currentCar.UpdateBlob1(new CarParameterBlob(_currentCar.GetBlob1().GetBlob()));
-                method_8(_char0);
+                LoadCarSheet(_char0);
             }
             else
-                method_8(_char0);
+                LoadCarSheet(_char0);
         }
 
         private void dataGridView_Dest_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
@@ -1613,148 +1613,148 @@ namespace GT5_Garage_Editor
                 var str = dataGridView_Dest.SelectedCells[0].Value.ToString();
                 if (comboBox_DModel.SelectedIndex < 0 || str.Equals("Paint") && str.Equals("Tune Sheet") || (dataGridView_Dest.SelectedCells[0].RowIndex <= 0 || dataGridView_Dest.SelectedCells[0].ColumnIndex != 1))
                     return;
-                method_8(_char0);
+                LoadCarSheet(_char0);
             }
             catch
             {
             }
         }
 
-        public static void smethod_2(ref DataGridView dataGridView_0)
+        public static void RemoveDgvRows(ref DataGridView dgv)
         {
-            while (Convert.ToBoolean(dataGridView_0.Rows.Count))
-                dataGridView_0.Rows.Remove(dataGridView_0.Rows[0]);
+            while (Convert.ToBoolean(dgv.Rows.Count))
+                dgv.Rows.Remove(dgv.Rows[0]);
         }
 
-        public static void smethod_3(byte[] byte_3, uint uint_0, byte byte_4)
+        public static void UpdateBlobWithByte(byte[] carParamBlob, uint pos, byte value)
         {
-            byte_3[uint_0] = byte_4;
+            carParamBlob[pos] = value;
         }
 
-        public static void smethod_4(byte[] byte_3, uint uint_0, sbyte sbyte_0)
+        public static void UpdateBlobWithSByte(byte[] carParamBlob, uint pos, sbyte value)
         {
-            byte_3[uint_0] = (byte)sbyte_0;
+            carParamBlob[pos] = (byte)value;
         }
 
-        public static void smethod_5(byte[] byte_3, uint uint_0, uint uint_1, uint uint_2)
+        public static void InsertUIntToByteArray(byte[] carParamBlob, uint position, uint byteLength, uint value)
         {
-            switch (uint_1)
+            switch (byteLength)
             {
                 case 1U:
-                    byte_3[uint_0] = (byte)(uint_2 & byte.MaxValue);
+                    carParamBlob[position] = (byte)(value & byte.MaxValue);
                     break;
                 case 2U:
-                    byte_3[uint_0] = (byte)(uint_2 >> 8 & byte.MaxValue);
-                    byte_3[(uint_0 + 1U)] = (byte)(uint_2 & byte.MaxValue);
+                    carParamBlob[position] = (byte)(value >> 8 & byte.MaxValue);
+                    carParamBlob[(position + 1U)] = (byte)(value & byte.MaxValue);
                     break;
                 case 4U:
-                    byte_3[uint_0] = (byte)(uint_2 >> 24 & byte.MaxValue);
-                    byte_3[(uint_0 + 1U)] = (byte)(uint_2 >> 16 & byte.MaxValue);
-                    byte_3[(uint_0 + 2U)] = (byte)(uint_2 >> 8 & byte.MaxValue);
-                    byte_3[(uint_0 + 3U)] = (byte)(uint_2 & byte.MaxValue);
+                    carParamBlob[position] = (byte)(value >> 24 & byte.MaxValue);
+                    carParamBlob[(position + 1U)] = (byte)(value >> 16 & byte.MaxValue);
+                    carParamBlob[(position + 2U)] = (byte)(value >> 8 & byte.MaxValue);
+                    carParamBlob[(position + 3U)] = (byte)(value & byte.MaxValue);
                     break;
             }
         }
 
-        public static void smethod_6(byte[] byte_3, CarParameterBlob gclass1_0)
+        public static void UpdateBlobFromCarParam(byte[] carParamBlob, CarParameterBlob carParam)
         {
-            smethod_5(byte_3, 37U, 4U, gclass1_0.method_2());
-            smethod_5(byte_3, 41U, 4U, gclass1_0.method_4());
-            smethod_5(byte_3, 49U, 4U, gclass1_0.method_6());
-            smethod_5(byte_3, 65U, 2U, gclass1_0.method_8());
-            smethod_5(byte_3, 67U, 2U, gclass1_0.method_10());
-            smethod_5(byte_3, 77U, 4U, gclass1_0.method_104());
-            smethod_5(byte_3, 157U, 4U, gclass1_0.method_116());
-            smethod_3(byte_3, 169U, gclass1_0.method_102());
-            smethod_5(byte_3, 170U, 4U, gclass1_0.method_106());
-            smethod_5(byte_3, 174U, 4U, gclass1_0.method_108());
-            smethod_3(byte_3, 185U, gclass1_0.method_16());
-            smethod_3(byte_3, 193U, gclass1_0.method_18());
-            smethod_5(byte_3, 194U, 4U, gclass1_0.method_118());
-            smethod_5(byte_3, 198U, 4U, gclass1_0.method_120());
-            smethod_5(byte_3, 202U, 4U, gclass1_0.method_122());
-            smethod_5(byte_3, 206U, 4U, gclass1_0.method_124());
-            smethod_5(byte_3, 210U, 4U, gclass1_0.method_126());
-            smethod_5(byte_3, 214U, 4U, gclass1_0.method_128());
-            smethod_5(byte_3, 218U, 4U, gclass1_0.method_130());
-            smethod_5(byte_3, 222U, 4U, gclass1_0.method_132());
-            smethod_5(byte_3, 226U, 4U, gclass1_0.method_134());
-            smethod_5(byte_3, 230U, 4U, gclass1_0.method_136());
-            smethod_5(byte_3, 234U, 4U, gclass1_0.method_138());
-            smethod_5(byte_3, 238U, 4U, gclass1_0.method_140());
-            smethod_5(byte_3, 242U, 4U, gclass1_0.method_142());
-            smethod_5(byte_3, 246U, 4U, gclass1_0.method_144());
-            smethod_5(byte_3, 250U, 4U, gclass1_0.method_146());
-            smethod_5(byte_3, 254U, 4U, gclass1_0.method_148());
-            smethod_5(byte_3, 258U, 4U, gclass1_0.method_150());
-            smethod_5(byte_3, 262U, 4U, gclass1_0.method_152());
-            smethod_5(byte_3, 266U, 4U, gclass1_0.method_154());
-            smethod_5(byte_3, 270U, 4U, gclass1_0.method_156());
-            smethod_5(byte_3, 274U, 4U, gclass1_0.method_158());
-            smethod_5(byte_3, 278U, 4U, gclass1_0.method_160());
-            smethod_5(byte_3, 282U, 4U, gclass1_0.method_162());
-            smethod_5(byte_3, 286U, 4U, gclass1_0.method_164());
-            smethod_5(byte_3, 290U, 4U, gclass1_0.method_166());
-            smethod_5(byte_3, 294U, 4U, gclass1_0.method_168());
-            smethod_5(byte_3, 298U, 4U, gclass1_0.method_170());
-            smethod_5(byte_3, 302U, 4U, gclass1_0.method_172());
-            smethod_5(byte_3, 306U, 4U, gclass1_0.method_174());
-            smethod_5(byte_3, 310U, 4U, gclass1_0.method_176());
-            smethod_5(byte_3, 314U, 4U, gclass1_0.method_178());
-            smethod_5(byte_3, 318U, 4U, gclass1_0.method_180());
-            smethod_5(byte_3, 322U, 4U, gclass1_0.method_182());
-            smethod_5(byte_3, 326U, 4U, gclass1_0.method_184());
-            smethod_5(byte_3, 330U, 4U, gclass1_0.method_186());
-            smethod_5(byte_3, 334U, 4U, gclass1_0.method_188());
-            smethod_5(byte_3, 338U, 4U, gclass1_0.method_190());
-            smethod_5(byte_3, 342U, 4U, gclass1_0.method_192());
-            smethod_5(byte_3, 346U, 2U, gclass1_0.method_20());
-            smethod_5(byte_3, 348U, 2U, gclass1_0.method_22());
-            smethod_5(byte_3, 350U, 2U, gclass1_0.method_24());
-            smethod_5(byte_3, 352U, 2U, gclass1_0.method_26());
-            smethod_5(byte_3, 354U, 2U, gclass1_0.method_28());
-            smethod_5(byte_3, 356U, 2U, gclass1_0.method_30());
-            smethod_5(byte_3, 358U, 2U, gclass1_0.method_32());
-            smethod_5(byte_3, 360U, 2U, gclass1_0.method_34());
-            smethod_5(byte_3, 362U, 2U, gclass1_0.method_36());
-            smethod_5(byte_3, 364U, 2U, gclass1_0.method_38());
-            smethod_5(byte_3, 366U, 2U, gclass1_0.method_40());
-            smethod_5(byte_3, 368U, 2U, gclass1_0.method_42());
-            smethod_5(byte_3, 370U, 2U, gclass1_0.method_44());
-            smethod_3(byte_3, 375U, gclass1_0.method_46());
-            smethod_3(byte_3, 378U, gclass1_0.method_48());
-            smethod_3(byte_3, 379U, gclass1_0.method_50());
-            smethod_3(byte_3, 386U, gclass1_0.method_52());
-            smethod_3(byte_3, 387U, gclass1_0.method_54());
-            smethod_5(byte_3, 388U, 2U, gclass1_0.method_56());
-            smethod_5(byte_3, 390U, 2U, gclass1_0.method_58());
-            smethod_4(byte_3, 392U, gclass1_0.method_60());
-            smethod_4(byte_3, 393U, gclass1_0.method_62());
-            smethod_3(byte_3, 394U, gclass1_0.method_64());
-            smethod_3(byte_3, 395U, gclass1_0.method_66());
-            smethod_3(byte_3, 398U, gclass1_0.method_68());
-            smethod_3(byte_3, 399U, gclass1_0.method_68());
-            smethod_3(byte_3, 400U, gclass1_0.method_70());
-            smethod_3(byte_3, 401U, gclass1_0.method_70());
-            smethod_3(byte_3, 402U, gclass1_0.method_72());
-            smethod_3(byte_3, 403U, gclass1_0.method_72());
-            smethod_3(byte_3, 404U, gclass1_0.method_74());
-            smethod_3(byte_3, 405U, gclass1_0.method_74());
-            smethod_3(byte_3, 406U, gclass1_0.method_76());
-            smethod_3(byte_3, 407U, gclass1_0.method_78());
-            smethod_3(byte_3, 408U, gclass1_0.method_80());
-            smethod_3(byte_3, 409U, gclass1_0.method_82());
-            smethod_3(byte_3, 410U, gclass1_0.method_84());
-            smethod_3(byte_3, 411U, gclass1_0.method_86());
-            smethod_3(byte_3, 412U, gclass1_0.method_88());
-            smethod_3(byte_3, 413U, gclass1_0.method_90());
-            smethod_3(byte_3, 419U, gclass1_0.method_92());
-            smethod_4(byte_3, 420U, gclass1_0.method_94());
-            smethod_3(byte_3, 431U, gclass1_0.method_112());
-            smethod_3(byte_3, 432U, gclass1_0.method_96());
-            smethod_3(byte_3, 433U, gclass1_0.method_98());
-            smethod_3(byte_3, 422U, gclass1_0.method_110());
-            smethod_3(byte_3, 425U, gclass1_0.method_114());
+            InsertUIntToByteArray(carParamBlob, 37U, 4U, carParam.method_2());
+            InsertUIntToByteArray(carParamBlob, 41U, 4U, carParam.method_4());
+            InsertUIntToByteArray(carParamBlob, 49U, 4U, carParam.method_6());
+            InsertUIntToByteArray(carParamBlob, 65U, 2U, carParam.method_8());
+            InsertUIntToByteArray(carParamBlob, 67U, 2U, carParam.method_10());
+            InsertUIntToByteArray(carParamBlob, 77U, 4U, carParam.Paint());
+            InsertUIntToByteArray(carParamBlob, 157U, 4U, carParam.Body());
+            UpdateBlobWithByte(carParamBlob, 169U, carParam.Colour());
+            InsertUIntToByteArray(carParamBlob, 170U, 4U, carParam.method_106());
+            InsertUIntToByteArray(carParamBlob, 174U, 4U, carParam.method_108());
+            UpdateBlobWithByte(carParamBlob, 185U, carParam.method_16());
+            UpdateBlobWithByte(carParamBlob, 193U, carParam.method_18());
+            InsertUIntToByteArray(carParamBlob, 194U, 4U, carParam.Brakes());
+            InsertUIntToByteArray(carParamBlob, 198U, 4U, carParam._198_201());
+            InsertUIntToByteArray(carParamBlob, 202U, 4U, carParam.Chassis());
+            InsertUIntToByteArray(carParamBlob, 206U, 4U, carParam.Engine());
+            InsertUIntToByteArray(carParamBlob, 210U, 4U, carParam.DriveTrain());
+            InsertUIntToByteArray(carParamBlob, 214U, 4U, carParam.Transmission());
+            InsertUIntToByteArray(carParamBlob, 218U, 4U, carParam.Suspension());
+            InsertUIntToByteArray(carParamBlob, 222U, 4U, carParam.LSD());
+            InsertUIntToByteArray(carParamBlob, 226U, 4U, carParam.method_134());
+            InsertUIntToByteArray(carParamBlob, 230U, 4U, carParam.WReduction());
+            InsertUIntToByteArray(carParamBlob, 234U, 4U, carParam.method_138());
+            InsertUIntToByteArray(carParamBlob, 238U, 4U, carParam.method_140());
+            InsertUIntToByteArray(carParamBlob, 242U, 4U, carParam.ECU());
+            InsertUIntToByteArray(carParamBlob, 246U, 4U, carParam.EngineTune());
+            InsertUIntToByteArray(carParamBlob, 250U, 4U, carParam.Turbo());
+            InsertUIntToByteArray(carParamBlob, 254U, 4U, carParam.Flywheel());
+            InsertUIntToByteArray(carParamBlob, 258U, 4U, carParam.Clutch());
+            InsertUIntToByteArray(carParamBlob, 262U, 4U, carParam.Driveshaft());
+            InsertUIntToByteArray(carParamBlob, 266U, 4U, carParam.Exhaust());
+            InsertUIntToByteArray(carParamBlob, 270U, 4U, carParam.method_156());
+            InsertUIntToByteArray(carParamBlob, 274U, 4U, carParam.ASM());
+            InsertUIntToByteArray(carParamBlob, 278U, 4U, carParam.TCS());
+            InsertUIntToByteArray(carParamBlob, 282U, 4U, carParam.method_162());
+            InsertUIntToByteArray(carParamBlob, 286U, 4U, carParam.Supercharger());
+            InsertUIntToByteArray(carParamBlob, 290U, 4U, carParam.Intake());
+            InsertUIntToByteArray(carParamBlob, 294U, 4U, carParam.ExhaustManifold());
+            InsertUIntToByteArray(carParamBlob, 298U, 4U, carParam.CatConverter());
+            InsertUIntToByteArray(carParamBlob, 302U, 4U, carParam.AirFilter());
+            InsertUIntToByteArray(carParamBlob, 306U, 4U, carParam.method_174());
+            InsertUIntToByteArray(carParamBlob, 310U, 4U, carParam.WindowWR());
+            InsertUIntToByteArray(carParamBlob, 314U, 4U, carParam.Hood());
+            InsertUIntToByteArray(carParamBlob, 318U, 4U, carParam.FrBumper());
+            InsertUIntToByteArray(carParamBlob, 322U, 4U, carParam.RrBumper());
+            InsertUIntToByteArray(carParamBlob, 326U, 4U, carParam.Extension());
+            InsertUIntToByteArray(carParamBlob, 330U, 4U, carParam.Wing());
+            InsertUIntToByteArray(carParamBlob, 334U, 4U, carParam.method_188());
+            InsertUIntToByteArray(carParamBlob, 338U, 4U, carParam.Reinforcement());
+            InsertUIntToByteArray(carParamBlob, 342U, 4U, carParam.Nos());
+            InsertUIntToByteArray(carParamBlob, 346U, 2U, carParam.method_20());
+            InsertUIntToByteArray(carParamBlob, 348U, 2U, carParam.method_22());
+            InsertUIntToByteArray(carParamBlob, 350U, 2U, carParam.method_24());
+            InsertUIntToByteArray(carParamBlob, 352U, 2U, carParam.method_26());
+            InsertUIntToByteArray(carParamBlob, 354U, 2U, carParam.method_28());
+            InsertUIntToByteArray(carParamBlob, 356U, 2U, carParam.method_30());
+            InsertUIntToByteArray(carParamBlob, 358U, 2U, carParam.method_32());
+            InsertUIntToByteArray(carParamBlob, 360U, 2U, carParam.method_34());
+            InsertUIntToByteArray(carParamBlob, 362U, 2U, carParam.method_36());
+            InsertUIntToByteArray(carParamBlob, 364U, 2U, carParam.method_38());
+            InsertUIntToByteArray(carParamBlob, 366U, 2U, carParam.method_40());
+            InsertUIntToByteArray(carParamBlob, 368U, 2U, carParam.method_42());
+            InsertUIntToByteArray(carParamBlob, 370U, 2U, carParam.method_44());
+            UpdateBlobWithByte(carParamBlob, 375U, carParam.method_46());
+            UpdateBlobWithByte(carParamBlob, 378U, carParam.method_48());
+            UpdateBlobWithByte(carParamBlob, 379U, carParam.method_50());
+            UpdateBlobWithByte(carParamBlob, 386U, carParam.method_52());
+            UpdateBlobWithByte(carParamBlob, 387U, carParam.method_54());
+            InsertUIntToByteArray(carParamBlob, 388U, 2U, carParam.method_56());
+            InsertUIntToByteArray(carParamBlob, 390U, 2U, carParam.method_58());
+            UpdateBlobWithSByte(carParamBlob, 392U, carParam.method_60());
+            UpdateBlobWithSByte(carParamBlob, 393U, carParam.method_62());
+            UpdateBlobWithByte(carParamBlob, 394U, carParam.method_64());
+            UpdateBlobWithByte(carParamBlob, 395U, carParam.method_66());
+            UpdateBlobWithByte(carParamBlob, 398U, carParam.method_68());
+            UpdateBlobWithByte(carParamBlob, 399U, carParam.method_68());
+            UpdateBlobWithByte(carParamBlob, 400U, carParam.method_70());
+            UpdateBlobWithByte(carParamBlob, 401U, carParam.method_70());
+            UpdateBlobWithByte(carParamBlob, 402U, carParam.method_72());
+            UpdateBlobWithByte(carParamBlob, 403U, carParam.method_72());
+            UpdateBlobWithByte(carParamBlob, 404U, carParam.method_74());
+            UpdateBlobWithByte(carParamBlob, 405U, carParam.method_74());
+            UpdateBlobWithByte(carParamBlob, 406U, carParam.method_76());
+            UpdateBlobWithByte(carParamBlob, 407U, carParam.method_78());
+            UpdateBlobWithByte(carParamBlob, 408U, carParam.method_80());
+            UpdateBlobWithByte(carParamBlob, 409U, carParam.method_82());
+            UpdateBlobWithByte(carParamBlob, 410U, carParam.method_84());
+            UpdateBlobWithByte(carParamBlob, 411U, carParam.method_86());
+            UpdateBlobWithByte(carParamBlob, 412U, carParam.method_88());
+            UpdateBlobWithByte(carParamBlob, 413U, carParam.method_90());
+            UpdateBlobWithByte(carParamBlob, 419U, carParam.method_92());
+            UpdateBlobWithSByte(carParamBlob, 420U, carParam.method_94());
+            UpdateBlobWithByte(carParamBlob, 431U, carParam.method_112());
+            UpdateBlobWithByte(carParamBlob, 432U, carParam.method_96());
+            UpdateBlobWithByte(carParamBlob, 433U, carParam.method_98());
+            UpdateBlobWithByte(carParamBlob, 422U, carParam.method_110());
+            UpdateBlobWithByte(carParamBlob, 425U, carParam.method_114());
         }
 
         public static ulong smethod_7(uint uint_0, uint uint_1, byte[] byte_3)
@@ -1968,7 +1968,7 @@ namespace GT5_Garage_Editor
                         {
                             bool_0 = true;
                             for (var index = 0; index < num11; ++index)
-                                FormMain.smethod_14(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                                smethod_14(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                             bool_0 = false;
                         }
                         stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
@@ -1992,7 +1992,7 @@ namespace GT5_Garage_Editor
                         {
                             bool_0 = true;
                             for (var index = 0; index < num13 * 2; ++index)
-                                FormMain.smethod_14(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                                smethod_14(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                             bool_0 = false;
                         }
                         stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
@@ -2195,8 +2195,7 @@ namespace GT5_Garage_Editor
             try
             {
                 var numArray = new byte[8];
-                var fileStream1 = new FileStream(string_4, FileMode.Open);
-                fileStream1.Position = smethod_17(string_5);
+                var fileStream1 = new FileStream(string_4, FileMode.Open) {Position = smethod_17(string_5)};
                 if ((byte)fileStream1.ReadByte() == 7)
                 {
                     var num1 = (byte)fileStream1.ReadByte();
@@ -2307,7 +2306,7 @@ namespace GT5_Garage_Editor
             Process.Start(startInfo);
         }
 
-        public void method_12(string pathToSave)
+        public void CompileSaveIntoSingleDb(string pathToSave)
         {
             FileStream fileStream1 = null;
             FileStream fileStream2 = null;
@@ -2416,7 +2415,7 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public void method_13(string string_4)
+        public void CompileSingleDbIntoSave(string string_4)
         {
             var flag = false;
             FileStream fileStream1 = null;
@@ -2566,7 +2565,7 @@ namespace GT5_Garage_Editor
             foreach (var directoryInfo2 in directories)
             {
                 var string_5_1 = Path.Combine(string_5, directoryInfo2.Name);
-                FormMain.smethod_21(directoryInfo2.FullName, string_5_1, bool_0);
+                smethod_21(directoryInfo2.FullName, string_5_1, bool_0);
             }
         }
 
@@ -2613,7 +2612,7 @@ namespace GT5_Garage_Editor
                     if ((long)smethod_18(_pathToGT5PointZero, "rtext_debug", 1) == 1L)
                         rb_txtdebug_on.Checked = true;
                     ulong_0 = smethod_20("SQLite format 3", _pathToGT5PointZero);
-                    method_12(_pathToSave);
+                    CompileSaveIntoSingleDb(_pathToSave);
                     _sqlHelper2 = new SqlHelper(Application.StartupPath + "\\temp", true, passBytes);
                     GetTuners(_sqlHelper2, ref dataTable_6);
                     PopulateComboBoxFromDatatable(ref comboBox_DMake, ref dataTable_6);
@@ -2639,7 +2638,7 @@ namespace GT5_Garage_Editor
         {
             try
             {
-                method_13(_pathToSave);
+                CompileSingleDbIntoSave(_pathToSave);
                 EncryptSave(_pathToSave);
                 Application.Exit();
             }
@@ -3341,7 +3340,7 @@ namespace GT5_Garage_Editor
                     if (((int)numArray1[3] & 1) == 1)
                     {
                         var byte_3 = (byte[])dataRow["carparameter"];
-                        smethod_5(byte_3, numArray1[0], numArray1[1], numArray1[2]);
+                        InsertUIntToByteArray(byte_3, numArray1[0], numArray1[1], numArray1[2]);
                         var parameter = new SQLiteParameter("@blobA", DbType.Binary);
                         parameter.Value = byte_3;
                         sqLiteCommand.Parameters.Add(parameter);
@@ -3351,7 +3350,7 @@ namespace GT5_Garage_Editor
                     if (((int)numArray1[3] & 2) == 2)
                     {
                         var byte_3 = (byte[])dataRow["carparameterB"];
-                        smethod_5(byte_3, numArray1[0], numArray1[1], numArray1[2]);
+                        InsertUIntToByteArray(byte_3, numArray1[0], numArray1[1], numArray1[2]);
                         var parameter = new SQLiteParameter("@blobB", DbType.Binary);
                         parameter.Value = byte_3;
                         sqLiteCommand.Parameters.Add(parameter);
@@ -3363,7 +3362,7 @@ namespace GT5_Garage_Editor
                     if (((int)numArray1[3] & 4) == 4)
                     {
                         var byte_3 = (byte[])dataRow["carparameterC"];
-                        smethod_5(byte_3, numArray1[0], numArray1[1], numArray1[2]);
+                        InsertUIntToByteArray(byte_3, numArray1[0], numArray1[1], numArray1[2]);
                         var parameter = new SQLiteParameter("@blobC", DbType.Binary);
                         parameter.Value = byte_3;
                         sqLiteCommand.Parameters.Add(parameter);
@@ -3816,7 +3815,7 @@ namespace GT5_Garage_Editor
 
         public void method_18()
         {
-            method_8(_char0);
+            LoadCarSheet(_char0);
             var byte_3 = new byte[679];
             if (_char0.Equals('a'))
                 byte_3 = _currentCar.GetBlob1().GetBlob();
@@ -3830,7 +3829,7 @@ namespace GT5_Garage_Editor
                 UpdateCarParamBlobs(_sqlHelper2, _currentCar);
                 dataTable_8 = _sqlHelper2.ExecuteReader("SELECT * FROM t_garage WHERE garage_id LIKE " + dataTable_7.Rows[comboBox_DModel.SelectedIndex].ItemArray[1]);
                 _currentCar = new Car(dataTable_8);
-                method_5();
+                LoadCurrentCarDetails();
             }
             else
                 _currentCar.UpdateBlob1(new CarParameterBlob(_currentCar.GetBlob1().GetBlob()));
@@ -3909,21 +3908,21 @@ namespace GT5_Garage_Editor
         {
             method_18();
             _char0 = 'a';
-            method_8(_char0);
+            LoadCarSheet(_char0);
         }
 
         private void radioButton_B_CheckedChanged(object sender, EventArgs e)
         {
             method_18();
             _char0 = 'b';
-            method_8(_char0);
+            LoadCarSheet(_char0);
         }
 
         private void radioButton_C_CheckedChanged(object sender, EventArgs e)
         {
             method_18();
             _char0 = 'c';
-            method_8(_char0);
+            LoadCarSheet(_char0);
         }
 
         public string StringToMd5Hash(string str)
