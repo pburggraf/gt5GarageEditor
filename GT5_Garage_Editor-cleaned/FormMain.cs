@@ -831,28 +831,28 @@ namespace GT5_Garage_Editor
                                     _currentCar.GetBlob2().method_177(_tempCar.GetBlob1().WindowWR());
                                     break;
                                 case 34:
-                                    _currentCar.GetBlob2().method_179(_tempCar.GetBlob1().Hood());
+                                    _currentCar.GetBlob2().Hood(_tempCar.GetBlob1().Hood());
                                     break;
                                 case 35:
-                                    _currentCar.GetBlob2().method_181(_tempCar.GetBlob1().FrBumper());
+                                    _currentCar.GetBlob2().FrBumper(_tempCar.GetBlob1().FrBumper());
                                     break;
                                 case 36:
-                                    _currentCar.GetBlob2().method_183(_tempCar.GetBlob1().RrBumper());
+                                    _currentCar.GetBlob2().RrBumper(_tempCar.GetBlob1().RrBumper());
                                     break;
                                 case 37:
-                                    _currentCar.GetBlob2().method_185(_tempCar.GetBlob1().Extension());
+                                    _currentCar.GetBlob2().Extension(_tempCar.GetBlob1().Extension());
                                     break;
                                 case 38:
-                                    _currentCar.GetBlob2().method_187(_tempCar.GetBlob1().Wing());
+                                    _currentCar.GetBlob2().Wing(_tempCar.GetBlob1().Wing());
                                     break;
                                 case 39:
                                     _currentCar.GetBlob2().method_189(_tempCar.GetBlob1().method_188());
                                     break;
                                 case 40:
-                                    _currentCar.GetBlob2().method_191(_tempCar.GetBlob1().Reinforcement());
+                                    _currentCar.GetBlob2().Reinforcement(_tempCar.GetBlob1().Reinforcement());
                                     break;
                                 case 41:
-                                    _currentCar.GetBlob2().method_193(_tempCar.GetBlob1().Nos());
+                                    _currentCar.GetBlob2().Nos(_tempCar.GetBlob1().Nos());
                                     break;
                             }
                         }
@@ -1142,28 +1142,28 @@ namespace GT5_Garage_Editor
                                     _currentCar.GetBlob3().method_177(_tempCar.GetBlob1().WindowWR());
                                     break;
                                 case 34:
-                                    _currentCar.GetBlob3().method_179(_tempCar.GetBlob1().Hood());
+                                    _currentCar.GetBlob3().Hood(_tempCar.GetBlob1().Hood());
                                     break;
                                 case 35:
-                                    _currentCar.GetBlob3().method_181(_tempCar.GetBlob1().FrBumper());
+                                    _currentCar.GetBlob3().FrBumper(_tempCar.GetBlob1().FrBumper());
                                     break;
                                 case 36:
-                                    _currentCar.GetBlob3().method_183(_tempCar.GetBlob1().RrBumper());
+                                    _currentCar.GetBlob3().RrBumper(_tempCar.GetBlob1().RrBumper());
                                     break;
                                 case 37:
-                                    _currentCar.GetBlob3().method_185(_tempCar.GetBlob1().Extension());
+                                    _currentCar.GetBlob3().Extension(_tempCar.GetBlob1().Extension());
                                     break;
                                 case 38:
-                                    _currentCar.GetBlob3().method_187(_tempCar.GetBlob1().Wing());
+                                    _currentCar.GetBlob3().Wing(_tempCar.GetBlob1().Wing());
                                     break;
                                 case 39:
                                     _currentCar.GetBlob3().method_189(_tempCar.GetBlob1().method_188());
                                     break;
                                 case 40:
-                                    _currentCar.GetBlob3().method_191(_tempCar.GetBlob1().Reinforcement());
+                                    _currentCar.GetBlob3().Reinforcement(_tempCar.GetBlob1().Reinforcement());
                                     break;
                                 case 41:
-                                    _currentCar.GetBlob3().method_193(_tempCar.GetBlob1().Nos());
+                                    _currentCar.GetBlob3().Nos(_tempCar.GetBlob1().Nos());
                                     break;
                             }
                         }
@@ -1454,28 +1454,28 @@ namespace GT5_Garage_Editor
                                 _currentCar.GetBlob1().method_177(_tempCar.GetBlob1().WindowWR());
                                 break;
                             case 34:
-                                _currentCar.GetBlob1().method_179(_tempCar.GetBlob1().Hood());
+                                _currentCar.GetBlob1().Hood(_tempCar.GetBlob1().Hood());
                                 break;
                             case 35:
-                                _currentCar.GetBlob1().method_181(_tempCar.GetBlob1().FrBumper());
+                                _currentCar.GetBlob1().FrBumper(_tempCar.GetBlob1().FrBumper());
                                 break;
                             case 36:
-                                _currentCar.GetBlob1().method_183(_tempCar.GetBlob1().RrBumper());
+                                _currentCar.GetBlob1().RrBumper(_tempCar.GetBlob1().RrBumper());
                                 break;
                             case 37:
-                                _currentCar.GetBlob1().method_185(_tempCar.GetBlob1().Extension());
+                                _currentCar.GetBlob1().Extension(_tempCar.GetBlob1().Extension());
                                 break;
                             case 38:
-                                _currentCar.GetBlob1().method_187(_tempCar.GetBlob1().Wing());
+                                _currentCar.GetBlob1().Wing(_tempCar.GetBlob1().Wing());
                                 break;
                             case 39:
                                 _currentCar.GetBlob1().method_189(_tempCar.GetBlob1().method_188());
                                 break;
                             case 40:
-                                _currentCar.GetBlob1().method_191(_tempCar.GetBlob1().Reinforcement());
+                                _currentCar.GetBlob1().Reinforcement(_tempCar.GetBlob1().Reinforcement());
                                 break;
                             case 41:
-                                _currentCar.GetBlob1().method_193(_tempCar.GetBlob1().Nos());
+                                _currentCar.GetBlob1().Nos(_tempCar.GetBlob1().Nos());
                                 break;
                         }
                     }

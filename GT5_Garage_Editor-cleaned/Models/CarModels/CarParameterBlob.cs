@@ -93,14 +93,14 @@ namespace GT5_Garage_Editor.Models.CarModels
         private uint uint_50;
         private uint uint_51;
         private uint uint_52;
-        private uint uint_53;
-        private uint uint_54;
-        private uint uint_55;
-        private uint uint_56;
-        private uint uint_57;
+        private uint _hood;
+        private uint _frBumper;
+        private uint _rrBumper;
+        private uint _extension;
+        private uint _wing;
         private uint uint_58;
-        private uint uint_59;
-        private uint uint_60;
+        private uint _reinforcement;
+        private uint _nos;
 
         public CarParameterBlob()
         {
@@ -204,14 +204,14 @@ namespace GT5_Garage_Editor.Models.CarModels
             method_173(GetUInt(302U, 305U, blob));
             method_175(GetUInt(306U, 309U, blob));
             method_177(GetUInt(310U, 313U, blob));
-            method_179(GetUInt(314U, 317U, blob));
-            method_181(GetUInt(318U, 321U, blob));
-            method_183(GetUInt(322U, 325U, blob));
-            method_185(GetUInt(326U, 329U, blob));
-            method_187(GetUInt(330U, 333U, blob));
+            Hood(GetUInt(314U, 317U, blob));
+            FrBumper(GetUInt(318U, 321U, blob));
+            RrBumper(GetUInt(322U, 325U, blob));
+            Extension(GetUInt(326U, 329U, blob));
+            Wing(GetUInt(330U, 333U, blob));
             method_189(GetUInt(334U, 337U, blob));
-            method_191(GetUInt(338U, 341U, blob));
-            method_193(GetUInt(342U, 345U, blob));
+            Reinforcement(GetUInt(338U, 341U, blob));
+            Nos(GetUInt(342U, 345U, blob));
             method_107(GetByte(173U, blob));
             method_109(GetByte(177U, blob));
         }
@@ -1108,52 +1108,52 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public uint Hood()
         {
-            return uint_53;
+            return _hood;
         }
 
-        public void method_179(uint uint_61)
+        public void Hood(uint val)
         {
-            uint_53 = uint_61;
+            _hood = val;
         }
 
         public uint FrBumper()
         {
-            return uint_54;
+            return _frBumper;
         }
 
-        public void method_181(uint uint_61)
+        public void FrBumper(uint val)
         {
-            uint_54 = uint_61;
+            _frBumper = val;
         }
 
         public uint RrBumper()
         {
-            return uint_55;
+            return _rrBumper;
         }
 
-        public void method_183(uint uint_61)
+        public void RrBumper(uint val)
         {
-            uint_55 = uint_61;
+            _rrBumper = val;
         }
 
         public uint Extension()
         {
-            return uint_56;
+            return _extension;
         }
 
-        public void method_185(uint uint_61)
+        public void Extension(uint val)
         {
-            uint_56 = uint_61;
+            _extension = val;
         }
 
         public uint Wing()
         {
-            return uint_57;
+            return _wing;
         }
 
-        public void method_187(uint uint_61)
+        public void Wing(uint val)
         {
-            uint_57 = uint_61;
+            _wing = val;
         }
 
         public uint method_188()
@@ -1168,22 +1168,22 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public uint Reinforcement()
         {
-            return uint_59;
+            return _reinforcement;
         }
 
-        public void method_191(uint uint_61)
+        public void Reinforcement(uint val)
         {
-            uint_59 = uint_61;
+            _reinforcement = val;
         }
 
         public uint Nos()
         {
-            return uint_60;
+            return _nos;
         }
 
-        public void method_193(uint uint_61)
+        public void Nos(uint val)
         {
-            uint_60 = uint_61;
+            _nos = val;
         }
 
         public static uint GetUInt(uint start, uint end, byte[] blob)
@@ -1196,7 +1196,7 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public static byte GetByte(uint location, byte[] blob)
         {
-            return blob[ location];
+            return blob[location];
         }
     }
 }
