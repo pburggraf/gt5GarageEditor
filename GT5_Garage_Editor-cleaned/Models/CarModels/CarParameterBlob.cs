@@ -726,7 +726,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_20 = uint_61;
         }
 
-        public byte method_102()
+        public byte Colour()
         {
             return byte_27;
         }
@@ -736,7 +736,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_27 = byte_33;
         }
 
-        public uint method_104()
+        public uint Paint()
         {
             return uint_21;
         }
@@ -796,7 +796,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_32 = byte_33;
         }
 
-        public uint method_116()
+        public uint Body()
         {
             return uint_22;
         }
@@ -806,7 +806,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_22 = uint_61;
         }
 
-        public uint method_118()
+        public uint Brakes()
         {
             return uint_23;
         }
@@ -816,7 +816,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_23 = uint_61;
         }
 
-        public uint method_120()
+        public uint _198_201()
         {
             return uint_24;
         }
@@ -826,7 +826,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_24 = uint_61;
         }
 
-        public uint method_122()
+        public uint Chassis()
         {
             return uint_25;
         }
@@ -836,7 +836,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_25 = uint_61;
         }
 
-        public uint method_124()
+        public uint Engine()
         {
             return uint_26;
         }
@@ -846,7 +846,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_26 = uint_61;
         }
 
-        public uint method_126()
+        public uint DriveTrain()
         {
             return uint_27;
         }
@@ -856,7 +856,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_27 = uint_61;
         }
 
-        public uint method_128()
+        public uint Transmission()
         {
             return uint_28;
         }
@@ -866,7 +866,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_28 = uint_61;
         }
 
-        public uint method_130()
+        public uint Suspension()
         {
             return uint_29;
         }
@@ -876,7 +876,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_29 = uint_61;
         }
 
-        public uint method_132()
+        public uint LSD()
         {
             return uint_30;
         }
@@ -896,7 +896,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_31 = uint_61;
         }
 
-        public uint method_136()
+        public uint WReduction()
         {
             return uint_32;
         }
@@ -926,7 +926,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_34 = uint_61;
         }
 
-        public uint method_142()
+        public uint ECU()
         {
             return uint_35;
         }
@@ -936,7 +936,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_35 = uint_61;
         }
 
-        public uint method_144()
+        public uint EngineTune()
         {
             return uint_36;
         }
@@ -946,7 +946,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_36 = uint_61;
         }
 
-        public uint method_146()
+        public uint Turbo()
         {
             return uint_37;
         }
@@ -956,7 +956,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_37 = uint_61;
         }
 
-        public uint method_148()
+        public uint Flywheel()
         {
             return uint_38;
         }
@@ -966,7 +966,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_38 = uint_61;
         }
 
-        public uint method_150()
+        public uint Clutch()
         {
             return uint_39;
         }
@@ -976,7 +976,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_39 = uint_61;
         }
 
-        public uint method_152()
+        public uint Driveshaft()
         {
             return uint_40;
         }
@@ -986,7 +986,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_40 = uint_61;
         }
 
-        public uint method_154()
+        public uint Exhaust()
         {
             return uint_41;
         }
@@ -1006,7 +1006,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_42 = uint_61;
         }
 
-        public uint method_158()
+        public uint ASM()
         {
             return uint_43;
         }
@@ -1016,7 +1016,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_43 = uint_61;
         }
 
-        public uint method_160()
+        public uint TCS()
         {
             return uint_44;
         }
@@ -1036,7 +1036,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_45 = uint_61;
         }
 
-        public uint method_164()
+        public uint Supercharger()
         {
             return uint_46;
         }
@@ -1046,7 +1046,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_46 = uint_61;
         }
 
-        public uint method_166()
+        public uint Intake()
         {
             return uint_47;
         }
@@ -1056,7 +1056,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_47 = uint_61;
         }
 
-        public uint method_168()
+        public uint ExhaustManifold()
         {
             return uint_48;
         }
@@ -1066,7 +1066,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_48 = uint_61;
         }
 
-        public uint method_170()
+        public uint CatConverter()
         {
             return uint_49;
         }
@@ -1076,7 +1076,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_49 = uint_61;
         }
 
-        public uint method_172()
+        public uint AirFilter()
         {
             return uint_50;
         }
@@ -1096,7 +1096,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_51 = uint_61;
         }
 
-        public uint method_176()
+        public uint WindowWR()
         {
             return uint_52;
         }
@@ -1106,7 +1106,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_52 = uint_61;
         }
 
-        public uint method_178()
+        public uint Hood()
         {
             return uint_53;
         }
@@ -1116,7 +1116,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_53 = uint_61;
         }
 
-        public uint method_180()
+        public uint FrBumper()
         {
             return uint_54;
         }
@@ -1126,7 +1126,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_54 = uint_61;
         }
 
-        public uint method_182()
+        public uint RrBumper()
         {
             return uint_55;
         }
@@ -1136,7 +1136,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_55 = uint_61;
         }
 
-        public uint method_184()
+        public uint Extension()
         {
             return uint_56;
         }
@@ -1146,7 +1146,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_56 = uint_61;
         }
 
-        public uint method_186()
+        public uint Wing()
         {
             return uint_57;
         }
@@ -1166,7 +1166,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_58 = uint_61;
         }
 
-        public uint method_190()
+        public uint Reinforcement()
         {
             return uint_59;
         }
@@ -1176,7 +1176,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_59 = uint_61;
         }
 
-        public uint method_192()
+        public uint Nos()
         {
             return uint_60;
         }
