@@ -164,7 +164,7 @@ namespace GT5_Garage_Editor
         private Label label15;
         private ComboBox comboBox_SMake;
         private ComboBox comboBox_SModel;
-        private DataGridView dataGridView_Source;
+        private DataGridView dgvSrc;
         private DataGridViewTextBoxColumn Column_Item;
         private DataGridViewTextBoxColumn Column_Value;
         private TextBox textBox_SYear;
@@ -326,7 +326,7 @@ namespace GT5_Garage_Editor
             this.label15 = new System.Windows.Forms.Label();
             this.comboBox_SMake = new System.Windows.Forms.ComboBox();
             this.comboBox_SModel = new System.Windows.Forms.ComboBox();
-            this.dataGridView_Source = new System.Windows.Forms.DataGridView();
+            this.dgvSrc = new System.Windows.Forms.DataGridView();
             this.Column_Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBox_SYear = new System.Windows.Forms.TextBox();
@@ -510,7 +510,7 @@ namespace GT5_Garage_Editor
             this.tabPage_garage.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Source)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSrc)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox_Sheet.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Dest)).BeginInit();
@@ -1132,7 +1132,7 @@ namespace GT5_Garage_Editor
             this.groupBox4.Controls.Add(this.groupBox5);
             this.groupBox4.Controls.Add(this.comboBox_SMake);
             this.groupBox4.Controls.Add(this.comboBox_SModel);
-            this.groupBox4.Controls.Add(this.dataGridView_Source);
+            this.groupBox4.Controls.Add(this.dgvSrc);
             this.groupBox4.Controls.Add(this.textBox_SYear);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.textBox_SDT);
@@ -1190,35 +1190,35 @@ namespace GT5_Garage_Editor
             // 
             // dataGridView_Source
             // 
-            this.dataGridView_Source.AllowUserToAddRows = false;
-            this.dataGridView_Source.AllowUserToDeleteRows = false;
-            this.dataGridView_Source.AllowUserToResizeColumns = false;
-            this.dataGridView_Source.AllowUserToResizeRows = false;
-            this.dataGridView_Source.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.dataGridView_Source.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            this.dataGridView_Source.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dataGridView_Source.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dataGridView_Source.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvSrc.AllowUserToAddRows = false;
+            this.dgvSrc.AllowUserToDeleteRows = false;
+            this.dgvSrc.AllowUserToResizeColumns = false;
+            this.dgvSrc.AllowUserToResizeRows = false;
+            this.dgvSrc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgvSrc.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            this.dgvSrc.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgvSrc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvSrc.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column_Item,
             this.Column_Value});
-            this.dataGridView_Source.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dataGridView_Source.Location = new System.Drawing.Point(6, 195);
-            this.dataGridView_Source.MultiSelect = false;
-            this.dataGridView_Source.Name = "dataGridView_Source";
-            this.dataGridView_Source.ReadOnly = true;
-            this.dataGridView_Source.RowHeadersVisible = false;
-            this.dataGridView_Source.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgvSrc.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.dgvSrc.Location = new System.Drawing.Point(6, 195);
+            this.dgvSrc.MultiSelect = false;
+            this.dgvSrc.Name = "dgvSrc";
+            this.dgvSrc.ReadOnly = true;
+            this.dgvSrc.RowHeadersVisible = false;
+            this.dgvSrc.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ButtonFace;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridView_Source.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView_Source.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView_Source.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView_Source.Size = new System.Drawing.Size(243, 322);
-            this.dataGridView_Source.TabIndex = 1;
-            this.toolTip_0.SetToolTip(this.dataGridView_Source, "Click these Items to swap them to the right");
-            this.dataGridView_Source.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Source_CellClick);
+            this.dgvSrc.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvSrc.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvSrc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSrc.Size = new System.Drawing.Size(243, 322);
+            this.dgvSrc.TabIndex = 1;
+            this.toolTip_0.SetToolTip(this.dgvSrc, "Click these Items to swap them to the right");
+            this.dgvSrc.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Source_CellClick);
             // 
             // Column_Item
             // 
@@ -8409,7 +8409,7 @@ namespace GT5_Garage_Editor
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Source)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSrc)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox_Sheet.ResumeLayout(false);

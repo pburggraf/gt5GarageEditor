@@ -94,9 +94,9 @@ namespace GT5_Garage_Editor
                 var parameter1 = new SQLiteParameter("@blobA", DbType.Binary);
                 var parameter2 = new SQLiteParameter("@blobB", DbType.Binary);
                 var parameter3 = new SQLiteParameter("@blobC", DbType.Binary);
-                parameter1.Value = car.GetBlob1().GetBlob();
-                parameter2.Value = car.GetBlob2().GetBlob();
-                parameter3.Value = car.GetBlob3().GetBlob();
+                parameter1.Value = car.GetBlob1().FullBlob();
+                parameter2.Value = car.GetBlob2().FullBlob();
+                parameter3.Value = car.GetBlob3().FullBlob();
                 sqLiteCommand.Parameters.Add(parameter1);
                 sqLiteCommand.Parameters.Add(parameter2);
                 sqLiteCommand.Parameters.Add(parameter3);
@@ -170,7 +170,7 @@ namespace GT5_Garage_Editor
                 fileStream.Position = num + 22;
             else
                 fileStream.Position = num + 23;
-            fileStream.Write(_currentCar.GetBlob1().GetBlob(), 25, 640);
+            fileStream.Write(_currentCar.GetBlob1().FullBlob(), 25, 640);
             fileStream.Close();
             comboBox_DMake.Items.Clear();
             comboBox_DModel.Items.Clear();
@@ -328,56 +328,55 @@ namespace GT5_Garage_Editor
             textBox_SYear.Text = tempCar.GetYear().ToString();
             textBox_SDT.Text = tempCar.GetDt();
             textBox_SCountry.Text = tempCar.GetCountry();
-            dataGridView_Source.Rows.Clear();
-            AddColumnToDgv(ref dataGridView_Source, "Tune Sheet", 0U);
-            AddColumnToDgv(ref dataGridView_Source, "Paint", tempCar.GetBlob1().Paint());
-            AddColumnToDgv(ref dataGridView_Source, "Body", tempCar.GetBlob1().Body());
-            AddColumnToDgv(ref dataGridView_Source, "Colour", tempCar.GetBlob1().Colour());
-            AddColumnToDgv(ref dataGridView_Source, "Brakes", tempCar.GetBlob1().Brakes());
-            AddColumnToDgv(ref dataGridView_Source, "_198_201", tempCar.GetBlob1()._198_201());
-            AddColumnToDgv(ref dataGridView_Source, "Chassis", tempCar.GetBlob1().Chassis());
-            AddColumnToDgv(ref dataGridView_Source, "Engine", tempCar.GetBlob1().Engine());
-            AddColumnToDgv(ref dataGridView_Source, "Drivetrain", tempCar.GetBlob1().DriveTrain());
-            AddColumnToDgv(ref dataGridView_Source, "Transmission", tempCar.GetBlob1().Transmission());
-            AddColumnToDgv(ref dataGridView_Source, "Suspension", tempCar.GetBlob1().Suspension());
-            AddColumnToDgv(ref dataGridView_Source, "LSD", tempCar.GetBlob1().LSD());
-            AddColumnToDgv(ref dataGridView_Source, "_226_229", tempCar.GetBlob1().method_134());
-            AddColumnToDgv(ref dataGridView_Source, "WReduction", tempCar.GetBlob1().WReduction());
-            AddColumnToDgv(ref dataGridView_Source, "_234_237", tempCar.GetBlob1().method_138());
-            AddColumnToDgv(ref dataGridView_Source, "_238_241", tempCar.GetBlob1().method_140());
-            AddColumnToDgv(ref dataGridView_Source, "ECU", tempCar.GetBlob1().ECU());
-            AddColumnToDgv(ref dataGridView_Source, "Engine Tune", tempCar.GetBlob1().EngineTune());
-            AddColumnToDgv(ref dataGridView_Source, "Turbo", tempCar.GetBlob1().Turbo());
-            AddColumnToDgv(ref dataGridView_Source, "Flywheel", tempCar.GetBlob1().Flywheel());
-            AddColumnToDgv(ref dataGridView_Source, "Clutch", tempCar.GetBlob1().Clutch());
-            AddColumnToDgv(ref dataGridView_Source, "Driveshaft", tempCar.GetBlob1().Driveshaft());
-            AddColumnToDgv(ref dataGridView_Source, "Exhaust", tempCar.GetBlob1().Exhaust());
-            AddColumnToDgv(ref dataGridView_Source, "_270_273", tempCar.GetBlob1().method_156());
-            AddColumnToDgv(ref dataGridView_Source, "ASM Controller", tempCar.GetBlob1().ASM());
-            AddColumnToDgv(ref dataGridView_Source, "TCS Controller", tempCar.GetBlob1().TCS());
-            AddColumnToDgv(ref dataGridView_Source, "_282_285", tempCar.GetBlob1().method_162());
-            AddColumnToDgv(ref dataGridView_Source, "Supercharger", tempCar.GetBlob1().Supercharger());
-            AddColumnToDgv(ref dataGridView_Source, "Intake Manifold", tempCar.GetBlob1().Intake());
-            AddColumnToDgv(ref dataGridView_Source, "Exhaust Manifold", tempCar.GetBlob1().ExhaustManifold());
-            AddColumnToDgv(ref dataGridView_Source, "Catalytic Converter", tempCar.GetBlob1().CatConverter());
-            AddColumnToDgv(ref dataGridView_Source, "Air Filter", tempCar.GetBlob1().AirFilter());
-            AddColumnToDgv(ref dataGridView_Source, "_306_309", tempCar.GetBlob1().method_174());
-            AddColumnToDgv(ref dataGridView_Source, "WindowWR", tempCar.GetBlob1().WindowWR());
-            AddColumnToDgv(ref dataGridView_Source, "Hood", tempCar.GetBlob1().Hood());
-            AddColumnToDgv(ref dataGridView_Source, "FrBumper", tempCar.GetBlob1().FrBumper());
-            AddColumnToDgv(ref dataGridView_Source, "RrBumper", tempCar.GetBlob1().RrBumper());
-            AddColumnToDgv(ref dataGridView_Source, "Extension", tempCar.GetBlob1().Extension());
-            AddColumnToDgv(ref dataGridView_Source, "Wing", tempCar.GetBlob1().Wing());
-            AddColumnToDgv(ref dataGridView_Source, "_334_337", tempCar.GetBlob1().method_188());
-            AddColumnToDgv(ref dataGridView_Source, "Reinforcement", tempCar.GetBlob1().Reinforcement());
-            AddColumnToDgv(ref dataGridView_Source, "NoS", tempCar.GetBlob1().Nos());
+            dgvSrc.Rows.Clear();
+            AddColumnToDgv(ref dgvSrc, "Tune Sheet", 0U);
+            AddColumnToDgv(ref dgvSrc, "Paint", tempCar.GetBlob1().Paint());
+            AddColumnToDgv(ref dgvSrc, "Body", tempCar.GetBlob1().Body());
+            AddColumnToDgv(ref dgvSrc, "Colour", tempCar.GetBlob1().Colour());
+            AddColumnToDgv(ref dgvSrc, "Brakes", tempCar.GetBlob1().Brakes());
+            AddColumnToDgv(ref dgvSrc, "_198_201", tempCar.GetBlob1()._198_201());
+            AddColumnToDgv(ref dgvSrc, "Chassis", tempCar.GetBlob1().Chassis());
+            AddColumnToDgv(ref dgvSrc, "Engine", tempCar.GetBlob1().Engine());
+            AddColumnToDgv(ref dgvSrc, "Drivetrain", tempCar.GetBlob1().DriveTrain());
+            AddColumnToDgv(ref dgvSrc, "Transmission", tempCar.GetBlob1().Transmission());
+            AddColumnToDgv(ref dgvSrc, "Suspension", tempCar.GetBlob1().Suspension());
+            AddColumnToDgv(ref dgvSrc, "LSD", tempCar.GetBlob1().LSD());
+            AddColumnToDgv(ref dgvSrc, "_226_229", tempCar.GetBlob1().method_134());
+            AddColumnToDgv(ref dgvSrc, "WReduction", tempCar.GetBlob1().WReduction());
+            AddColumnToDgv(ref dgvSrc, "_234_237", tempCar.GetBlob1().method_138());
+            AddColumnToDgv(ref dgvSrc, "_238_241", tempCar.GetBlob1().method_140());
+            AddColumnToDgv(ref dgvSrc, "ECU", tempCar.GetBlob1().ECU());
+            AddColumnToDgv(ref dgvSrc, "Engine Tune", tempCar.GetBlob1().EngineTune());
+            AddColumnToDgv(ref dgvSrc, "Turbo", tempCar.GetBlob1().Turbo());
+            AddColumnToDgv(ref dgvSrc, "Flywheel", tempCar.GetBlob1().Flywheel());
+            AddColumnToDgv(ref dgvSrc, "Clutch", tempCar.GetBlob1().Clutch());
+            AddColumnToDgv(ref dgvSrc, "Driveshaft", tempCar.GetBlob1().Driveshaft());
+            AddColumnToDgv(ref dgvSrc, "Exhaust", tempCar.GetBlob1().Exhaust());
+            AddColumnToDgv(ref dgvSrc, "_270_273", tempCar.GetBlob1().method_156());
+            AddColumnToDgv(ref dgvSrc, "ASM Controller", tempCar.GetBlob1().ASM());
+            AddColumnToDgv(ref dgvSrc, "TCS Controller", tempCar.GetBlob1().TCS());
+            AddColumnToDgv(ref dgvSrc, "_282_285", tempCar.GetBlob1().method_162());
+            AddColumnToDgv(ref dgvSrc, "Supercharger", tempCar.GetBlob1().Supercharger());
+            AddColumnToDgv(ref dgvSrc, "Intake Manifold", tempCar.GetBlob1().Intake());
+            AddColumnToDgv(ref dgvSrc, "Exhaust Manifold", tempCar.GetBlob1().ExhaustManifold());
+            AddColumnToDgv(ref dgvSrc, "Catalytic Converter", tempCar.GetBlob1().CatConverter());
+            AddColumnToDgv(ref dgvSrc, "Air Filter", tempCar.GetBlob1().AirFilter());
+            AddColumnToDgv(ref dgvSrc, "_306_309", tempCar.GetBlob1().method_174());
+            AddColumnToDgv(ref dgvSrc, "WindowWR", tempCar.GetBlob1().WindowWR());
+            AddColumnToDgv(ref dgvSrc, "Hood", tempCar.GetBlob1().Hood());
+            AddColumnToDgv(ref dgvSrc, "FrBumper", tempCar.GetBlob1().FrBumper());
+            AddColumnToDgv(ref dgvSrc, "RrBumper", tempCar.GetBlob1().RrBumper());
+            AddColumnToDgv(ref dgvSrc, "Extension", tempCar.GetBlob1().Extension());
+            AddColumnToDgv(ref dgvSrc, "Wing", tempCar.GetBlob1().Wing());
+            AddColumnToDgv(ref dgvSrc, "_334_337", tempCar.GetBlob1().method_188());
+            AddColumnToDgv(ref dgvSrc, "Reinforcement", tempCar.GetBlob1().Reinforcement());
+            AddColumnToDgv(ref dgvSrc, "NoS", tempCar.GetBlob1().Nos());
         }
 
         public void LoadCarSheet(char sheet)
         {
             try
             {
-                var newCar = new Car();
                 var tempCar = _currentCar;
                 textBox_DYear.Text = tempCar.GetYear().ToString();
                 textBox_DDT.Text = tempCar.GetDt();
@@ -545,7 +544,7 @@ namespace GT5_Garage_Editor
         {
             if (comboBox_DModel.SelectedIndex < 0 && tabControl_garage.SelectedIndex != tabControl_garage.TabPages.IndexOf(tabPage_ridingCar))
                 return;
-            var str = dataGridView_Source.SelectedRows[0].Cells[0].Value.ToString();
+            var str = dgvSrc.SelectedRows[0].Cells[0].Value.ToString();
             if (!_char0.Equals('a') && tabControl_garage.SelectedIndex != tabControl_garage.TabPages.IndexOf(tabPage_ridingCar))
             {
                 if (_char0.Equals('b'))
@@ -558,176 +557,176 @@ namespace GT5_Garage_Editor
                             var dictionary = new Dictionary<string, int>(42);
                             var key2 = "Tune Sheet";
                             var num1 = 0;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key2, num1);
                             var key3 = "Colour";
                             var num2 = 1;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key3, num2);
                             var key4 = "Paint";
                             var num3 = 2;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key4, num3);
                             var key5 = "Body";
                             var num4 = 3;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key5, num4);
                             var key6 = "Brakes";
                             var num5 = 4;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key6, num5);
                             var key7 = "_198_201";
                             var num6 = 5;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key7, num6);
                             var key8 = "Chassis";
                             var num7 = 6;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key8, num7);
                             var key9 = "Engine";
                             var num8 = 7;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key9, num8);
                             var key10 = "Drivetrain";
                             var num9 = 8;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key10, num9);
                             var key11 = "Transmission";
                             var num10 = 9;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key11, num10);
                             var key12 = "Suspension";
                             var num11 = 10;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key12, num11);
                             var key13 = "LSD";
                             var num12 = 11;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key13, num12);
                             var key14 = "_226_229";
                             var num13 = 12;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key14, num13);
                             var key15 = "WReduction";
                             var num14 = 13;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key15, num14);
                             var key16 = "_234_237";
                             var num15 = 14;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key16, num15);
                             var key17 = "_238_241";
                             var num16 = 15;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key17, num16);
                             var key18 = "ECU";
                             var num17 = 16;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key18, num17);
                             var key19 = "Engine Tune";
                             var num18 = 17;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key19, num18);
                             var key20 = "Turbo";
                             var num19 = 18;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key20, num19);
                             var key21 = "Flywheel";
                             var num20 = 19;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key21, num20);
                             var key22 = "Clutch";
                             var num21 = 20;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key22, num21);
                             var key23 = "Driveshaft";
                             var num22 = 21;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key23, num22);
                             var key24 = "Exhaust";
                             var num23 = 22;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key24, num23);
                             var key25 = "_270_273";
                             var num24 = 23;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key25, num24);
                             var key26 = "ASM Controller";
                             var num25 = 24;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key26, num25);
                             var key27 = "TCS Controller";
                             var num26 = 25;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key27, num26);
                             var key28 = "_282_285";
                             var num27 = 26;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key28, num27);
                             var key29 = "Supercharger";
                             var num28 = 27;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key29, num28);
                             var key30 = "Intake Manifold";
                             var num29 = 28;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key30, num29);
                             var key31 = "Exhaust Manifold";
                             var num30 = 29;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key31, num30);
                             var key32 = "Catalytic Converter";
                             var num31 = 30;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key32, num31);
                             var key33 = "Air Filter";
                             var num32 = 31;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key33, num32);
                             var key34 = "_306_309";
                             var num33 = 32;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key34, num33);
                             var key35 = "WindowWR";
                             var num34 = 33;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key35, num34);
                             var key36 = "Hood";
                             var num35 = 34;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key36, num35);
                             var key37 = "FrBumper";
                             var num36 = 35;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key37, num36);
                             var key38 = "RrBumper";
                             var num37 = 36;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key38, num37);
                             var key39 = "Extension";
                             var num38 = 37;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key39, num38);
                             var key40 = "Wing";
                             var num39 = 38;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key40, num39);
                             var key41 = "_334_337";
                             var num40 = 39;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key41, num40);
                             var key42 = "Reinforcement";
                             var num41 = 40;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key42, num41);
                             var key43 = "NoS";
                             var num42 = 41;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key43, num42);
                             Dictionaries.dictionary_1 = dictionary;
                         }
                         int num;
-                        // ISSUE: explicit non-virtual call
+                        
                         if ((Dictionaries.dictionary_1.TryGetValue(key1, out num)))
                         {
                             switch (num)
@@ -869,176 +868,176 @@ namespace GT5_Garage_Editor
                             var dictionary = new Dictionary<string, int>(42);
                             var key2 = "Tune Sheet";
                             var num1 = 0;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key2, num1);
                             var key3 = "Colour";
                             var num2 = 1;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key3, num2);
                             var key4 = "Paint";
                             var num3 = 2;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key4, num3);
                             var key5 = "Body";
                             var num4 = 3;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key5, num4);
                             var key6 = "Brakes";
                             var num5 = 4;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key6, num5);
                             var key7 = "_198_201";
                             var num6 = 5;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key7, num6);
                             var key8 = "Chassis";
                             var num7 = 6;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key8, num7);
                             var key9 = "Engine";
                             var num8 = 7;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key9, num8);
                             var key10 = "Drivetrain";
                             var num9 = 8;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key10, num9);
                             var key11 = "Transmission";
                             var num10 = 9;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key11, num10);
                             var key12 = "Suspension";
                             var num11 = 10;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key12, num11);
                             var key13 = "LSD";
                             var num12 = 11;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key13, num12);
                             var key14 = "_226_229";
                             var num13 = 12;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key14, num13);
                             var key15 = "WReduction";
                             var num14 = 13;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key15, num14);
                             var key16 = "_234_237";
                             var num15 = 14;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key16, num15);
                             var key17 = "_238_241";
                             var num16 = 15;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key17, num16);
                             var key18 = "ECU";
                             var num17 = 16;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key18, num17);
                             var key19 = "Engine Tune";
                             var num18 = 17;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key19, num18);
                             var key20 = "Turbo";
                             var num19 = 18;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key20, num19);
                             var key21 = "Flywheel";
                             var num20 = 19;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key21, num20);
                             var key22 = "Clutch";
                             var num21 = 20;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key22, num21);
                             var key23 = "Driveshaft";
                             var num22 = 21;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key23, num22);
                             var key24 = "Exhaust";
                             var num23 = 22;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key24, num23);
                             var key25 = "_270_273";
                             var num24 = 23;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key25, num24);
                             var key26 = "ASM Controller";
                             var num25 = 24;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key26, num25);
                             var key27 = "TCS Controller";
                             var num26 = 25;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key27, num26);
                             var key28 = "_282_285";
                             var num27 = 26;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key28, num27);
                             var key29 = "Supercharger";
                             var num28 = 27;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key29, num28);
                             var key30 = "Intake Manifold";
                             var num29 = 28;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key30, num29);
                             var key31 = "Exhaust Manifold";
                             var num30 = 29;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key31, num30);
                             var key32 = "Catalytic Converter";
                             var num31 = 30;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key32, num31);
                             var key33 = "Air Filter";
                             var num32 = 31;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key33, num32);
                             var key34 = "_306_309";
                             var num33 = 32;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key34, num33);
                             var key35 = "WindowWR";
                             var num34 = 33;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key35, num34);
                             var key36 = "Hood";
                             var num35 = 34;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key36, num35);
                             var key37 = "FrBumper";
                             var num36 = 35;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key37, num36);
                             var key38 = "RrBumper";
                             var num37 = 36;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key38, num37);
                             var key39 = "Extension";
                             var num38 = 37;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key39, num38);
                             var key40 = "Wing";
                             var num39 = 38;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key40, num39);
                             var key41 = "_334_337";
                             var num40 = 39;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key41, num40);
                             var key42 = "Reinforcement";
                             var num41 = 40;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key42, num41);
                             var key43 = "NoS";
                             var num42 = 41;
-                            // ISSUE: explicit non-virtual call
+                            
                             dictionary.Add(key43, num42);
                             Dictionaries.dictionary_2 = dictionary;
                         }
                         int num;
-                        // ISSUE: explicit non-virtual call
+                        
                         if ((Dictionaries.dictionary_2.TryGetValue(key1, out num)))
                         {
                             switch (num)
@@ -1181,176 +1180,176 @@ namespace GT5_Garage_Editor
                         var dictionary = new Dictionary<string, int>(42);
                         var key2 = "Tune Sheet";
                         var num1 = 0;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key2, num1);
                         var key3 = "Colour";
                         var num2 = 1;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key3, num2);
                         var key4 = "Paint";
                         var num3 = 2;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key4, num3);
                         var key5 = "Body";
                         var num4 = 3;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key5, num4);
                         var key6 = "Brakes";
                         var num5 = 4;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key6, num5);
                         var key7 = "_198_201";
                         var num6 = 5;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key7, num6);
                         var key8 = "Chassis";
                         var num7 = 6;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key8, num7);
                         var key9 = "Engine";
                         var num8 = 7;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key9, num8);
                         var key10 = "Drivetrain";
                         var num9 = 8;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key10, num9);
                         var key11 = "Transmission";
                         var num10 = 9;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key11, num10);
                         var key12 = "Suspension";
                         var num11 = 10;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key12, num11);
                         var key13 = "LSD";
                         var num12 = 11;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key13, num12);
                         var key14 = "_226_229";
                         var num13 = 12;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key14, num13);
                         var key15 = "WReduction";
                         var num14 = 13;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key15, num14);
                         var key16 = "_234_237";
                         var num15 = 14;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key16, num15);
                         var key17 = "_238_241";
                         var num16 = 15;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key17, num16);
                         var key18 = "ECU";
                         var num17 = 16;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key18, num17);
                         var key19 = "Engine Tune";
                         var num18 = 17;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key19, num18);
                         var key20 = "Turbo";
                         var num19 = 18;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key20, num19);
                         var key21 = "Flywheel";
                         var num20 = 19;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key21, num20);
                         var key22 = "Clutch";
                         var num21 = 20;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key22, num21);
                         var key23 = "Driveshaft";
                         var num22 = 21;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key23, num22);
                         var key24 = "Exhaust";
                         var num23 = 22;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key24, num23);
                         var key25 = "_270_273";
                         var num24 = 23;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key25, num24);
                         var key26 = "ASM Controller";
                         var num25 = 24;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key26, num25);
                         var key27 = "TCS Controller";
                         var num26 = 25;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key27, num26);
                         var key28 = "_282_285";
                         var num27 = 26;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key28, num27);
                         var key29 = "Supercharger";
                         var num28 = 27;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key29, num28);
                         var key30 = "Intake Manifold";
                         var num29 = 28;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key30, num29);
                         var key31 = "Exhaust Manifold";
                         var num30 = 29;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key31, num30);
                         var key32 = "Catalytic Converter";
                         var num31 = 30;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key32, num31);
                         var key33 = "Air Filter";
                         var num32 = 31;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key33, num32);
                         var key34 = "_306_309";
                         var num33 = 32;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key34, num33);
                         var key35 = "WindowWR";
                         var num34 = 33;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key35, num34);
                         var key36 = "Hood";
                         var num35 = 34;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key36, num35);
                         var key37 = "FrBumper";
                         var num36 = 35;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key37, num36);
                         var key38 = "RrBumper";
                         var num37 = 36;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key38, num37);
                         var key39 = "Extension";
                         var num38 = 37;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key39, num38);
                         var key40 = "Wing";
                         var num39 = 38;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key40, num39);
                         var key41 = "_334_337";
                         var num40 = 39;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key41, num40);
                         var key42 = "Reinforcement";
                         var num41 = 40;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key42, num41);
                         var key43 = "NoS";
                         var num42 = 41;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key43, num42);
                         Dictionaries.dictionary_0 = dictionary;
                     }
                     int num;
-                    // ISSUE: explicit non-virtual call
+                    
                     if ((Dictionaries.dictionary_0.TryGetValue(key1, out num)))
                     {
                         switch (num)
@@ -1496,9 +1495,9 @@ namespace GT5_Garage_Editor
                     _currentCar.UpdateBlob1(setUp.method_2());
                     _currentCar.UpdateBlob2(setUp.method_4());
                     _currentCar.UpdateBlob3(setUp.method_6());
-                    UpdateBlobFromCarParam(_currentCar.GetBlob1().GetBlob(), _currentCar.GetBlob1());
-                    UpdateBlobFromCarParam(_currentCar.GetBlob2().GetBlob(), _currentCar.GetBlob2());
-                    UpdateBlobFromCarParam(_currentCar.GetBlob3().GetBlob(), _currentCar.GetBlob3());
+                    UpdateBlobFromCarParam(_currentCar.GetBlob1().FullBlob(), _currentCar.GetBlob1());
+                    UpdateBlobFromCarParam(_currentCar.GetBlob2().FullBlob(), _currentCar.GetBlob2());
+                    UpdateBlobFromCarParam(_currentCar.GetBlob3().FullBlob(), _currentCar.GetBlob3());
                     method_18();
                     break;
                 case "Paint":
@@ -1585,11 +1584,11 @@ namespace GT5_Garage_Editor
             {
                 var carParamBlob = new byte[679];
                 if (_char0.Equals('a'))
-                    carParamBlob = _currentCar.GetBlob1().GetBlob();
+                    carParamBlob = _currentCar.GetBlob1().FullBlob();
                 if (_char0.Equals('b'))
-                    carParamBlob = _currentCar.GetBlob2().GetBlob();
+                    carParamBlob = _currentCar.GetBlob2().FullBlob();
                 if (_char0.Equals('c'))
-                    carParamBlob = _currentCar.GetBlob3().GetBlob();
+                    carParamBlob = _currentCar.GetBlob3().FullBlob();
                 method_9(ref dataGridView_Dest, ref carParamBlob);
                 if (tabControl_garage.SelectedIndex == tabControl_garage.TabPages.IndexOf(tabPage_garage))
                 {
@@ -1599,7 +1598,7 @@ namespace GT5_Garage_Editor
                     LoadCurrentCarDetails();
                 }
                 else
-                    _currentCar.UpdateBlob1(new CarParameterBlob(_currentCar.GetBlob1().GetBlob()));
+                    _currentCar.UpdateBlob1(new CarParameterBlob(_currentCar.GetBlob1().FullBlob()));
                 LoadCarSheet(_char0);
             }
             else
@@ -1658,18 +1657,18 @@ namespace GT5_Garage_Editor
 
         public static void UpdateBlobFromCarParam(byte[] carParamBlob, CarParameterBlob carParam)
         {
-            InsertUIntToByteArray(carParamBlob, 37U, 4U, carParam.method_2());
-            InsertUIntToByteArray(carParamBlob, 41U, 4U, carParam.method_4());
-            InsertUIntToByteArray(carParamBlob, 49U, 4U, carParam.method_6());
-            InsertUIntToByteArray(carParamBlob, 65U, 2U, carParam.method_8());
-            InsertUIntToByteArray(carParamBlob, 67U, 2U, carParam.method_10());
+            InsertUIntToByteArray(carParamBlob, 37U, 4U, carParam.Metres());
+            InsertUIntToByteArray(carParamBlob, 41U, 4U, carParam.Wash());
+            InsertUIntToByteArray(carParamBlob, 49U, 4U, carParam.Oil());
+            InsertUIntToByteArray(carParamBlob, 65U, 2U, carParam.Changes());
+            InsertUIntToByteArray(carParamBlob, 67U, 2U, carParam.Wins());
             InsertUIntToByteArray(carParamBlob, 77U, 4U, carParam.Paint());
             InsertUIntToByteArray(carParamBlob, 157U, 4U, carParam.Body());
             UpdateBlobWithByte(carParamBlob, 169U, carParam.Colour());
-            InsertUIntToByteArray(carParamBlob, 170U, 4U, carParam.method_106());
-            InsertUIntToByteArray(carParamBlob, 174U, 4U, carParam.method_108());
-            UpdateBlobWithByte(carParamBlob, 185U, carParam.method_16());
-            UpdateBlobWithByte(carParamBlob, 193U, carParam.method_18());
+            InsertUIntToByteArray(carParamBlob, 170U, 4U, carParam.FrRim());
+            InsertUIntToByteArray(carParamBlob, 174U, 4U, carParam.RrRim());
+            UpdateBlobWithByte(carParamBlob, 185U, carParam.FrTyre());
+            UpdateBlobWithByte(carParamBlob, 193U, carParam.RrTyre());
             InsertUIntToByteArray(carParamBlob, 194U, 4U, carParam.Brakes());
             InsertUIntToByteArray(carParamBlob, 198U, 4U, carParam._198_201());
             InsertUIntToByteArray(carParamBlob, 202U, 4U, carParam.Chassis());
@@ -1708,53 +1707,53 @@ namespace GT5_Garage_Editor
             InsertUIntToByteArray(carParamBlob, 334U, 4U, carParam.method_188());
             InsertUIntToByteArray(carParamBlob, 338U, 4U, carParam.Reinforcement());
             InsertUIntToByteArray(carParamBlob, 342U, 4U, carParam.Nos());
-            InsertUIntToByteArray(carParamBlob, 346U, 2U, carParam.method_20());
-            InsertUIntToByteArray(carParamBlob, 348U, 2U, carParam.method_22());
-            InsertUIntToByteArray(carParamBlob, 350U, 2U, carParam.method_24());
-            InsertUIntToByteArray(carParamBlob, 352U, 2U, carParam.method_26());
-            InsertUIntToByteArray(carParamBlob, 354U, 2U, carParam.method_28());
-            InsertUIntToByteArray(carParamBlob, 356U, 2U, carParam.method_30());
-            InsertUIntToByteArray(carParamBlob, 358U, 2U, carParam.method_32());
-            InsertUIntToByteArray(carParamBlob, 360U, 2U, carParam.method_34());
-            InsertUIntToByteArray(carParamBlob, 362U, 2U, carParam.method_36());
-            InsertUIntToByteArray(carParamBlob, 364U, 2U, carParam.method_38());
-            InsertUIntToByteArray(carParamBlob, 366U, 2U, carParam.method_40());
-            InsertUIntToByteArray(carParamBlob, 368U, 2U, carParam.method_42());
-            InsertUIntToByteArray(carParamBlob, 370U, 2U, carParam.method_44());
-            UpdateBlobWithByte(carParamBlob, 375U, carParam.method_46());
-            UpdateBlobWithByte(carParamBlob, 378U, carParam.method_48());
-            UpdateBlobWithByte(carParamBlob, 379U, carParam.method_50());
-            UpdateBlobWithByte(carParamBlob, 386U, carParam.method_52());
-            UpdateBlobWithByte(carParamBlob, 387U, carParam.method_54());
-            InsertUIntToByteArray(carParamBlob, 388U, 2U, carParam.method_56());
-            InsertUIntToByteArray(carParamBlob, 390U, 2U, carParam.method_58());
-            UpdateBlobWithSByte(carParamBlob, 392U, carParam.method_60());
-            UpdateBlobWithSByte(carParamBlob, 393U, carParam.method_62());
-            UpdateBlobWithByte(carParamBlob, 394U, carParam.method_64());
-            UpdateBlobWithByte(carParamBlob, 395U, carParam.method_66());
-            UpdateBlobWithByte(carParamBlob, 398U, carParam.method_68());
-            UpdateBlobWithByte(carParamBlob, 399U, carParam.method_68());
-            UpdateBlobWithByte(carParamBlob, 400U, carParam.method_70());
-            UpdateBlobWithByte(carParamBlob, 401U, carParam.method_70());
-            UpdateBlobWithByte(carParamBlob, 402U, carParam.method_72());
-            UpdateBlobWithByte(carParamBlob, 403U, carParam.method_72());
-            UpdateBlobWithByte(carParamBlob, 404U, carParam.method_74());
-            UpdateBlobWithByte(carParamBlob, 405U, carParam.method_74());
-            UpdateBlobWithByte(carParamBlob, 406U, carParam.method_76());
-            UpdateBlobWithByte(carParamBlob, 407U, carParam.method_78());
-            UpdateBlobWithByte(carParamBlob, 408U, carParam.method_80());
-            UpdateBlobWithByte(carParamBlob, 409U, carParam.method_82());
-            UpdateBlobWithByte(carParamBlob, 410U, carParam.method_84());
-            UpdateBlobWithByte(carParamBlob, 411U, carParam.method_86());
-            UpdateBlobWithByte(carParamBlob, 412U, carParam.method_88());
-            UpdateBlobWithByte(carParamBlob, 413U, carParam.method_90());
-            UpdateBlobWithByte(carParamBlob, 419U, carParam.method_92());
-            UpdateBlobWithSByte(carParamBlob, 420U, carParam.method_94());
-            UpdateBlobWithByte(carParamBlob, 431U, carParam.method_112());
-            UpdateBlobWithByte(carParamBlob, 432U, carParam.method_96());
-            UpdateBlobWithByte(carParamBlob, 433U, carParam.method_98());
-            UpdateBlobWithByte(carParamBlob, 422U, carParam.method_110());
-            UpdateBlobWithByte(carParamBlob, 425U, carParam.method_114());
+            InsertUIntToByteArray(carParamBlob, 346U, 2U, carParam.GearRev());
+            InsertUIntToByteArray(carParamBlob, 348U, 2U, carParam.G1());
+            InsertUIntToByteArray(carParamBlob, 350U, 2U, carParam.G2());
+            InsertUIntToByteArray(carParamBlob, 352U, 2U, carParam.G3());
+            InsertUIntToByteArray(carParamBlob, 354U, 2U, carParam.G4());
+            InsertUIntToByteArray(carParamBlob, 356U, 2U, carParam.G5());
+            InsertUIntToByteArray(carParamBlob, 358U, 2U, carParam.G6());
+            InsertUIntToByteArray(carParamBlob, 360U, 2U, carParam.G7());
+            InsertUIntToByteArray(carParamBlob, 362U, 2U, carParam.G8());
+            InsertUIntToByteArray(carParamBlob, 364U, 2U, carParam.G9());
+            InsertUIntToByteArray(carParamBlob, 366U, 2U, carParam.G10());
+            InsertUIntToByteArray(carParamBlob, 368U, 2U, carParam.G11());
+            InsertUIntToByteArray(carParamBlob, 370U, 2U, carParam.GFinal());
+            UpdateBlobWithByte(carParamBlob, 375U, carParam.FrTorque());
+            UpdateBlobWithByte(carParamBlob, 378U, carParam.DfF());
+            UpdateBlobWithByte(carParamBlob, 379U, carParam.DfR());
+            UpdateBlobWithByte(carParamBlob, 386U, carParam.CamberFront());
+            UpdateBlobWithByte(carParamBlob, 387U, carParam.CamberR());
+            InsertUIntToByteArray(carParamBlob, 388U, 2U, carParam.RideHeightF());
+            InsertUIntToByteArray(carParamBlob, 390U, 2U, carParam.RideHeightR());
+            UpdateBlobWithSByte(carParamBlob, 392U, carParam.ToeF());
+            UpdateBlobWithSByte(carParamBlob, 393U, carParam.ToeR());
+            UpdateBlobWithByte(carParamBlob, 394U, carParam.SpringF());
+            UpdateBlobWithByte(carParamBlob, 395U, carParam.SpringR());
+            UpdateBlobWithByte(carParamBlob, 398U, carParam.ExtenF());
+            UpdateBlobWithByte(carParamBlob, 399U, carParam.ExtenF());
+            UpdateBlobWithByte(carParamBlob, 400U, carParam.CompF());
+            UpdateBlobWithByte(carParamBlob, 401U, carParam.CompF());
+            UpdateBlobWithByte(carParamBlob, 402U, carParam.ExtenR());
+            UpdateBlobWithByte(carParamBlob, 403U, carParam.ExtenR());
+            UpdateBlobWithByte(carParamBlob, 404U, carParam.CompR());
+            UpdateBlobWithByte(carParamBlob, 405U, carParam.CompR());
+            UpdateBlobWithByte(carParamBlob, 406U, carParam.AntiRollBarF());
+            UpdateBlobWithByte(carParamBlob, 407U, carParam.AntiRollBarR());
+            UpdateBlobWithByte(carParamBlob, 408U, carParam.LSDInitF());
+            UpdateBlobWithByte(carParamBlob, 409U, carParam.LSDInitR());
+            UpdateBlobWithByte(carParamBlob, 410U, carParam.LSDAccF());
+            UpdateBlobWithByte(carParamBlob, 411U, carParam.LSDAccR());
+            UpdateBlobWithByte(carParamBlob, 412U, carParam.LSDDecF());
+            UpdateBlobWithByte(carParamBlob, 413U, carParam.LSDDecR());
+            UpdateBlobWithByte(carParamBlob, 419U, carParam.BallastKg());
+            UpdateBlobWithSByte(carParamBlob, 420U, carParam.BallastPos());
+            UpdateBlobWithByte(carParamBlob, 431U, carParam.Grip());
+            UpdateBlobWithByte(carParamBlob, 432U, carParam.BBF());
+            UpdateBlobWithByte(carParamBlob, 433U, carParam.BBR());
+            UpdateBlobWithByte(carParamBlob, 422U, carParam.Bhp());
+            UpdateBlobWithByte(carParamBlob, 425U, carParam.Weight());
         }
 
         public static ulong smethod_7(uint uint_0, uint uint_1, byte[] byte_3)
@@ -2889,192 +2888,192 @@ namespace GT5_Garage_Editor
                         var dictionary = new Dictionary<string, int>(46);
                         var key2 = "Odometer";
                         var num4 = 0;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key2, num4);
                         var key3 = "Oil";
                         var num5 = 1;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key3, num5);
                         var key4 = "Paint";
                         var num6 = 2;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key4, num6);
                         var key5 = "Body";
                         var num7 = 3;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key5, num7);
                         var key6 = "Colour";
                         var num8 = 4;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key6, num8);
                         var key7 = "Brakes";
                         var num9 = 5;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key7, num9);
                         var key8 = "_198_201";
                         var num10 = 6;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key8, num10);
                         var key9 = "Chassis";
                         var num11 = 7;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key9, num11);
                         var key10 = "Engine";
                         var num12 = 8;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key10, num12);
                         var key11 = "Drivetrain";
                         var num13 = 9;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key11, num13);
                         var key12 = "Transmission";
                         var num14 = 10;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key12, num14);
                         var key13 = "Suspension";
                         var num15 = 11;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key13, num15);
                         var key14 = "LSD";
                         var num16 = 12;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key14, num16);
                         var key15 = "_226_229";
                         var num17 = 13;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key15, num17);
                         var key16 = "WReduction";
                         var num18 = 14;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key16, num18);
                         var key17 = "_234_237";
                         var num19 = 15;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key17, num19);
                         var key18 = "_238_241";
                         var num20 = 16;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key18, num20);
                         var key19 = "ECU";
                         var num21 = 17;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key19, num21);
                         var key20 = "Engine Tune";
                         var num22 = 18;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key20, num22);
                         var key21 = "Turbo ";
                         var num23 = 19;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key21, num23);
                         var key22 = "Flywheel";
                         var num24 = 20;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key22, num24);
                         var key23 = "Clutch";
                         var num25 = 21;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key23, num25);
                         var key24 = "Driveshaft";
                         var num26 = 22;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key24, num26);
                         var key25 = "Exhaust";
                         var num27 = 23;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key25, num27);
                         var key26 = "_270_273";
                         var num28 = 24;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key26, num28);
                         var key27 = "ASM Controller";
                         var num29 = 25;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key27, num29);
                         var key28 = "TCS Controller";
                         var num30 = 26;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key28, num30);
                         var key29 = "_282_285";
                         var num31 = 27;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key29, num31);
                         var key30 = "Supercharger";
                         var num32 = 28;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key30, num32);
                         var key31 = "Intake Manifold";
                         var num33 = 29;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key31, num33);
                         var key32 = "Exhaust Manifold";
                         var num34 = 30;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key32, num34);
                         var key33 = "Catalytic Converter";
                         var num35 = 31;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key33, num35);
                         var key34 = "Air Filter";
                         var num36 = 32;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key34, num36);
                         var key35 = "_306_309";
                         var num37 = 33;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key35, num37);
                         var key36 = "WindowWR";
                         var num38 = 34;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key36, num38);
                         var key37 = "Hood";
                         var num39 = 35;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key37, num39);
                         var key38 = "FrBumper";
                         var num40 = 36;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key38, num40);
                         var key39 = "RrBumper";
                         var num41 = 37;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key39, num41);
                         var key40 = "Extension";
                         var num42 = 38;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key40, num42);
                         var key41 = "Wing";
                         var num43 = 39;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key41, num43);
                         var key42 = "_334_337";
                         var num44 = 40;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key42, num44);
                         var key43 = "Reinforcement";
                         var num45 = 41;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key43, num45);
                         var key44 = "NoS";
                         var num46 = 42;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key44, num46);
                         var key45 = "BHP";
                         var num47 = 43;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key45, num47);
                         var key46 = "Grip";
                         var num48 = 44;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key46, num48);
                         var key47 = "Weight";
                         var num49 = 45;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key47, num49);
                         Dictionaries.dictionary_3 = dictionary;
                     }
                     int num50;
-                    // ISSUE: explicit non-virtual call
+                    
                     if ((Dictionaries.dictionary_3.TryGetValue(key1, out num50)))
                     {
                         switch (num50)
@@ -3476,64 +3475,64 @@ namespace GT5_Garage_Editor
                         var dictionary = new Dictionary<string, int>(14);
                         var key2 = "Body/Chassis";
                         var num4 = 0;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key2, num4);
                         var key3 = "Engine";
                         var num5 = 1;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key3, num5);
                         var key4 = "Intake/Exhaust";
                         var num6 = 2;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key4, num6);
                         var key5 = "Turbo Kit";
                         var num7 = 3;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key5, num7);
                         var key6 = "Transmission";
                         var num8 = 4;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key6, num8);
                         var key7 = "Drivetrain";
                         var num9 = 5;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key7, num9);
                         var key8 = "Suspension";
                         var num10 = 6;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key8, num10);
                         var key9 = "Brakes";
                         var num11 = 7;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key9, num11);
                         var key10 = "Comfort Tires";
                         var num12 = 8;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key10, num12);
                         var key11 = "Sports Tires";
                         var num13 = 9;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key11, num13);
                         var key12 = "Racing Tires";
                         var num14 = 10;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key12, num14);
                         var key13 = "Special Tires";
                         var num15 = 11;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key13, num15);
                         var key14 = "Others";
                         var num16 = 12;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key14, num16);
                         var key15 = "Horns";
                         var num17 = 13;
-                        // ISSUE: explicit non-virtual call
+                        
                         dictionary.Add(key15, num17);
                         Dictionaries.dictionary_4 = dictionary;
                     }
                     int num18;
-                    // ISSUE: explicit non-virtual call
+                    
                     if ((Dictionaries.dictionary_4.TryGetValue(key1, out num18)))
                     {
                         switch (num18)
@@ -3818,11 +3817,11 @@ namespace GT5_Garage_Editor
             LoadCarSheet(_char0);
             var byte_3 = new byte[679];
             if (_char0.Equals('a'))
-                byte_3 = _currentCar.GetBlob1().GetBlob();
+                byte_3 = _currentCar.GetBlob1().FullBlob();
             if (_char0.Equals('b'))
-                byte_3 = _currentCar.GetBlob2().GetBlob();
+                byte_3 = _currentCar.GetBlob2().FullBlob();
             if (_char0.Equals('c'))
-                byte_3 = _currentCar.GetBlob3().GetBlob();
+                byte_3 = _currentCar.GetBlob3().FullBlob();
             method_9(ref dataGridView_Dest, ref byte_3);
             if (tabControl_garage.SelectedIndex == tabControl_garage.TabPages.IndexOf(tabPage_garage))
             {
@@ -3832,7 +3831,7 @@ namespace GT5_Garage_Editor
                 LoadCurrentCarDetails();
             }
             else
-                _currentCar.UpdateBlob1(new CarParameterBlob(_currentCar.GetBlob1().GetBlob()));
+                _currentCar.UpdateBlob1(new CarParameterBlob(_currentCar.GetBlob1().FullBlob()));
         }
 
         public bool IsNumeric(string string_4)

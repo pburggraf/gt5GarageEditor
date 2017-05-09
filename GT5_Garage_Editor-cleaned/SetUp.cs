@@ -6,6 +6,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using GT5_Garage_Editor.Models.CarModels;
 
@@ -120,19 +121,19 @@ namespace GT5_Garage_Editor
         private Label label37;
         private Timer timer_0;
         private Graphics graphics_0;
-        private Car gclass0_0;
-        private CarParameterBlob gclass1_0;
-        private CarParameterBlob gclass1_1;
-        private CarParameterBlob gclass1_2;
+        private Car _currentCar;
+        private CarParameterBlob _blob1;
+        private CarParameterBlob _blob2;
+        private CarParameterBlob _blob3;
         private IContainer components;
         private byte byte_0;
 
-        public SetUp(Car gclass0_1)
+        public SetUp(Car car)
         {
-            method_1(gclass0_1);
-            method_3(gclass0_1.GetBlob1());
-            method_5(gclass0_1.GetBlob2());
-            method_7(gclass0_1.GetBlob3());
+            method_1(car);
+            method_3(car.GetBlob1());
+            method_5(car.GetBlob2());
+            method_7(car.GetBlob3());
             InitializeComponent();
             pictureBox_gear.Image = new Bitmap(pictureBox_gear.Width, pictureBox_gear.Height);
             graphics_0 = Graphics.FromImage(pictureBox_gear.Image);
@@ -1327,42 +1328,42 @@ namespace GT5_Garage_Editor
 
         private Car method_0()
         {
-            return gclass0_0;
+            return _currentCar;
         }
 
         private void method_1(Car gclass0_1)
         {
-            gclass0_0 = gclass0_1;
+            _currentCar = gclass0_1;
         }
 
         public CarParameterBlob method_2()
         {
-            return gclass1_0;
+            return _blob1;
         }
 
         public void method_3(CarParameterBlob gclass1_3)
         {
-            gclass1_0 = gclass1_3;
+            _blob1 = gclass1_3;
         }
 
         public CarParameterBlob method_4()
         {
-            return gclass1_1;
+            return _blob2;
         }
 
         public void method_5(CarParameterBlob gclass1_3)
         {
-            gclass1_1 = gclass1_3;
+            _blob2 = gclass1_3;
         }
 
         public CarParameterBlob method_6()
         {
-            return gclass1_2;
+            return _blob3;
         }
 
         public void method_7(CarParameterBlob gclass1_3)
         {
-            gclass1_2 = gclass1_3;
+            _blob3 = gclass1_3;
         }
 
         private byte method_8()
@@ -1375,124 +1376,124 @@ namespace GT5_Garage_Editor
             byte_0 = byte_1;
         }
 
-        public void method_10(CarParameterBlob gclass1_3)
+        public void method_10(CarParameterBlob blob)
         {
             try
             {
-                tb_rev.Text = gclass1_3.method_20().ToString();
-                tb_1.Text = gclass1_3.method_22().ToString();
-                tb_2.Text = gclass1_3.method_24().ToString();
-                tb_3.Text = gclass1_3.method_26().ToString();
-                tb_4.Text = gclass1_3.method_28().ToString();
-                tb_5.Text = gclass1_3.method_30().ToString();
-                tb_6.Text = gclass1_3.method_32().ToString();
-                tb_7.Text = gclass1_3.method_34().ToString();
-                tb_8.Text = gclass1_3.method_36().ToString();
-                tb_9.Text = gclass1_3.method_38().ToString();
-                tb_10.Text = gclass1_3.method_40().ToString();
-                tb_11.Text = gclass1_3.method_42().ToString();
-                tb_final.Text = gclass1_3.method_44().ToString();
-                tb_metres.Text = gclass1_3.method_2().ToString();
-                tb_oil.Text = gclass1_3.method_6().ToString();
-                tb_wash.Text = gclass1_3.method_4().ToString();
-                tb_changes.Text = gclass1_3.method_8().ToString();
-                tb_wins.Text = gclass1_3.method_10().ToString();
-                tb_camberf.Text = gclass1_3.method_52().ToString();
-                tb_camberr.Text = gclass1_3.method_54().ToString();
-                tb_rhf.Text = gclass1_3.method_56().ToString();
-                tb_rhr.Text = gclass1_3.method_58().ToString();
-                tb_toef.Text = gclass1_3.method_60().ToString();
-                tb_toer.Text = gclass1_3.method_62().ToString();
-                tb_springf.Text = gclass1_3.method_64().ToString();
-                tb_springr.Text = gclass1_3.method_66().ToString();
-                tb_arbf.Text = gclass1_3.method_76().ToString();
-                tb_arbr.Text = gclass1_3.method_78().ToString();
-                tb_extf.Text = gclass1_3.method_68().ToString();
-                tb_extr.Text = gclass1_3.method_72().ToString();
-                tb_compf.Text = gclass1_3.method_70().ToString();
-                tb_compr.Text = gclass1_3.method_74().ToString();
-                tb_lsdinitf.Text = gclass1_3.method_80().ToString();
-                tb_lsdinitr.Text = gclass1_3.method_82().ToString();
-                tb_lsdaccf.Text = gclass1_3.method_84().ToString();
-                tb_lsdaccr.Text = gclass1_3.method_86().ToString();
-                tb_lsddecf.Text = gclass1_3.method_88().ToString();
-                tb_lsddecr.Text = gclass1_3.method_90().ToString();
-                tb_frTorque.Text = gclass1_3.method_46().ToString();
-                tb_ballastkg.Text = gclass1_3.method_92().ToString();
-                tb_ballastPos.Text = gclass1_3.method_94().ToString();
-                tb_BBf.Text = gclass1_3.method_96().ToString();
-                tb_BBr.Text = gclass1_3.method_98().ToString();
-                tb_DFf.Text = gclass1_3.method_48().ToString();
-                tb_DFr.Text = gclass1_3.method_50().ToString();
-                tb_grip.Text = gclass1_3.method_112().ToString();
-                tb_weight.Text = gclass1_3.method_114().ToString();
-                tb_bhp.Text = gclass1_3.method_110().ToString();
-                tb_frRim.Text = gclass1_3.method_106().ToString();
-                tb_RrRim.Text = gclass1_3.method_108().ToString();
-                tb_FrTyre.Text = gclass1_3.method_16().ToString();
-                tb_RrTyre.Text = gclass1_3.method_18().ToString();
+                tb_rev.Text = blob.GearRev().ToString(CultureInfo.InvariantCulture);
+                tb_1.Text = blob.G1().ToString(CultureInfo.InvariantCulture);
+                tb_2.Text = blob.G2().ToString(CultureInfo.InvariantCulture);
+                tb_3.Text = blob.G3().ToString(CultureInfo.InvariantCulture);
+                tb_4.Text = blob.G4().ToString(CultureInfo.InvariantCulture);
+                tb_5.Text = blob.G5().ToString(CultureInfo.InvariantCulture);
+                tb_6.Text = blob.G6().ToString(CultureInfo.InvariantCulture);
+                tb_7.Text = blob.G7().ToString(CultureInfo.InvariantCulture);
+                tb_8.Text = blob.G8().ToString(CultureInfo.InvariantCulture);
+                tb_9.Text = blob.G9().ToString(CultureInfo.InvariantCulture);
+                tb_10.Text = blob.G10().ToString(CultureInfo.InvariantCulture);
+                tb_11.Text = blob.G11().ToString(CultureInfo.InvariantCulture);
+                tb_final.Text = blob.GFinal().ToString(CultureInfo.InvariantCulture);
+                tb_metres.Text = blob.Metres().ToString(CultureInfo.InvariantCulture);
+                tb_oil.Text = blob.Oil().ToString(CultureInfo.InvariantCulture);
+                tb_wash.Text = blob.Wash().ToString(CultureInfo.InvariantCulture);
+                tb_changes.Text = blob.Changes().ToString(CultureInfo.InvariantCulture);
+                tb_wins.Text = blob.Wins().ToString(CultureInfo.InvariantCulture);
+                tb_camberf.Text = blob.CamberFront().ToString(CultureInfo.InvariantCulture);
+                tb_camberr.Text = blob.CamberR().ToString(CultureInfo.InvariantCulture);
+                tb_rhf.Text = blob.RideHeightF().ToString(CultureInfo.InvariantCulture);
+                tb_rhr.Text = blob.RideHeightR().ToString(CultureInfo.InvariantCulture);
+                tb_toef.Text = blob.ToeF().ToString(CultureInfo.InvariantCulture);
+                tb_toer.Text = blob.ToeR().ToString(CultureInfo.InvariantCulture);
+                tb_springf.Text = blob.SpringF().ToString(CultureInfo.InvariantCulture);
+                tb_springr.Text = blob.SpringR().ToString(CultureInfo.InvariantCulture);
+                tb_arbf.Text = blob.AntiRollBarF().ToString(CultureInfo.InvariantCulture);
+                tb_arbr.Text = blob.AntiRollBarR().ToString(CultureInfo.InvariantCulture);
+                tb_extf.Text = blob.ExtenF().ToString(CultureInfo.InvariantCulture);
+                tb_extr.Text = blob.ExtenR().ToString(CultureInfo.InvariantCulture);
+                tb_compf.Text = blob.CompF().ToString(CultureInfo.InvariantCulture);
+                tb_compr.Text = blob.CompR().ToString(CultureInfo.InvariantCulture);
+                tb_lsdinitf.Text = blob.LSDInitF().ToString(CultureInfo.InvariantCulture);
+                tb_lsdinitr.Text = blob.LSDInitR().ToString(CultureInfo.InvariantCulture);
+                tb_lsdaccf.Text = blob.LSDAccF().ToString(CultureInfo.InvariantCulture);
+                tb_lsdaccr.Text = blob.LSDAccR().ToString(CultureInfo.InvariantCulture);
+                tb_lsddecf.Text = blob.LSDDecF().ToString(CultureInfo.InvariantCulture);
+                tb_lsddecr.Text = blob.LSDDecR().ToString(CultureInfo.InvariantCulture);
+                tb_frTorque.Text = blob.FrTorque().ToString(CultureInfo.InvariantCulture);
+                tb_ballastkg.Text = blob.BallastKg().ToString(CultureInfo.InvariantCulture);
+                tb_ballastPos.Text = blob.BallastPos().ToString(CultureInfo.InvariantCulture);
+                tb_BBf.Text = blob.BBF().ToString(CultureInfo.InvariantCulture);
+                tb_BBr.Text = blob.BBR().ToString(CultureInfo.InvariantCulture);
+                tb_DFf.Text = blob.DfF().ToString(CultureInfo.InvariantCulture);
+                tb_DFr.Text = blob.DfR().ToString(CultureInfo.InvariantCulture);
+                tb_grip.Text = blob.Grip().ToString(CultureInfo.InvariantCulture);
+                tb_weight.Text = blob.Weight().ToString(CultureInfo.InvariantCulture);
+                tb_bhp.Text = blob.Bhp().ToString(CultureInfo.InvariantCulture);
+                tb_frRim.Text = blob.FrRim().ToString(CultureInfo.InvariantCulture);
+                tb_RrRim.Text = blob.RrRim().ToString(CultureInfo.InvariantCulture);
+                tb_FrTyre.Text = blob.FrTyre().ToString(CultureInfo.InvariantCulture);
+                tb_RrTyre.Text = blob.RrTyre().ToString(CultureInfo.InvariantCulture);
             }
-            catch
+            catch (Exception)
             {
             }
         }
 
-        public void method_11(CarParameterBlob gclass1_3)
+        public void method_11(CarParameterBlob blob)
         {
             try
             {
-                gclass1_3.method_21(uint.Parse(tb_rev.Text));
-                gclass1_3.method_23(uint.Parse(tb_1.Text));
-                gclass1_3.method_25(uint.Parse(tb_2.Text));
-                gclass1_3.method_27(uint.Parse(tb_3.Text));
-                gclass1_3.method_29(uint.Parse(tb_4.Text));
-                gclass1_3.method_31(uint.Parse(tb_5.Text));
-                gclass1_3.method_33(uint.Parse(tb_6.Text));
-                gclass1_3.method_35(uint.Parse(tb_7.Text));
-                gclass1_3.method_37(uint.Parse(tb_8.Text));
-                gclass1_3.method_39(uint.Parse(tb_9.Text));
-                gclass1_3.method_41(uint.Parse(tb_10.Text));
-                gclass1_3.method_43(uint.Parse(tb_11.Text));
-                gclass1_3.method_45(uint.Parse(tb_final.Text));
-                gclass1_3.method_3(uint.Parse(tb_metres.Text));
-                gclass1_3.method_7(uint.Parse(tb_oil.Text));
-                gclass1_3.method_5(uint.Parse(tb_wash.Text));
-                gclass1_3.method_9(uint.Parse(tb_changes.Text));
-                gclass1_3.method_11(uint.Parse(tb_wins.Text));
-                gclass1_3.method_53(byte.Parse(tb_camberf.Text));
-                gclass1_3.method_55(byte.Parse(tb_camberr.Text));
-                gclass1_3.method_57(uint.Parse(tb_rhf.Text));
-                gclass1_3.method_59(uint.Parse(tb_rhr.Text));
-                gclass1_3.method_49(byte.Parse(tb_DFf.Text));
-                gclass1_3.method_51(byte.Parse(tb_DFr.Text));
-                gclass1_3.method_61(sbyte.Parse(tb_toef.Text));
-                gclass1_3.method_63(sbyte.Parse(tb_toer.Text));
-                gclass1_3.method_65(byte.Parse(tb_springf.Text));
-                gclass1_3.method_67(byte.Parse(tb_springr.Text));
-                gclass1_3.method_77(byte.Parse(tb_arbf.Text));
-                gclass1_3.method_79(byte.Parse(tb_arbr.Text));
-                gclass1_3.method_71(byte.Parse(tb_compf.Text));
-                gclass1_3.method_75(byte.Parse(tb_compr.Text));
-                gclass1_3.method_69(byte.Parse(tb_extf.Text));
-                gclass1_3.method_73(byte.Parse(tb_extr.Text));
-                gclass1_3.method_81(byte.Parse(tb_lsdinitf.Text));
-                gclass1_3.method_83(byte.Parse(tb_lsdinitr.Text));
-                gclass1_3.method_85(byte.Parse(tb_lsdaccf.Text));
-                gclass1_3.method_87(byte.Parse(tb_lsdaccr.Text));
-                gclass1_3.method_89(byte.Parse(tb_lsddecf.Text));
-                gclass1_3.method_91(byte.Parse(tb_lsddecr.Text));
-                gclass1_3.method_47(byte.Parse(tb_frTorque.Text));
-                gclass1_3.method_93(byte.Parse(tb_ballastkg.Text));
-                gclass1_3.method_95(sbyte.Parse(tb_ballastPos.Text));
-                gclass1_3.method_97(byte.Parse(tb_BBf.Text));
-                gclass1_3.method_99(byte.Parse(tb_BBr.Text));
-                gclass1_3.method_113(byte.Parse(tb_grip.Text));
-                gclass1_3.method_111(byte.Parse(tb_bhp.Text));
-                gclass1_3.method_115(byte.Parse(tb_weight.Text));
-                gclass1_3.method_17(byte.Parse(tb_FrTyre.Text));
-                gclass1_3.method_19(byte.Parse(tb_RrTyre.Text));
-                gclass1_3.method_107(byte.Parse(tb_frRim.Text));
-                gclass1_3.method_109(byte.Parse(tb_RrRim.Text));
+                blob.GearRev(uint.Parse(tb_rev.Text));
+                blob.G1(uint.Parse(tb_1.Text));
+                blob.method_25(uint.Parse(tb_2.Text));
+                blob.method_27(uint.Parse(tb_3.Text));
+                blob.G4(uint.Parse(tb_4.Text));
+                blob.G5(uint.Parse(tb_5.Text));
+                blob.G6(uint.Parse(tb_6.Text));
+                blob.G7(uint.Parse(tb_7.Text));
+                blob.method_37(uint.Parse(tb_8.Text));
+                blob.G9(uint.Parse(tb_9.Text));
+                blob.G10(uint.Parse(tb_10.Text));
+                blob.G11(uint.Parse(tb_11.Text));
+                blob.GFinal(uint.Parse(tb_final.Text));
+                blob.Metres(uint.Parse(tb_metres.Text));
+                blob.Oil(uint.Parse(tb_oil.Text));
+                blob.Wash(uint.Parse(tb_wash.Text));
+                blob.Changes(uint.Parse(tb_changes.Text));
+                blob.Wins(uint.Parse(tb_wins.Text));
+                blob.CamberFront(byte.Parse(tb_camberf.Text));
+                blob.CamberR(byte.Parse(tb_camberr.Text));
+                blob.RideHeightF(uint.Parse(tb_rhf.Text));
+                blob.RideHeightR(uint.Parse(tb_rhr.Text));
+                blob.DfF(byte.Parse(tb_DFf.Text));
+                blob.DfR(byte.Parse(tb_DFr.Text));
+                blob.ToeF(sbyte.Parse(tb_toef.Text));
+                blob.ToeR(sbyte.Parse(tb_toer.Text));
+                blob.method_65(byte.Parse(tb_springf.Text));
+                blob.method_67(byte.Parse(tb_springr.Text));
+                blob.method_77(byte.Parse(tb_arbf.Text));
+                blob.method_79(byte.Parse(tb_arbr.Text));
+                blob.method_71(byte.Parse(tb_compf.Text));
+                blob.method_75(byte.Parse(tb_compr.Text));
+                blob.method_69(byte.Parse(tb_extf.Text));
+                blob.method_73(byte.Parse(tb_extr.Text));
+                blob.method_81(byte.Parse(tb_lsdinitf.Text));
+                blob.method_83(byte.Parse(tb_lsdinitr.Text));
+                blob.method_85(byte.Parse(tb_lsdaccf.Text));
+                blob.method_87(byte.Parse(tb_lsdaccr.Text));
+                blob.method_89(byte.Parse(tb_lsddecf.Text));
+                blob.method_91(byte.Parse(tb_lsddecr.Text));
+                blob.FrTorque(byte.Parse(tb_frTorque.Text));
+                blob.method_93(byte.Parse(tb_ballastkg.Text));
+                blob.method_95(sbyte.Parse(tb_ballastPos.Text));
+                blob.method_97(byte.Parse(tb_BBf.Text));
+                blob.method_99(byte.Parse(tb_BBr.Text));
+                blob.method_113(byte.Parse(tb_grip.Text));
+                blob.method_111(byte.Parse(tb_bhp.Text));
+                blob.method_115(byte.Parse(tb_weight.Text));
+                blob.FrTyre(byte.Parse(tb_FrTyre.Text));
+                blob.RrTyre(byte.Parse(tb_RrTyre.Text));
+                blob.method_107(byte.Parse(tb_frRim.Text));
+                blob.method_109(byte.Parse(tb_RrRim.Text));
             }
             catch
             {
@@ -1529,18 +1530,18 @@ namespace GT5_Garage_Editor
 
         public static void smethod_3(byte[] byte_1, CarParameterBlob gclass1_3)
         {
-            smethod_2(byte_1, 37U, 4U, gclass1_3.method_2());
-            smethod_2(byte_1, 41U, 4U, gclass1_3.method_4());
-            smethod_2(byte_1, 49U, 4U, gclass1_3.method_6());
-            smethod_2(byte_1, 65U, 2U, gclass1_3.method_8());
-            smethod_2(byte_1, 67U, 2U, gclass1_3.method_10());
+            smethod_2(byte_1, 37U, 4U, gclass1_3.Metres());
+            smethod_2(byte_1, 41U, 4U, gclass1_3.Wash());
+            smethod_2(byte_1, 49U, 4U, gclass1_3.Oil());
+            smethod_2(byte_1, 65U, 2U, gclass1_3.Changes());
+            smethod_2(byte_1, 67U, 2U, gclass1_3.Wins());
             smethod_2(byte_1, 77U, 4U, gclass1_3.Paint());
             smethod_2(byte_1, 157U, 4U, gclass1_3.Body());
             smethod_0(byte_1, 169U, gclass1_3.Colour());
-            smethod_0(byte_1, 173U, gclass1_3.method_106());
-            smethod_0(byte_1, 177U, gclass1_3.method_108());
-            smethod_0(byte_1, 185U, gclass1_3.method_16());
-            smethod_0(byte_1, 193U, gclass1_3.method_18());
+            smethod_0(byte_1, 173U, gclass1_3.FrRim());
+            smethod_0(byte_1, 177U, gclass1_3.RrRim());
+            smethod_0(byte_1, 185U, gclass1_3.FrTyre());
+            smethod_0(byte_1, 193U, gclass1_3.RrTyre());
             smethod_2(byte_1, 194U, 4U, gclass1_3.Brakes());
             smethod_2(byte_1, 198U, 4U, gclass1_3._198_201());
             smethod_2(byte_1, 202U, 4U, gclass1_3.Chassis());
@@ -1579,53 +1580,53 @@ namespace GT5_Garage_Editor
             smethod_2(byte_1, 334U, 4U, gclass1_3.method_188());
             smethod_2(byte_1, 338U, 4U, gclass1_3.Reinforcement());
             smethod_2(byte_1, 342U, 4U, gclass1_3.Nos());
-            smethod_2(byte_1, 346U, 2U, gclass1_3.method_20());
-            smethod_2(byte_1, 348U, 2U, gclass1_3.method_22());
-            smethod_2(byte_1, 350U, 2U, gclass1_3.method_24());
-            smethod_2(byte_1, 352U, 2U, gclass1_3.method_26());
-            smethod_2(byte_1, 354U, 2U, gclass1_3.method_28());
-            smethod_2(byte_1, 356U, 2U, gclass1_3.method_30());
-            smethod_2(byte_1, 358U, 2U, gclass1_3.method_32());
-            smethod_2(byte_1, 360U, 2U, gclass1_3.method_34());
-            smethod_2(byte_1, 362U, 2U, gclass1_3.method_36());
-            smethod_2(byte_1, 364U, 2U, gclass1_3.method_38());
-            smethod_2(byte_1, 366U, 2U, gclass1_3.method_40());
-            smethod_2(byte_1, 368U, 2U, gclass1_3.method_42());
-            smethod_2(byte_1, 370U, 2U, gclass1_3.method_44());
-            smethod_0(byte_1, 375U, gclass1_3.method_46());
-            smethod_0(byte_1, 378U, gclass1_3.method_48());
-            smethod_0(byte_1, 379U, gclass1_3.method_50());
-            smethod_0(byte_1, 386U, gclass1_3.method_52());
-            smethod_0(byte_1, 387U, gclass1_3.method_54());
-            smethod_2(byte_1, 388U, 2U, gclass1_3.method_56());
-            smethod_2(byte_1, 390U, 2U, gclass1_3.method_58());
-            smethod_1(byte_1, 392U, gclass1_3.method_60());
-            smethod_1(byte_1, 393U, gclass1_3.method_62());
-            smethod_0(byte_1, 394U, gclass1_3.method_64());
-            smethod_0(byte_1, 395U, gclass1_3.method_66());
-            smethod_0(byte_1, 398U, gclass1_3.method_68());
-            smethod_0(byte_1, 399U, gclass1_3.method_68());
-            smethod_0(byte_1, 400U, gclass1_3.method_70());
-            smethod_0(byte_1, 401U, gclass1_3.method_70());
-            smethod_0(byte_1, 402U, gclass1_3.method_72());
-            smethod_0(byte_1, 403U, gclass1_3.method_72());
-            smethod_0(byte_1, 404U, gclass1_3.method_74());
-            smethod_0(byte_1, 405U, gclass1_3.method_74());
-            smethod_0(byte_1, 406U, gclass1_3.method_76());
-            smethod_0(byte_1, 407U, gclass1_3.method_78());
-            smethod_0(byte_1, 408U, gclass1_3.method_80());
-            smethod_0(byte_1, 409U, gclass1_3.method_82());
-            smethod_0(byte_1, 410U, gclass1_3.method_84());
-            smethod_0(byte_1, 411U, gclass1_3.method_86());
-            smethod_0(byte_1, 412U, gclass1_3.method_88());
-            smethod_0(byte_1, 413U, gclass1_3.method_90());
-            smethod_0(byte_1, 419U, gclass1_3.method_92());
-            smethod_1(byte_1, 420U, gclass1_3.method_94());
-            smethod_0(byte_1, 431U, gclass1_3.method_112());
-            smethod_0(byte_1, 432U, gclass1_3.method_96());
-            smethod_0(byte_1, 433U, gclass1_3.method_98());
-            smethod_0(byte_1, 422U, gclass1_3.method_110());
-            smethod_0(byte_1, 425U, gclass1_3.method_114());
+            smethod_2(byte_1, 346U, 2U, gclass1_3.GearRev());
+            smethod_2(byte_1, 348U, 2U, gclass1_3.G1());
+            smethod_2(byte_1, 350U, 2U, gclass1_3.G2());
+            smethod_2(byte_1, 352U, 2U, gclass1_3.G3());
+            smethod_2(byte_1, 354U, 2U, gclass1_3.G4());
+            smethod_2(byte_1, 356U, 2U, gclass1_3.G5());
+            smethod_2(byte_1, 358U, 2U, gclass1_3.G6());
+            smethod_2(byte_1, 360U, 2U, gclass1_3.G7());
+            smethod_2(byte_1, 362U, 2U, gclass1_3.G8());
+            smethod_2(byte_1, 364U, 2U, gclass1_3.G9());
+            smethod_2(byte_1, 366U, 2U, gclass1_3.G10());
+            smethod_2(byte_1, 368U, 2U, gclass1_3.G11());
+            smethod_2(byte_1, 370U, 2U, gclass1_3.GFinal());
+            smethod_0(byte_1, 375U, gclass1_3.FrTorque());
+            smethod_0(byte_1, 378U, gclass1_3.DfF());
+            smethod_0(byte_1, 379U, gclass1_3.DfR());
+            smethod_0(byte_1, 386U, gclass1_3.CamberFront());
+            smethod_0(byte_1, 387U, gclass1_3.CamberR());
+            smethod_2(byte_1, 388U, 2U, gclass1_3.RideHeightF());
+            smethod_2(byte_1, 390U, 2U, gclass1_3.RideHeightR());
+            smethod_1(byte_1, 392U, gclass1_3.ToeF());
+            smethod_1(byte_1, 393U, gclass1_3.ToeR());
+            smethod_0(byte_1, 394U, gclass1_3.SpringF());
+            smethod_0(byte_1, 395U, gclass1_3.SpringR());
+            smethod_0(byte_1, 398U, gclass1_3.ExtenF());
+            smethod_0(byte_1, 399U, gclass1_3.ExtenF());
+            smethod_0(byte_1, 400U, gclass1_3.CompF());
+            smethod_0(byte_1, 401U, gclass1_3.CompF());
+            smethod_0(byte_1, 402U, gclass1_3.ExtenR());
+            smethod_0(byte_1, 403U, gclass1_3.ExtenR());
+            smethod_0(byte_1, 404U, gclass1_3.CompR());
+            smethod_0(byte_1, 405U, gclass1_3.CompR());
+            smethod_0(byte_1, 406U, gclass1_3.AntiRollBarF());
+            smethod_0(byte_1, 407U, gclass1_3.AntiRollBarR());
+            smethod_0(byte_1, 408U, gclass1_3.LSDInitF());
+            smethod_0(byte_1, 409U, gclass1_3.LSDInitR());
+            smethod_0(byte_1, 410U, gclass1_3.LSDAccF());
+            smethod_0(byte_1, 411U, gclass1_3.LSDAccR());
+            smethod_0(byte_1, 412U, gclass1_3.LSDDecF());
+            smethod_0(byte_1, 413U, gclass1_3.LSDDecR());
+            smethod_0(byte_1, 419U, gclass1_3.BallastKg());
+            smethod_1(byte_1, 420U, gclass1_3.BallastPos());
+            smethod_0(byte_1, 431U, gclass1_3.Grip());
+            smethod_0(byte_1, 432U, gclass1_3.BBF());
+            smethod_0(byte_1, 433U, gclass1_3.BBR());
+            smethod_0(byte_1, 422U, gclass1_3.Bhp());
+            smethod_0(byte_1, 425U, gclass1_3.Weight());
             smethod_2(byte_1, 94U, 4U, uint.MaxValue);
             smethod_2(byte_1, 98U, 2U, ushort.MaxValue);
             smethod_0(byte_1, 100U, byte.MaxValue);
@@ -1639,15 +1640,15 @@ namespace GT5_Garage_Editor
                 {
                     case 1:
                         method_11(method_2());
-                        smethod_3(method_2().GetBlob(), method_2());
+                        smethod_3(method_2().FullBlob(), method_2());
                         break;
                     case 2:
                         method_11(method_4());
-                        smethod_3(method_4().GetBlob(), method_4());
+                        smethod_3(method_4().FullBlob(), method_4());
                         break;
                     case 3:
                         method_11(method_6());
-                        smethod_3(method_6().GetBlob(), method_6());
+                        smethod_3(method_6().FullBlob(), method_6());
                         break;
                 }
                 Close();
@@ -1665,15 +1666,15 @@ namespace GT5_Garage_Editor
                 {
                     case 1:
                         method_11(method_2());
-                        smethod_3(method_2().GetBlob(), method_2());
+                        smethod_3(method_2().FullBlob(), method_2());
                         break;
                     case 2:
                         method_11(method_4());
-                        smethod_3(method_4().GetBlob(), method_4());
+                        smethod_3(method_4().FullBlob(), method_4());
                         break;
                     case 3:
                         method_11(method_6());
-                        smethod_3(method_6().GetBlob(), method_6());
+                        smethod_3(method_6().FullBlob(), method_6());
                         break;
                 }
                 if (radioButton_A.Checked)

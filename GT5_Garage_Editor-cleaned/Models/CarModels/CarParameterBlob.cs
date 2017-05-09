@@ -5,37 +5,37 @@ namespace GT5_Garage_Editor.Models.CarModels
     public sealed class CarParameterBlob
     {
         private byte[] _fullBlob;
-        private uint uint_0;
-        private uint uint_1;
-        private uint uint_2;
-        private uint uint_3;
-        private uint uint_4;
+        private uint _metres;
+        private uint _wash;
+        private uint _oil;
+        private uint _changes;
+        private uint _wins;
         private byte byte_1;
         private byte byte_2;
-        private byte byte_3;
-        private byte byte_4;
-        private uint uint_5;
-        private uint uint_6;
-        private uint uint_7;
-        private uint uint_8;
-        private uint uint_9;
-        private uint uint_10;
-        private uint uint_11;
-        private uint uint_12;
-        private uint uint_13;
-        private uint uint_14;
-        private uint uint_15;
-        private uint uint_16;
-        private uint uint_17;
-        private byte byte_5;
-        private byte byte_6;
-        private byte byte_7;
-        private byte byte_8;
-        private byte byte_9;
-        private uint uint_18;
-        private uint uint_19;
-        private sbyte sbyte_0;
-        private sbyte sbyte_1;
+        private byte _frTyre;
+        private byte _rrTyre;
+        private uint _gearRev;
+        private uint _g1;
+        private uint _g2;
+        private uint _g3;
+        private uint _g4;
+        private uint _g5;
+        private uint _g6;
+        private uint _g7;
+        private uint _g8;
+        private uint _g9;
+        private uint _g10;
+        private uint _g11;
+        private uint _gFinal;
+        private byte _frTorque;
+        private byte _dfF;
+        private byte _dfR;
+        private byte _camberFront;
+        private byte _camberR;
+        private uint _rideHeightF;
+        private uint _rideHeightR;
+        private sbyte _toeF;
+        private sbyte _toeR;
         private byte byte_10;
         private byte byte_11;
         private byte byte_12;
@@ -104,46 +104,46 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public CarParameterBlob()
         {
-            SetBlob(new byte[679]);
+            FullBlob(new byte[679]);
         }
 
         public CarParameterBlob(byte[] blob)
         {
-            SetBlob(new byte[679]);
-            Array.Copy(blob, GetBlob(), 679);
-            method_3(GetUInt(37U, 40U, blob));
-            method_5(GetUInt(41U, 44U, blob));
-            method_7(GetUInt(49U, 52U, blob));
-            method_9(GetUInt(65U, 66U, blob));
-            method_11(GetUInt(67U, 68U, blob));
+            FullBlob(new byte[679]);
+            Array.Copy(blob, FullBlob(), 679);
+            Metres(GetUInt(37U, 40U, blob));
+            Wash(GetUInt(41U, 44U, blob));
+            Oil(GetUInt(49U, 52U, blob));
+            Changes(GetUInt(65U, 66U, blob));
+            Wins(GetUInt(67U, 68U, blob));
             method_105(GetUInt(77U, 80U, blob));
             method_13(GetByte(183U, blob));
             method_15(GetByte(191U, blob));
-            method_17(GetByte(185U, blob));
-            method_19(GetByte(193U, blob));
+            FrTyre(GetByte(185U, blob));
+            RrTyre(GetByte(193U, blob));
             method_119(GetUInt(194U, 197U, blob));
-            method_21(GetUInt(346U, 347U, blob));
-            method_23(GetUInt(348U, 349U, blob));
+            GearRev(GetUInt(346U, 347U, blob));
+            G1(GetUInt(348U, 349U, blob));
             method_25(GetUInt(350U, 351U, blob));
             method_27(GetUInt(352U, 353U, blob));
-            method_29(GetUInt(354U, 355U, blob));
-            method_31(GetUInt(356U, 357U, blob));
-            method_33(GetUInt(358U, 359U, blob));
-            method_35(GetUInt(360U, 361U, blob));
+            G4(GetUInt(354U, 355U, blob));
+            G5(GetUInt(356U, 357U, blob));
+            G6(GetUInt(358U, 359U, blob));
+            G7(GetUInt(360U, 361U, blob));
             method_37(GetUInt(362U, 363U, blob));
-            method_39(GetUInt(364U, 365U, blob));
-            method_41(GetUInt(366U, 367U, blob));
-            method_43(GetUInt(368U, 369U, blob));
-            method_45(GetUInt(370U, 371U, blob));
-            method_47(GetByte(375U, blob));
-            method_49(GetByte(378U, blob));
-            method_51(GetByte(379U, blob));
-            method_53(GetByte(386U, blob));
-            method_55(GetByte(387U, blob));
-            method_57(GetUInt(388U, 389U, blob));
-            method_59(GetUInt(390U, 391U, blob));
-            method_61((sbyte) GetByte(392U, blob));
-            method_63((sbyte) GetByte(393U, blob));
+            G9(GetUInt(364U, 365U, blob));
+            G10(GetUInt(366U, 367U, blob));
+            G11(GetUInt(368U, 369U, blob));
+            GFinal(GetUInt(370U, 371U, blob));
+            FrTorque(GetByte(375U, blob));
+            DfF(GetByte(378U, blob));
+            DfR(GetByte(379U, blob));
+            CamberFront(GetByte(386U, blob));
+            CamberR(GetByte(387U, blob));
+            RideHeightF(GetUInt(388U, 389U, blob));
+            RideHeightR(GetUInt(390U, 391U, blob));
+            ToeF((sbyte) GetByte(392U, blob));
+            ToeR((sbyte) GetByte(393U, blob));
             method_65(GetByte(394U, blob));
             method_67(GetByte(395U, blob));
             method_69(GetByte(399U, blob));
@@ -216,64 +216,64 @@ namespace GT5_Garage_Editor.Models.CarModels
             method_109(GetByte(177U, blob));
         }
 
-        public byte[] GetBlob()
+        public byte[] FullBlob()
         {
             return _fullBlob;
         }
 
-        public void SetBlob(byte[] blob)
+        public void FullBlob(byte[] blob)
         {
             _fullBlob = blob;
         }
 
-        public uint method_2()
+        public uint Metres()
         {
-            return uint_0;
+            return _metres;
         }
 
-        public void method_3(uint uint_61)
+        public void Metres(uint val)
         {
-            uint_0 = uint_61;
+            _metres = val;
         }
 
-        public uint method_4()
+        public uint Wash()
         {
-            return uint_1;
+            return _wash;
         }
 
-        public void method_5(uint uint_61)
+        public void Wash(uint val)
         {
-            uint_1 = uint_61;
+            _wash = val;
         }
 
-        public uint method_6()
+        public uint Oil()
         {
-            return uint_2;
+            return _oil;
         }
 
-        public void method_7(uint uint_61)
+        public void Oil(uint val)
         {
-            uint_2 = uint_61;
+            _oil = val;
         }
 
-        public uint method_8()
+        public uint Changes()
         {
-            return uint_3;
+            return _changes;
         }
 
-        public void method_9(uint uint_61)
+        public void Changes(uint val)
         {
-            uint_3 = uint_61;
+            _changes = val;
         }
 
-        public uint method_10()
+        public uint Wins()
         {
-            return uint_4;
+            return _wins;
         }
 
-        public void method_11(uint uint_61)
+        public void Wins(uint val)
         {
-            uint_4 = uint_61;
+            _wins = val;
         }
 
         public byte method_12()
@@ -296,247 +296,247 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_2 = byte_33;
         }
 
-        public byte method_16()
+        public byte FrTyre()
         {
-            return byte_3;
+            return _frTyre;
         }
 
-        public void method_17(byte byte_33)
+        public void FrTyre(byte val)
         {
-            byte_3 = byte_33;
+            _frTyre = val;
         }
 
-        public byte method_18()
+        public byte RrTyre()
         {
-            return byte_4;
+            return _rrTyre;
         }
 
-        public void method_19(byte byte_33)
+        public void RrTyre(byte val)
         {
-            byte_4 = byte_33;
+            _rrTyre = val;
         }
 
-        public uint method_20()
+        public uint GearRev()
         {
-            return uint_5;
+            return _gearRev;
         }
 
-        public void method_21(uint uint_61)
+        public void GearRev(uint val)
         {
-            uint_5 = uint_61;
+            _gearRev = val;
         }
 
-        public uint method_22()
+        public uint G1()
         {
-            return uint_6;
+            return _g1;
         }
 
-        public void method_23(uint uint_61)
+        public void G1(uint val)
         {
-            uint_6 = uint_61;
+            _g1 = val;
         }
 
-        public uint method_24()
+        public uint G2()
         {
-            return uint_7;
+            return _g2;
         }
 
-        public void method_25(uint uint_61)
+        public void method_25(uint val)
         {
-            uint_7 = uint_61;
+            _g2 = val;
         }
 
-        public uint method_26()
+        public uint G3()
         {
-            return uint_8;
+            return _g3;
         }
 
-        public void method_27(uint uint_61)
+        public void method_27(uint val)
         {
-            uint_8 = uint_61;
+            _g3 = val;
         }
 
-        public uint method_28()
+        public uint G4()
         {
-            return uint_9;
+            return _g4;
         }
 
-        public void method_29(uint uint_61)
+        public void G4(uint val)
         {
-            uint_9 = uint_61;
+            _g4 = val;
         }
 
-        public uint method_30()
+        public uint G5()
         {
-            return uint_10;
+            return _g5;
         }
 
-        public void method_31(uint uint_61)
+        public void G5(uint val)
         {
-            uint_10 = uint_61;
+            _g5 = val;
         }
 
-        public uint method_32()
+        public uint G6()
         {
-            return uint_11;
+            return _g6;
         }
 
-        public void method_33(uint uint_61)
+        public void G6(uint val)
         {
-            uint_11 = uint_61;
+            _g6 = val;
         }
 
-        public uint method_34()
+        public uint G7()
         {
-            return uint_12;
+            return _g7;
         }
 
-        public void method_35(uint uint_61)
+        public void G7(uint val)
         {
-            uint_12 = uint_61;
+            _g7 = val;
         }
 
-        public uint method_36()
+        public uint G8()
         {
-            return uint_13;
+            return _g8;
         }
 
-        public void method_37(uint uint_61)
+        public void method_37(uint val)
         {
-            uint_13 = uint_61;
+            _g8 = val;
         }
 
-        public uint method_38()
+        public uint G9()
         {
-            return uint_14;
+            return _g9;
         }
 
-        public void method_39(uint uint_61)
+        public void G9(uint val)
         {
-            uint_14 = uint_61;
+            _g9 = val;
         }
 
-        public uint method_40()
+        public uint G10()
         {
-            return uint_15;
+            return _g10;
         }
 
-        public void method_41(uint uint_61)
+        public void G10(uint val)
         {
-            uint_15 = uint_61;
+            _g10 = val;
         }
 
-        public uint method_42()
+        public uint G11()
         {
-            return uint_16;
+            return _g11;
         }
 
-        public void method_43(uint uint_61)
+        public void G11(uint val)
         {
-            uint_16 = uint_61;
+            _g11 = val;
         }
 
-        public uint method_44()
+        public uint GFinal()
         {
-            return uint_17;
+            return _gFinal;
         }
 
-        public void method_45(uint uint_61)
+        public void GFinal(uint val)
         {
-            uint_17 = uint_61;
+            _gFinal = val;
         }
 
-        public byte method_46()
+        public byte FrTorque()
         {
-            return byte_5;
+            return _frTorque;
         }
 
-        public void method_47(byte byte_33)
+        public void FrTorque(byte val)
         {
-            byte_5 = byte_33;
+            _frTorque = val;
         }
 
-        public byte method_48()
+        public byte DfF()
         {
-            return byte_6;
+            return _dfF;
         }
 
-        public void method_49(byte byte_33)
+        public void DfF(byte val)
         {
-            byte_6 = byte_33;
+            _dfF = val;
         }
 
-        public byte method_50()
+        public byte DfR()
         {
-            return byte_7;
+            return _dfR;
         }
 
-        public void method_51(byte byte_33)
+        public void DfR(byte val)
         {
-            byte_7 = byte_33;
+            _dfR = val;
         }
 
-        public byte method_52()
+        public byte CamberFront()
         {
-            return byte_8;
+            return _camberFront;
         }
 
-        public void method_53(byte byte_33)
+        public void CamberFront(byte val)
         {
-            byte_8 = byte_33;
+            _camberFront = val;
         }
 
-        public byte method_54()
+        public byte CamberR()
         {
-            return byte_9;
+            return _camberR;
         }
 
-        public void method_55(byte byte_33)
+        public void CamberR(byte val)
         {
-            byte_9 = byte_33;
+            _camberR = val;
         }
 
-        public uint method_56()
+        public uint RideHeightF()
         {
-            return uint_18;
+            return _rideHeightF;
         }
 
-        public void method_57(uint uint_61)
+        public void RideHeightF(uint val)
         {
-            uint_18 = uint_61;
+            _rideHeightF = val;
         }
 
-        public uint method_58()
+        public uint RideHeightR()
         {
-            return uint_19;
+            return _rideHeightR;
         }
 
-        public void method_59(uint uint_61)
+        public void RideHeightR(uint val)
         {
-            uint_19 = uint_61;
+            _rideHeightR = val;
         }
 
-        public sbyte method_60()
+        public sbyte ToeF()
         {
-            return sbyte_0;
+            return _toeF;
         }
 
-        public void method_61(sbyte sbyte_3)
+        public void ToeF(sbyte val)
         {
-            sbyte_0 = sbyte_3;
+            _toeF = val;
         }
 
-        public sbyte method_62()
+        public sbyte ToeR()
         {
-            return sbyte_1;
+            return _toeR;
         }
 
-        public void method_63(sbyte sbyte_3)
+        public void ToeR(sbyte val)
         {
-            sbyte_1 = sbyte_3;
+            _toeR = val;
         }
 
-        public byte method_64()
+        public byte SpringF()
         {
             return byte_10;
         }
@@ -546,7 +546,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_10 = byte_33;
         }
 
-        public byte method_66()
+        public byte SpringR()
         {
             return byte_11;
         }
@@ -556,7 +556,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_11 = byte_33;
         }
 
-        public byte method_68()
+        public byte ExtenF()
         {
             return byte_12;
         }
@@ -566,7 +566,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_12 = byte_33;
         }
 
-        public byte method_70()
+        public byte CompF()
         {
             return byte_13;
         }
@@ -576,7 +576,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_13 = byte_33;
         }
 
-        public byte method_72()
+        public byte ExtenR()
         {
             return byte_14;
         }
@@ -586,7 +586,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_14 = byte_33;
         }
 
-        public byte method_74()
+        public byte CompR()
         {
             return byte_15;
         }
@@ -596,7 +596,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_15 = byte_33;
         }
 
-        public byte method_76()
+        public byte AntiRollBarF()
         {
             return byte_16;
         }
@@ -606,7 +606,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_16 = byte_33;
         }
 
-        public byte method_78()
+        public byte AntiRollBarR()
         {
             return byte_17;
         }
@@ -616,7 +616,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_17 = byte_33;
         }
 
-        public byte method_80()
+        public byte LSDInitF()
         {
             return byte_18;
         }
@@ -626,7 +626,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_18 = byte_33;
         }
 
-        public byte method_82()
+        public byte LSDInitR()
         {
             return byte_19;
         }
@@ -636,7 +636,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_19 = byte_33;
         }
 
-        public byte method_84()
+        public byte LSDAccF()
         {
             return byte_20;
         }
@@ -646,7 +646,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_20 = byte_33;
         }
 
-        public byte method_86()
+        public byte LSDAccR()
         {
             return byte_21;
         }
@@ -656,7 +656,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_21 = byte_33;
         }
 
-        public byte method_88()
+        public byte LSDDecF()
         {
             return byte_22;
         }
@@ -666,7 +666,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_22 = byte_33;
         }
 
-        public byte method_90()
+        public byte LSDDecR()
         {
             return byte_23;
         }
@@ -676,7 +676,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_23 = byte_33;
         }
 
-        public byte method_92()
+        public byte BallastKg()
         {
             return byte_24;
         }
@@ -686,7 +686,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_24 = byte_33;
         }
 
-        public sbyte method_94()
+        public sbyte BallastPos()
         {
             return sbyte_2;
         }
@@ -696,7 +696,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             sbyte_2 = sbyte_3;
         }
 
-        public byte method_96()
+        public byte BBF()
         {
             return byte_25;
         }
@@ -706,7 +706,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_25 = byte_33;
         }
 
-        public byte method_98()
+        public byte BBR()
         {
             return byte_26;
         }
@@ -746,7 +746,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_21 = uint_61;
         }
 
-        public byte method_106()
+        public byte FrRim()
         {
             return byte_28;
         }
@@ -756,7 +756,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_28 = byte_33;
         }
 
-        public byte method_108()
+        public byte RrRim()
         {
             return byte_29;
         }
@@ -766,7 +766,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_29 = byte_33;
         }
 
-        public byte method_110()
+        public byte Bhp()
         {
             return byte_30;
         }
@@ -776,7 +776,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_30 = byte_33;
         }
 
-        public byte method_112()
+        public byte Grip()
         {
             return byte_31;
         }
@@ -786,7 +786,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             byte_31 = byte_33;
         }
 
-        public byte method_114()
+        public byte Weight()
         {
             return byte_32;
         }
