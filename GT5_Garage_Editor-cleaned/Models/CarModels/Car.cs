@@ -38,33 +38,33 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public Car()
         {
-            InitCountry(string.Empty);
-            InitTuner(string.Empty);
-            InitDriveTrain(string.Empty);
-            InitPowerRpm(string.Empty);
-            InitNameJp(string.Empty);
-            InitNameEn(string.Empty);
-            InitGarageId(0U);
-            InitCarCode(0U);
-            InitColor(0U);
-            InitType(0U);
-            InitFav(0U);
-            InitYear(0U);
-            InitPower(0U);
-            InitPp(0);
-            InitMass(0U);
-            InitOnline(0U);
-            InitGrim(0U);
-            InitOdometer(0U);
-            InitRideCount(0U);
-            InitObtained(0UL);
-            InitAsp(0U);
-            InitPaint(0);
-            InitRidingOrder(0U);
-            InitSlot(0U);
-            InitInvalid(0U);
-            InitLength(0U);
-            InitCarCategory(0U);
+            Country(string.Empty);
+            Tuner(string.Empty);
+            DriveTrain(string.Empty);
+            PowerRpm(string.Empty);
+            NameJp(string.Empty);
+            NameEn(string.Empty);
+            GarageId(0U);
+            CarCode(0U);
+            Color(0U);
+            Type(0U);
+            Fav(0U);
+            Year(0U);
+            Power(0U);
+            Pp(0);
+            Mass(0U);
+            Online(0U);
+            Grim(0U);
+            Odometer(0U);
+            RideCount(0U);
+            Obtained(0UL);
+            Asp(0U);
+            Paint(0);
+            RidingOrder(0U);
+            Slot(0U);
+            Invalid(0U);
+            Length(0U);
+            CarCategory(0U);
             UpdateBlob1(new CarParameterBlob());
             UpdateBlob2(new CarParameterBlob());
             UpdateBlob3(new CarParameterBlob());
@@ -77,33 +77,33 @@ namespace GT5_Garage_Editor.Models.CarModels
                 UpdateBlob1(new CarParameterBlob((byte[])dt.Rows[0]["carparameter"]));
                 UpdateBlob2(new CarParameterBlob((byte[])dt.Rows[0]["carparameterB"]));
                 UpdateBlob3(new CarParameterBlob((byte[])dt.Rows[0]["carparameterC"]));
-                InitGarageId(uint.Parse(dt.Rows[0]["garage_id"].ToString()));
-                InitCarCode(uint.Parse(dt.Rows[0]["car_code"].ToString()));
-                InitColor(uint.Parse(dt.Rows[0]["color"].ToString()));
-                InitType(uint.Parse(dt.Rows[0]["type"].ToString()));
-                InitFav(uint.Parse(dt.Rows[0]["favorite"].ToString()));
-                InitYear(uint.Parse(dt.Rows[0]["year"].ToString()));
-                InitPower(uint.Parse(dt.Rows[0]["power"].ToString()));
-                InitPp(int.Parse(dt.Rows[0]["pp"].ToString()));
-                InitMass(uint.Parse(dt.Rows[0]["mass"].ToString()));
-                InitOnline(uint.Parse(dt.Rows[0]["online"].ToString()));
-                InitGrim(uint.Parse(dt.Rows[0]["grim_car_id"].ToString()));
-                InitOdometer(uint.Parse(dt.Rows[0]["odometer"].ToString()));
-                InitRideCount(uint.Parse(dt.Rows[0]["ride_count"].ToString()));
-                InitObtained(ulong.Parse(dt.Rows[0]["obtained_date"].ToString()));
-                InitAsp(uint.Parse(dt.Rows[0]["aspiration"].ToString()));
-                InitPaint(int.Parse(dt.Rows[0]["paint_color"].ToString()));
-                InitRidingOrder(uint.Parse(dt.Rows[0]["riding_order"].ToString()));
-                InitSlot(uint.Parse(dt.Rows[0]["slot_id"].ToString()));
-                InitInvalid(uint.Parse(dt.Rows[0]["invalid"].ToString()));
-                InitLength(uint.Parse(dt.Rows[0]["length"].ToString()));
-                InitCarCategory(uint.Parse(dt.Rows[0]["car_category"].ToString()));
-                InitCountry(dt.Rows[0]["country"].ToString());
-                InitTuner(dt.Rows[0]["tuner_label"].ToString());
-                InitDriveTrain(dt.Rows[0]["drive_train"].ToString());
-                InitPowerRpm(dt.Rows[0]["power_rpm"].ToString());
-                InitNameJp(dt.Rows[0]["name_JP"].ToString());
-                InitNameEn(dt.Rows[0]["name_EN"].ToString());
+                GarageId(uint.Parse(dt.Rows[0]["garage_id"].ToString()));
+                CarCode(uint.Parse(dt.Rows[0]["car_code"].ToString()));
+                Color(uint.Parse(dt.Rows[0]["color"].ToString()));
+                Type(uint.Parse(dt.Rows[0]["type"].ToString()));
+                Fav(uint.Parse(dt.Rows[0]["favorite"].ToString()));
+                Year(uint.Parse(dt.Rows[0]["year"].ToString()));
+                Power(uint.Parse(dt.Rows[0]["power"].ToString()));
+                Pp(int.Parse(dt.Rows[0]["pp"].ToString()));
+                Mass(uint.Parse(dt.Rows[0]["mass"].ToString()));
+                Online(uint.Parse(dt.Rows[0]["online"].ToString()));
+                Grim(uint.Parse(dt.Rows[0]["grim_car_id"].ToString()));
+                Odometer(uint.Parse(dt.Rows[0]["odometer"].ToString()));
+                RideCount(uint.Parse(dt.Rows[0]["ride_count"].ToString()));
+                Obtained(ulong.Parse(dt.Rows[0]["obtained_date"].ToString()));
+                Asp(uint.Parse(dt.Rows[0]["aspiration"].ToString()));
+                Paint(int.Parse(dt.Rows[0]["paint_color"].ToString()));
+                RidingOrder(uint.Parse(dt.Rows[0]["riding_order"].ToString()));
+                Slot(uint.Parse(dt.Rows[0]["slot_id"].ToString()));
+                Invalid(uint.Parse(dt.Rows[0]["invalid"].ToString()));
+                Length(uint.Parse(dt.Rows[0]["length"].ToString()));
+                CarCategory(uint.Parse(dt.Rows[0]["car_category"].ToString()));
+                Country(dt.Rows[0]["country"].ToString());
+                Tuner(dt.Rows[0]["tuner_label"].ToString());
+                DriveTrain(dt.Rows[0]["drive_train"].ToString());
+                PowerRpm(dt.Rows[0]["power_rpm"].ToString());
+                NameJp(dt.Rows[0]["name_JP"].ToString());
+                NameEn(dt.Rows[0]["name_EN"].ToString());
             }
             catch (Exception)
             {
@@ -116,7 +116,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _garageId;
         }
 
-        public void InitGarageId(uint id)
+        public void GarageId(uint id)
         {
             _garageId = id;
         }
@@ -126,7 +126,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _carCode;
         }
 
-        public void InitCarCode(uint code)
+        public void CarCode(uint code)
         {
             _carCode = code;
         }
@@ -136,7 +136,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _color;
         }
 
-        public void InitColor(uint color)
+        public void Color(uint color)
         {
             _color = color;
         }
@@ -146,7 +146,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _type;
         }
 
-        public void InitType(uint type)
+        public void Type(uint type)
         {
             _type = type;
         }
@@ -156,7 +156,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _fav;
         }
 
-        public void InitFav(uint fav)
+        public void Fav(uint fav)
         {
             _fav = fav;
         }
@@ -166,7 +166,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _year;
         }
 
-        public void InitYear(uint year)
+        public void Year(uint year)
         {
             _year = year;
         }
@@ -176,7 +176,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _power;
         }
 
-        public void InitPower(uint power)
+        public void Power(uint power)
         {
             _power = power;
         }
@@ -186,7 +186,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _pp;
         }
 
-        public void InitPp(int pp)
+        public void Pp(int pp)
         {
             _pp = pp;
         }
@@ -196,7 +196,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _mass;
         }
 
-        public void InitMass(uint mass)
+        public void Mass(uint mass)
         {
             _mass = mass;
         }
@@ -206,7 +206,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _online;
         }
 
-        public void InitOnline(uint online)
+        public void Online(uint online)
         {
             _online = online;
         }
@@ -216,7 +216,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _grim;
         }
 
-        public void InitGrim(uint grim)
+        public void Grim(uint grim)
         {
             _grim = grim;
         }
@@ -226,7 +226,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _odo;
         }
 
-        public void InitOdometer(uint odo)
+        public void Odometer(uint odo)
         {
             _odo = odo;
         }
@@ -236,7 +236,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _rideCount;
         }
 
-        public void InitRideCount(uint rCount)
+        public void RideCount(uint rCount)
         {
             _rideCount = rCount;
         }
@@ -246,7 +246,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _obtained;
         }
 
-        public void InitObtained(ulong obt)
+        public void Obtained(ulong obt)
         {
             _obtained = obt;
         }
@@ -256,7 +256,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _asp;
         }
 
-        public void InitAsp(uint asp)
+        public void Asp(uint asp)
         {
             _asp = asp;
         }
@@ -266,7 +266,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _paint;
         }
 
-        public void InitPaint(int paint)
+        public void Paint(int paint)
         {
             _paint = paint;
         }
@@ -276,7 +276,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _ridingOrder;
         }
 
-        public void InitRidingOrder(uint rOrder)
+        public void RidingOrder(uint rOrder)
         {
             _ridingOrder = rOrder;
         }
@@ -286,7 +286,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _slot;
         }
 
-        public void InitSlot(uint slot)
+        public void Slot(uint slot)
         {
             _slot = slot;
         }
@@ -296,7 +296,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _invalid;
         }
 
-        public void InitInvalid(uint invalid)
+        public void Invalid(uint invalid)
         {
             _invalid = invalid;
         }
@@ -306,7 +306,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _length;
         }
 
-        public void InitLength(uint len)
+        public void Length(uint len)
         {
             _length = len;
         }
@@ -316,7 +316,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _category;
         }
 
-        public void InitCarCategory(uint cat)
+        public void CarCategory(uint cat)
         {
             _category = cat;
         }
@@ -326,7 +326,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _country;
         }
 
-        public void InitCountry(string country)
+        public void Country(string country)
         {
             _country = country;
         }
@@ -336,7 +336,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _tuner;
         }
 
-        public void InitTuner(string tuner)
+        public void Tuner(string tuner)
         {
             _tuner = tuner;
         }
@@ -346,7 +346,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _dt;
         }
 
-        public void InitDriveTrain(string dt)
+        public void DriveTrain(string dt)
         {
             _dt = dt;
         }
@@ -356,7 +356,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _rpm;
         }
 
-        public void InitPowerRpm(string rpm)
+        public void PowerRpm(string rpm)
         {
             _rpm = rpm;
         }
@@ -366,7 +366,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _nameJp;
         }
 
-        public void InitNameJp(string nameJp)
+        public void NameJp(string nameJp)
         {
             _nameJp = nameJp;
         }
@@ -376,7 +376,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             return _nameEn;
         }
 
-        public void InitNameEn(string name)
+        public void NameEn(string name)
         {
             _nameEn = name;
         }
