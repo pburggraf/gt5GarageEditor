@@ -6,7 +6,7 @@ namespace GT5_Garage_Editor.Utils
     [StructLayout(LayoutKind.Auto, CharSet = CharSet.Auto)]
     internal static class ByteArrayComparer
     {
-        internal static bool smethod_0(byte[] array1, byte[] array2)
+        internal static bool AreByteArraysEquivalent(byte[] array1, byte[] array2)
         {
             if (array1 == null || array2 == null)
                 throw new ArgumentNullException();

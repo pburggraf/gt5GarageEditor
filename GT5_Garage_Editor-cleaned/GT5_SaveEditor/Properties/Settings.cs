@@ -1,9 +1,4 @@
-﻿// Type: GT5_SaveEditor.Properties.Settings
-// Assembly: GT5_Garage_Editor, Version=1.3.1.0, Culture=neutral, PublicKeyToken=null
-// MVID: DD0589A9-C36F-4C8C-A8E4-5B0E29CADD76
-// Assembly location: C:\Users\shalpin\Downloads\GT5_Garage_Editor_v131_slim355_q-k (2)\Release\GT5_Garage_Editor-cleaned.exe
-
-using System.CodeDom.Compiler;
+﻿using System.CodeDom.Compiler;
 using System.Configuration;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;

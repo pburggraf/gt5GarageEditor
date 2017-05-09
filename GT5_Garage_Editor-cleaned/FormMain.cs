@@ -23,7 +23,7 @@ namespace GT5_Garage_Editor
     public sealed partial class FormMain : Form
     {
         private static byte _numberOfFilesInSave = 0;
-        private static char currentSheet = 'a';
+        private static char _currentSheet = 'a';
         public static List<int> list_0 = new List<int>();
         public static List<int> list_1 = new List<int>();
         public static List<string> list_2 = new List<string>();
@@ -43,18 +43,18 @@ namespace GT5_Garage_Editor
         private Car _currentCar = new Car();
         private DataTable dataTable_9 = new DataTable();
         private string _pathToSave = string.Empty;
-        public string _pathToGT5PointZero = string.Empty;
+        public string _pathToPddb = string.Empty;
         private byte[] _dbPassBytes;
         private SqlHelper _sqlHelper;
         private SqlHelper _sqlHelper2;
-        public ulong ulong_0;
+        public ulong _sqlLiteOffset;
 
         public FormMain()
         {
             try
             {
                 _dbPassBytes = Encoding.ASCII.GetBytes("_akz&^_&*^950_dLu");
-                _sqlHelper = new SqlHelper(Application.StartupPath + @"\Dependancies" + DBFileName, true, _dbPassBytes);
+                _sqlHelper = new SqlHelper(Application.StartupPath + @"\Dependencies" + DBFileName, true, _dbPassBytes);
                 GetTuners(_sqlHelper, ref dataTable_3);
                 InitializeComponent();
                 PopulateComboBoxFromDatatable(ref comboBox_SMake, ref dataTable_3);
@@ -136,12 +136,11 @@ namespace GT5_Garage_Editor
                 comboBox_DMake.SelectedIndex = 0;
                 comboBox_DMake.Enabled = false;
                 comboBox_DModel.Enabled = false;
-                currentSheet = 'a';
+                _currentSheet = 'a';
                 _currentCar = new Car();
-                var num = smethod_17("riding_car");
+                var num = FindOffsetForItem("riding_car");
                 var numArray = new byte[679];
-                var fileStream = new FileStream(_pathToGT5PointZero, FileMode.Open);
-                fileStream.Position = num;
+                var fileStream = new FileStream(_pathToPddb, FileMode.Open) { Position = num };
                 fileStream.ReadByte();
                 if (fileStream.ReadByte() <= sbyte.MaxValue)
                     fileStream.Position = num + 22;
@@ -149,10 +148,10 @@ namespace GT5_Garage_Editor
                     fileStream.Position = num + 23;
                 fileStream.Read(numArray, 25, 640);
                 fileStream.Close();
-                var gclass1_3 = new CarParameterBlob(numArray);
-                _currentCar.UpdateBlob1(gclass1_3);
-                _currentCar.UpdateBlob2(gclass1_3);
-                _currentCar.UpdateBlob3(gclass1_3);
+                var blob = new CarParameterBlob(numArray);
+                _currentCar.UpdateBlob1(blob);
+                _currentCar.UpdateBlob2(blob);
+                _currentCar.UpdateBlob3(blob);
                 LoadCarSheet('a');
             }
             catch
@@ -162,8 +161,8 @@ namespace GT5_Garage_Editor
 
         private void tabPage_ridingCar_Leave(object sender, EventArgs e)
         {
-            var num = smethod_17("riding_car");
-            var fileStream = new FileStream(_pathToGT5PointZero, FileMode.Open);
+            var num = FindOffsetForItem("riding_car");
+            var fileStream = new FileStream(_pathToPddb, FileMode.Open);
             fileStream.Position = num;
             fileStream.ReadByte();
             if (fileStream.ReadByte() <= sbyte.MaxValue)
@@ -244,7 +243,7 @@ namespace GT5_Garage_Editor
 
         private void button11_Click(object sender, EventArgs e)
         {
-            smethod_19(_pathToGT5PointZero, "friend_car_id", 4, uint.MaxValue);
+            smethod_19(_pathToPddb, "friend_car_id", 4, uint.MaxValue);
             var num = (int)MessageBox.Show("Car has been permanently borrowed", "Info", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
@@ -313,7 +312,7 @@ namespace GT5_Garage_Editor
             dataTable_8 = _sqlHelper2.ExecuteReader("SELECT * FROM t_garage WHERE garage_id LIKE " + dataTable_7.Rows[comboBox_DModel.SelectedIndex].ItemArray[1]);
             _currentCar = new Car(dataTable_8);
             LoadCurrentCarDetails();
-            LoadCarSheet(currentSheet);
+            LoadCarSheet(_currentSheet);
             groupBox_Sheet.Enabled = true;
         }
 
@@ -545,9 +544,9 @@ namespace GT5_Garage_Editor
             if (comboBox_DModel.SelectedIndex < 0 && tabControl_garage.SelectedIndex != tabControl_garage.TabPages.IndexOf(tabPage_ridingCar))
                 return;
             var str = dgvSrc.SelectedRows[0].Cells[0].Value.ToString();
-            if (!currentSheet.Equals('a') && tabControl_garage.SelectedIndex != tabControl_garage.TabPages.IndexOf(tabPage_ridingCar))
+            if (!_currentSheet.Equals('a') && tabControl_garage.SelectedIndex != tabControl_garage.TabPages.IndexOf(tabPage_ridingCar))
             {
-                if (currentSheet.Equals('b'))
+                if (_currentSheet.Equals('b'))
                 {
                     string key1;
                     if ((key1 = str) != null)
@@ -557,176 +556,176 @@ namespace GT5_Garage_Editor
                             var dictionary = new Dictionary<string, int>(42);
                             var key2 = "Tune Sheet";
                             var num1 = 0;
-                            
+
                             dictionary.Add(key2, num1);
                             var key3 = "Colour";
                             var num2 = 1;
-                            
+
                             dictionary.Add(key3, num2);
                             var key4 = "Paint";
                             var num3 = 2;
-                            
+
                             dictionary.Add(key4, num3);
                             var key5 = "Body";
                             var num4 = 3;
-                            
+
                             dictionary.Add(key5, num4);
                             var key6 = "Brakes";
                             var num5 = 4;
-                            
+
                             dictionary.Add(key6, num5);
                             var key7 = "_198_201";
                             var num6 = 5;
-                            
+
                             dictionary.Add(key7, num6);
                             var key8 = "Chassis";
                             var num7 = 6;
-                            
+
                             dictionary.Add(key8, num7);
                             var key9 = "Engine";
                             var num8 = 7;
-                            
+
                             dictionary.Add(key9, num8);
                             var key10 = "Drivetrain";
                             var num9 = 8;
-                            
+
                             dictionary.Add(key10, num9);
                             var key11 = "Transmission";
                             var num10 = 9;
-                            
+
                             dictionary.Add(key11, num10);
                             var key12 = "Suspension";
                             var num11 = 10;
-                            
+
                             dictionary.Add(key12, num11);
                             var key13 = "LSD";
                             var num12 = 11;
-                            
+
                             dictionary.Add(key13, num12);
                             var key14 = "_226_229";
                             var num13 = 12;
-                            
+
                             dictionary.Add(key14, num13);
                             var key15 = "WReduction";
                             var num14 = 13;
-                            
+
                             dictionary.Add(key15, num14);
                             var key16 = "_234_237";
                             var num15 = 14;
-                            
+
                             dictionary.Add(key16, num15);
                             var key17 = "_238_241";
                             var num16 = 15;
-                            
+
                             dictionary.Add(key17, num16);
                             var key18 = "ECU";
                             var num17 = 16;
-                            
+
                             dictionary.Add(key18, num17);
                             var key19 = "Engine Tune";
                             var num18 = 17;
-                            
+
                             dictionary.Add(key19, num18);
                             var key20 = "Turbo";
                             var num19 = 18;
-                            
+
                             dictionary.Add(key20, num19);
                             var key21 = "Flywheel";
                             var num20 = 19;
-                            
+
                             dictionary.Add(key21, num20);
                             var key22 = "Clutch";
                             var num21 = 20;
-                            
+
                             dictionary.Add(key22, num21);
                             var key23 = "Driveshaft";
                             var num22 = 21;
-                            
+
                             dictionary.Add(key23, num22);
                             var key24 = "Exhaust";
                             var num23 = 22;
-                            
+
                             dictionary.Add(key24, num23);
                             var key25 = "_270_273";
                             var num24 = 23;
-                            
+
                             dictionary.Add(key25, num24);
                             var key26 = "ASM Controller";
                             var num25 = 24;
-                            
+
                             dictionary.Add(key26, num25);
                             var key27 = "TCS Controller";
                             var num26 = 25;
-                            
+
                             dictionary.Add(key27, num26);
                             var key28 = "_282_285";
                             var num27 = 26;
-                            
+
                             dictionary.Add(key28, num27);
                             var key29 = "Supercharger";
                             var num28 = 27;
-                            
+
                             dictionary.Add(key29, num28);
                             var key30 = "Intake Manifold";
                             var num29 = 28;
-                            
+
                             dictionary.Add(key30, num29);
                             var key31 = "Exhaust Manifold";
                             var num30 = 29;
-                            
+
                             dictionary.Add(key31, num30);
                             var key32 = "Catalytic Converter";
                             var num31 = 30;
-                            
+
                             dictionary.Add(key32, num31);
                             var key33 = "Air Filter";
                             var num32 = 31;
-                            
+
                             dictionary.Add(key33, num32);
                             var key34 = "_306_309";
                             var num33 = 32;
-                            
+
                             dictionary.Add(key34, num33);
                             var key35 = "WindowWR";
                             var num34 = 33;
-                            
+
                             dictionary.Add(key35, num34);
                             var key36 = "Hood";
                             var num35 = 34;
-                            
+
                             dictionary.Add(key36, num35);
                             var key37 = "FrBumper";
                             var num36 = 35;
-                            
+
                             dictionary.Add(key37, num36);
                             var key38 = "RrBumper";
                             var num37 = 36;
-                            
+
                             dictionary.Add(key38, num37);
                             var key39 = "Extension";
                             var num38 = 37;
-                            
+
                             dictionary.Add(key39, num38);
                             var key40 = "Wing";
                             var num39 = 38;
-                            
+
                             dictionary.Add(key40, num39);
                             var key41 = "_334_337";
                             var num40 = 39;
-                            
+
                             dictionary.Add(key41, num40);
                             var key42 = "Reinforcement";
                             var num41 = 40;
-                            
+
                             dictionary.Add(key42, num41);
                             var key43 = "NoS";
                             var num42 = 41;
-                            
+
                             dictionary.Add(key43, num42);
                             Dictionaries.dictionary_1 = dictionary;
                         }
                         int num;
-                        
+
                         if ((Dictionaries.dictionary_1.TryGetValue(key1, out num)))
                         {
                             switch (num)
@@ -735,7 +734,7 @@ namespace GT5_Garage_Editor
                                     _currentCar.GetBlob2().Colour(_tempCar.GetBlob1().Colour());
                                     break;
                                 case 2:
-                                    _currentCar.GetBlob2().method_105(_tempCar.GetBlob1().Paint());
+                                    _currentCar.GetBlob2().Paint(_tempCar.GetBlob1().Paint());
                                     break;
                                 case 3:
                                     _currentCar.GetBlob2().Body(_tempCar.GetBlob1().Body());
@@ -861,183 +860,183 @@ namespace GT5_Garage_Editor
                 else
                 {
                     string key1;
-                    if (currentSheet.Equals('c') && (key1 = str) != null)
+                    if (_currentSheet.Equals('c') && (key1 = str) != null)
                     {
                         if (Dictionaries.dictionary_2 == null)
                         {
                             var dictionary = new Dictionary<string, int>(42);
                             var key2 = "Tune Sheet";
                             var num1 = 0;
-                            
+
                             dictionary.Add(key2, num1);
                             var key3 = "Colour";
                             var num2 = 1;
-                            
+
                             dictionary.Add(key3, num2);
                             var key4 = "Paint";
                             var num3 = 2;
-                            
+
                             dictionary.Add(key4, num3);
                             var key5 = "Body";
                             var num4 = 3;
-                            
+
                             dictionary.Add(key5, num4);
                             var key6 = "Brakes";
                             var num5 = 4;
-                            
+
                             dictionary.Add(key6, num5);
                             var key7 = "_198_201";
                             var num6 = 5;
-                            
+
                             dictionary.Add(key7, num6);
                             var key8 = "Chassis";
                             var num7 = 6;
-                            
+
                             dictionary.Add(key8, num7);
                             var key9 = "Engine";
                             var num8 = 7;
-                            
+
                             dictionary.Add(key9, num8);
                             var key10 = "Drivetrain";
                             var num9 = 8;
-                            
+
                             dictionary.Add(key10, num9);
                             var key11 = "Transmission";
                             var num10 = 9;
-                            
+
                             dictionary.Add(key11, num10);
                             var key12 = "Suspension";
                             var num11 = 10;
-                            
+
                             dictionary.Add(key12, num11);
                             var key13 = "LSD";
                             var num12 = 11;
-                            
+
                             dictionary.Add(key13, num12);
                             var key14 = "_226_229";
                             var num13 = 12;
-                            
+
                             dictionary.Add(key14, num13);
                             var key15 = "WReduction";
                             var num14 = 13;
-                            
+
                             dictionary.Add(key15, num14);
                             var key16 = "_234_237";
                             var num15 = 14;
-                            
+
                             dictionary.Add(key16, num15);
                             var key17 = "_238_241";
                             var num16 = 15;
-                            
+
                             dictionary.Add(key17, num16);
                             var key18 = "ECU";
                             var num17 = 16;
-                            
+
                             dictionary.Add(key18, num17);
                             var key19 = "Engine Tune";
                             var num18 = 17;
-                            
+
                             dictionary.Add(key19, num18);
                             var key20 = "Turbo";
                             var num19 = 18;
-                            
+
                             dictionary.Add(key20, num19);
                             var key21 = "Flywheel";
                             var num20 = 19;
-                            
+
                             dictionary.Add(key21, num20);
                             var key22 = "Clutch";
                             var num21 = 20;
-                            
+
                             dictionary.Add(key22, num21);
                             var key23 = "Driveshaft";
                             var num22 = 21;
-                            
+
                             dictionary.Add(key23, num22);
                             var key24 = "Exhaust";
                             var num23 = 22;
-                            
+
                             dictionary.Add(key24, num23);
                             var key25 = "_270_273";
                             var num24 = 23;
-                            
+
                             dictionary.Add(key25, num24);
                             var key26 = "ASM Controller";
                             var num25 = 24;
-                            
+
                             dictionary.Add(key26, num25);
                             var key27 = "TCS Controller";
                             var num26 = 25;
-                            
+
                             dictionary.Add(key27, num26);
                             var key28 = "_282_285";
                             var num27 = 26;
-                            
+
                             dictionary.Add(key28, num27);
                             var key29 = "Supercharger";
                             var num28 = 27;
-                            
+
                             dictionary.Add(key29, num28);
                             var key30 = "Intake Manifold";
                             var num29 = 28;
-                            
+
                             dictionary.Add(key30, num29);
                             var key31 = "Exhaust Manifold";
                             var num30 = 29;
-                            
+
                             dictionary.Add(key31, num30);
                             var key32 = "Catalytic Converter";
                             var num31 = 30;
-                            
+
                             dictionary.Add(key32, num31);
                             var key33 = "Air Filter";
                             var num32 = 31;
-                            
+
                             dictionary.Add(key33, num32);
                             var key34 = "_306_309";
                             var num33 = 32;
-                            
+
                             dictionary.Add(key34, num33);
                             var key35 = "WindowWR";
                             var num34 = 33;
-                            
+
                             dictionary.Add(key35, num34);
                             var key36 = "Hood";
                             var num35 = 34;
-                            
+
                             dictionary.Add(key36, num35);
                             var key37 = "FrBumper";
                             var num36 = 35;
-                            
+
                             dictionary.Add(key37, num36);
                             var key38 = "RrBumper";
                             var num37 = 36;
-                            
+
                             dictionary.Add(key38, num37);
                             var key39 = "Extension";
                             var num38 = 37;
-                            
+
                             dictionary.Add(key39, num38);
                             var key40 = "Wing";
                             var num39 = 38;
-                            
+
                             dictionary.Add(key40, num39);
                             var key41 = "_334_337";
                             var num40 = 39;
-                            
+
                             dictionary.Add(key41, num40);
                             var key42 = "Reinforcement";
                             var num41 = 40;
-                            
+
                             dictionary.Add(key42, num41);
                             var key43 = "NoS";
                             var num42 = 41;
-                            
+
                             dictionary.Add(key43, num42);
                             Dictionaries.dictionary_2 = dictionary;
                         }
                         int num;
-                        
+
                         if ((Dictionaries.dictionary_2.TryGetValue(key1, out num)))
                         {
                             switch (num)
@@ -1046,7 +1045,7 @@ namespace GT5_Garage_Editor
                                     _currentCar.GetBlob3().Colour(_tempCar.GetBlob1().Colour());
                                     break;
                                 case 2:
-                                    _currentCar.GetBlob3().method_105(_tempCar.GetBlob1().Paint());
+                                    _currentCar.GetBlob3().Paint(_tempCar.GetBlob1().Paint());
                                     break;
                                 case 3:
                                     _currentCar.GetBlob3().Body(_tempCar.GetBlob1().Body());
@@ -1180,176 +1179,176 @@ namespace GT5_Garage_Editor
                         var dictionary = new Dictionary<string, int>(42);
                         var key2 = "Tune Sheet";
                         var num1 = 0;
-                        
+
                         dictionary.Add(key2, num1);
                         var key3 = "Colour";
                         var num2 = 1;
-                        
+
                         dictionary.Add(key3, num2);
                         var key4 = "Paint";
                         var num3 = 2;
-                        
+
                         dictionary.Add(key4, num3);
                         var key5 = "Body";
                         var num4 = 3;
-                        
+
                         dictionary.Add(key5, num4);
                         var key6 = "Brakes";
                         var num5 = 4;
-                        
+
                         dictionary.Add(key6, num5);
                         var key7 = "_198_201";
                         var num6 = 5;
-                        
+
                         dictionary.Add(key7, num6);
                         var key8 = "Chassis";
                         var num7 = 6;
-                        
+
                         dictionary.Add(key8, num7);
                         var key9 = "Engine";
                         var num8 = 7;
-                        
+
                         dictionary.Add(key9, num8);
                         var key10 = "Drivetrain";
                         var num9 = 8;
-                        
+
                         dictionary.Add(key10, num9);
                         var key11 = "Transmission";
                         var num10 = 9;
-                        
+
                         dictionary.Add(key11, num10);
                         var key12 = "Suspension";
                         var num11 = 10;
-                        
+
                         dictionary.Add(key12, num11);
                         var key13 = "LSD";
                         var num12 = 11;
-                        
+
                         dictionary.Add(key13, num12);
                         var key14 = "_226_229";
                         var num13 = 12;
-                        
+
                         dictionary.Add(key14, num13);
                         var key15 = "WReduction";
                         var num14 = 13;
-                        
+
                         dictionary.Add(key15, num14);
                         var key16 = "_234_237";
                         var num15 = 14;
-                        
+
                         dictionary.Add(key16, num15);
                         var key17 = "_238_241";
                         var num16 = 15;
-                        
+
                         dictionary.Add(key17, num16);
                         var key18 = "ECU";
                         var num17 = 16;
-                        
+
                         dictionary.Add(key18, num17);
                         var key19 = "Engine Tune";
                         var num18 = 17;
-                        
+
                         dictionary.Add(key19, num18);
                         var key20 = "Turbo";
                         var num19 = 18;
-                        
+
                         dictionary.Add(key20, num19);
                         var key21 = "Flywheel";
                         var num20 = 19;
-                        
+
                         dictionary.Add(key21, num20);
                         var key22 = "Clutch";
                         var num21 = 20;
-                        
+
                         dictionary.Add(key22, num21);
                         var key23 = "Driveshaft";
                         var num22 = 21;
-                        
+
                         dictionary.Add(key23, num22);
                         var key24 = "Exhaust";
                         var num23 = 22;
-                        
+
                         dictionary.Add(key24, num23);
                         var key25 = "_270_273";
                         var num24 = 23;
-                        
+
                         dictionary.Add(key25, num24);
                         var key26 = "ASM Controller";
                         var num25 = 24;
-                        
+
                         dictionary.Add(key26, num25);
                         var key27 = "TCS Controller";
                         var num26 = 25;
-                        
+
                         dictionary.Add(key27, num26);
                         var key28 = "_282_285";
                         var num27 = 26;
-                        
+
                         dictionary.Add(key28, num27);
                         var key29 = "Supercharger";
                         var num28 = 27;
-                        
+
                         dictionary.Add(key29, num28);
                         var key30 = "Intake Manifold";
                         var num29 = 28;
-                        
+
                         dictionary.Add(key30, num29);
                         var key31 = "Exhaust Manifold";
                         var num30 = 29;
-                        
+
                         dictionary.Add(key31, num30);
                         var key32 = "Catalytic Converter";
                         var num31 = 30;
-                        
+
                         dictionary.Add(key32, num31);
                         var key33 = "Air Filter";
                         var num32 = 31;
-                        
+
                         dictionary.Add(key33, num32);
                         var key34 = "_306_309";
                         var num33 = 32;
-                        
+
                         dictionary.Add(key34, num33);
                         var key35 = "WindowWR";
                         var num34 = 33;
-                        
+
                         dictionary.Add(key35, num34);
                         var key36 = "Hood";
                         var num35 = 34;
-                        
+
                         dictionary.Add(key36, num35);
                         var key37 = "FrBumper";
                         var num36 = 35;
-                        
+
                         dictionary.Add(key37, num36);
                         var key38 = "RrBumper";
                         var num37 = 36;
-                        
+
                         dictionary.Add(key38, num37);
                         var key39 = "Extension";
                         var num38 = 37;
-                        
+
                         dictionary.Add(key39, num38);
                         var key40 = "Wing";
                         var num39 = 38;
-                        
+
                         dictionary.Add(key40, num39);
                         var key41 = "_334_337";
                         var num40 = 39;
-                        
+
                         dictionary.Add(key41, num40);
                         var key42 = "Reinforcement";
                         var num41 = 40;
-                        
+
                         dictionary.Add(key42, num41);
                         var key43 = "NoS";
                         var num42 = 41;
-                        
+
                         dictionary.Add(key43, num42);
                         Dictionaries.dictionary_0 = dictionary;
                     }
                     int num;
-                    
+
                     if ((Dictionaries.dictionary_0.TryGetValue(key1, out num)))
                     {
                         switch (num)
@@ -1358,7 +1357,7 @@ namespace GT5_Garage_Editor
                                 _currentCar.GetBlob1().Colour(_tempCar.GetBlob1().Colour());
                                 break;
                             case 2:
-                                _currentCar.GetBlob1().method_105(_tempCar.GetBlob1().Paint());
+                                _currentCar.GetBlob1().Paint(_tempCar.GetBlob1().Paint());
                                 break;
                             case 3:
                                 _currentCar.GetBlob1().Body(_tempCar.GetBlob1().Body());
@@ -1504,18 +1503,18 @@ namespace GT5_Garage_Editor
                     var paintSelector = new PaintSelector();
                     if (paintSelector.ShowDialog() == DialogResult.OK)
                     {
-                        switch (currentSheet)
+                        switch (_currentSheet)
                         {
                             case 'a':
-                                _currentCar.GetBlob1().method_105(paintSelector.method_0());
+                                _currentCar.GetBlob1().Paint(paintSelector.method_0());
                                 LoadCarSheet('a');
                                 break;
                             case 'b':
-                                _currentCar.GetBlob2().method_105(paintSelector.method_0());
+                                _currentCar.GetBlob2().Paint(paintSelector.method_0());
                                 LoadCarSheet('b');
                                 break;
                             case 'c':
-                                _currentCar.GetBlob3().method_105(paintSelector.method_0());
+                                _currentCar.GetBlob3().Paint(paintSelector.method_0());
                                 LoadCarSheet('c');
                                 break;
                         }
@@ -1583,11 +1582,11 @@ namespace GT5_Garage_Editor
             if (IsAlphaNumeric(dataGridView_Dest.CurrentCell.EditedFormattedValue.ToString()) && dataGridView_Dest.CurrentCell.EditedFormattedValue.ToString().Length == 8)
             {
                 var carParamBlob = new byte[679];
-                if (currentSheet.Equals('a'))
+                if (_currentSheet.Equals('a'))
                     carParamBlob = _currentCar.GetBlob1().FullBlob();
-                if (currentSheet.Equals('b'))
+                if (_currentSheet.Equals('b'))
                     carParamBlob = _currentCar.GetBlob2().FullBlob();
-                if (currentSheet.Equals('c'))
+                if (_currentSheet.Equals('c'))
                     carParamBlob = _currentCar.GetBlob3().FullBlob();
                 UpdateCarParamBlobFromDgv(ref dataGridView_Dest, ref carParamBlob);
                 if (tabControl_garage.SelectedIndex == tabControl_garage.TabPages.IndexOf(tabPage_garage))
@@ -1599,10 +1598,10 @@ namespace GT5_Garage_Editor
                 }
                 else
                     _currentCar.UpdateBlob1(new CarParameterBlob(_currentCar.GetBlob1().FullBlob()));
-                LoadCarSheet(currentSheet);
+                LoadCarSheet(_currentSheet);
             }
             else
-                LoadCarSheet(currentSheet);
+                LoadCarSheet(_currentSheet);
         }
 
         private void dataGridView_Dest_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
@@ -1612,7 +1611,7 @@ namespace GT5_Garage_Editor
                 var str = dataGridView_Dest.SelectedCells[0].Value.ToString();
                 if (comboBox_DModel.SelectedIndex < 0 || str.Equals("Paint") && str.Equals("Tune Sheet") || (dataGridView_Dest.SelectedCells[0].RowIndex <= 0 || dataGridView_Dest.SelectedCells[0].ColumnIndex != 1))
                     return;
-                LoadCarSheet(currentSheet);
+                LoadCarSheet(_currentSheet);
             }
             catch
             {
@@ -1741,26 +1740,30 @@ namespace GT5_Garage_Editor
             UpdateBlobWithByte(carParamBlob, 405U, carParam.CompR());
             UpdateBlobWithByte(carParamBlob, 406U, carParam.AntiRollBarF());
             UpdateBlobWithByte(carParamBlob, 407U, carParam.AntiRollBarR());
-            UpdateBlobWithByte(carParamBlob, 408U, carParam.LSDInitF());
-            UpdateBlobWithByte(carParamBlob, 409U, carParam.LSDInitR());
-            UpdateBlobWithByte(carParamBlob, 410U, carParam.LSDAccF());
-            UpdateBlobWithByte(carParamBlob, 411U, carParam.LSDAccR());
-            UpdateBlobWithByte(carParamBlob, 412U, carParam.LSDDecF());
-            UpdateBlobWithByte(carParamBlob, 413U, carParam.LSDDecR());
+            UpdateBlobWithByte(carParamBlob, 408U, carParam.LsdInitF());
+            UpdateBlobWithByte(carParamBlob, 409U, carParam.LsdInitR());
+            UpdateBlobWithByte(carParamBlob, 410U, carParam.LsdAccF());
+            UpdateBlobWithByte(carParamBlob, 411U, carParam.LsdAccR());
+            UpdateBlobWithByte(carParamBlob, 412U, carParam.LsdDecF());
+            UpdateBlobWithByte(carParamBlob, 413U, carParam.LsdDecR());
             UpdateBlobWithByte(carParamBlob, 419U, carParam.BallastKg());
             UpdateBlobWithSByte(carParamBlob, 420U, carParam.BallastPos());
             UpdateBlobWithByte(carParamBlob, 431U, carParam.Grip());
-            UpdateBlobWithByte(carParamBlob, 432U, carParam.BBF());
-            UpdateBlobWithByte(carParamBlob, 433U, carParam.BBR());
+            UpdateBlobWithByte(carParamBlob, 432U, carParam.Bbf());
+            UpdateBlobWithByte(carParamBlob, 433U, carParam.Bbr());
             UpdateBlobWithByte(carParamBlob, 422U, carParam.Bhp());
             UpdateBlobWithByte(carParamBlob, 425U, carParam.Weight());
         }
 
-        public static ulong smethod_7(uint uint_0, uint uint_1, byte[] byte_3)
+        public static ulong ReverseEndedness(uint begin, uint end, byte[] byteArray)
         {
             var num = 0U;
-            for (var index = uint_0; index <= uint_1; ++index)
-                num = (int)index != (int)uint_0 ? num << 8 | byte_3[index] : byte_3[index];
+            for (var index = begin; index <= end; ++index)
+            {
+                num = (int)index != (int)begin
+                    ? num << 8 | byteArray[index]
+                    : byteArray[index];
+            }
             return num;
         }
 
@@ -1824,11 +1827,11 @@ namespace GT5_Garage_Editor
             }
         }
 
-        private static void smethod_12(string string_4)
+        private static void smethod_12(string filePath)
         {
             try
             {
-                if (!File.Exists(string_4))
+                if (!File.Exists(filePath))
                     return;
                 var stringBuilder_0 = new StringBuilder(string.Empty);
                 var bool_0 = false;
@@ -1836,21 +1839,21 @@ namespace GT5_Garage_Editor
                 var byte_4 = new byte[5];
                 var byte_5 = new byte[2];
                 var numArray = new byte[4];
-                var streamWriter_0 = new StreamWriter(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\log.txt");
-                var fileStream_0 = new FileStream(string_4, FileMode.Open);
+                var logWriter = new StreamWriter(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\log.txt");
+                var fileStream = new FileStream(filePath, FileMode.Open);
                 byte byte_3 = 0;
-                fileStream_0.Position = 33L;
-                fileStream_0.Read(numArray, 0, 4);
-                var num1 = (uint)smethod_7(0U, 3U, numArray);
-                fileStream_0.Position = 42L;
-                while (fileStream_0.Position < num1 + 32U)
-                    smethod_13(fileStream_0, streamWriter_0, byte_3, byte_4, byte_5, ref stringBuilder_0, ref bool_0, ref int_0);
-                list_1 = Enumerable.ToList<int>(Enumerable.Distinct<int>(list_0));
+                fileStream.Position = 33L;
+                fileStream.Read(numArray, 0, 4);
+                var pddbStringsOffset = (uint)ReverseEndedness(0U, 3U, numArray);
+                fileStream.Position = 42L;
+                while (fileStream.Position < pddbStringsOffset + 32U)
+                    smethod_13(fileStream, logWriter, byte_3, byte_4, byte_5, ref stringBuilder_0, ref bool_0, ref int_0);
+                list_1 = list_0.Distinct().ToList();
                 list_1.Sort();
                 var num2 = 0;
                 foreach (var num3 in list_1)
-                    list_2.Add(smethod_16(fileStream_0, num2++));
-                fileStream_0.Close();
+                    list_2.Add(smethod_16(fileStream, num2++));
+                fileStream.Close();
             }
             catch
             {
@@ -1869,7 +1872,7 @@ namespace GT5_Garage_Editor
                 byte_4[1] = byte_3;
                 if (byte_3 <= sbyte.MaxValue)
                 {
-                    smethod_14(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, (int)fileStream_0.Position - 2);
+                    ReadPddbTable(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, (int)fileStream_0.Position - 2);
                 }
                 else
                 {
@@ -1877,7 +1880,7 @@ namespace GT5_Garage_Editor
                         return;
                     byte_3 = (byte)fileStream_0.ReadByte();
                     byte_4[2] = byte_3;
-                    smethod_14(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, (int)fileStream_0.Position - 3);
+                    ReadPddbTable(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, (int)fileStream_0.Position - 3);
                 }
             }
             catch
@@ -1885,74 +1888,74 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public static void smethod_14(FileStream fileStream_0, StreamWriter streamWriter_0, byte byte_3, ref byte[] byte_4, ref byte[] byte_5, ref StringBuilder stringBuilder_0, ref bool bool_0, ref int int_0, int int_1)
+        public static void ReadPddbTable(FileStream fileStream_0, StreamWriter streamWriter_0, byte byte_3, ref byte[] byte_4, ref byte[] pddbDataType, ref StringBuilder stringBuilder_0, ref bool bool_0, ref int int_0, int int_1)
         {
             try
             {
                 var num1 = 0;
                 var numArray = new byte[4];
-                fileStream_0.Read(byte_5, 0, 2);
+                fileStream_0.Read(pddbDataType, 0, 2);
                 var fileStream1 = fileStream_0;
                 var num2 = fileStream1.Position - 1L;
                 fileStream1.Position = num2;
                 int_1 = (int)byte_4[1] > (int)sbyte.MaxValue ? (int)fileStream_0.Position - 4 : (int)fileStream_0.Position - 3;
-                switch (byte_5[0])
+                switch (pddbDataType[0])
                 {
                     case 0:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         break;
                     case 1:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         var fileStream2 = fileStream_0;
                         var num3 = fileStream2.Position + 1L;
                         fileStream2.Position = num3;
                         break;
                     case 2:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         var fileStream3 = fileStream_0;
                         var num4 = fileStream3.Position + 2L;
                         fileStream3.Position = num4;
                         break;
                     case 3:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         var fileStream4 = fileStream_0;
                         var num5 = fileStream4.Position + 4L;
                         fileStream4.Position = num5;
                         break;
                     case 4:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         num1 = 8;
                         var fileStream5 = fileStream_0;
                         var num6 = fileStream5.Position + 8L;
                         fileStream5.Position = num6;
                         break;
                     case 5:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         num1 = 4;
                         var fileStream6 = fileStream_0;
                         var num7 = fileStream6.Position + 4L;
                         fileStream6.Position = num7;
                         break;
                     case 6:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         fileStream_0.Read(numArray, 0, 4);
-                        var num8 = (int)smethod_7(0U, 3U, numArray);
+                        var num8 = (int)ReverseEndedness(0U, 3U, numArray);
                         var fileStream7 = fileStream_0;
                         var num9 = fileStream7.Position + num8;
                         fileStream7.Position = num9;
                         break;
                     case 7:
                         bool_0 = false;
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         var fileStream8 = fileStream_0;
                         var num10 = fileStream8.Position - 1L;
                         fileStream8.Position = num10;
                         break;
                     case 8:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         stringBuilder_0.Append("[]");
                         fileStream_0.Read(numArray, 0, 4);
-                        var num11 = (int)smethod_7(0U, 3U, numArray);
+                        var num11 = (int)ReverseEndedness(0U, 3U, numArray);
                         byte_3 = (byte)fileStream_0.ReadByte();
                         var fileStream9 = fileStream_0;
                         var num12 = fileStream9.Position - 1L;
@@ -1961,22 +1964,22 @@ namespace GT5_Garage_Editor
                         {
                             bool_0 = false;
                             for (var index = 0; index < num11; ++index)
-                                smethod_13(fileStream_0, streamWriter_0, byte_3, byte_4, byte_5, ref stringBuilder_0, ref bool_0, ref int_0);
+                                smethod_13(fileStream_0, streamWriter_0, byte_3, byte_4, pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0);
                         }
                         else
                         {
                             bool_0 = true;
                             for (var index = 0; index < num11; ++index)
-                                smethod_14(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                                ReadPddbTable(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                             bool_0 = false;
                         }
                         stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
                         break;
                     case 9:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         fileStream_0.Read(numArray, 0, 4);
                         stringBuilder_0.Append("{}");
-                        var num13 = (int)smethod_7(0U, 3U, numArray);
+                        var num13 = (int)ReverseEndedness(0U, 3U, numArray);
                         byte_3 = (byte)fileStream_0.ReadByte();
                         var fileStream10 = fileStream_0;
                         var num14 = fileStream10.Position - 1L;
@@ -1985,13 +1988,13 @@ namespace GT5_Garage_Editor
                         {
                             bool_0 = false;
                             for (var index = 0; index < num13; ++index)
-                                smethod_13(fileStream_0, streamWriter_0, byte_3, byte_4, byte_5, ref stringBuilder_0, ref bool_0, ref int_0);
+                                smethod_13(fileStream_0, streamWriter_0, byte_3, byte_4, pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0);
                         }
                         else
                         {
                             bool_0 = true;
                             for (var index = 0; index < num13 * 2; ++index)
-                                smethod_14(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                                ReadPddbTable(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                             bool_0 = false;
                         }
                         stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
@@ -2000,12 +2003,12 @@ namespace GT5_Garage_Editor
                         byte_3 = (byte)fileStream_0.ReadByte();
                         if (byte_3 == 9)
                         {
-                            smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                            smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                             stringBuilder_0.Append("<>");
                             fileStream_0.Read(numArray, 0, 4);
-                            var num15 = (int)smethod_7(0U, 3U, numArray);
+                            var num15 = (int)ReverseEndedness(0U, 3U, numArray);
                             for (var index = 0; index < num15; ++index)
-                                smethod_13(fileStream_0, streamWriter_0, byte_3, byte_4, byte_5, ref stringBuilder_0, ref bool_0, ref int_0);
+                                smethod_13(fileStream_0, streamWriter_0, byte_3, byte_4, pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0);
                             stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
                             break;
                         }
@@ -2013,13 +2016,13 @@ namespace GT5_Garage_Editor
                         {
                             if (byte_3 != 6)
                                 break;
-                            smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                            smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                             stringBuilder_0.Append("<>");
                             var fileStream11 = fileStream_0;
                             var num15 = fileStream11.Position + 8L;
                             fileStream11.Position = num15;
                             fileStream_0.Read(numArray, 0, 4);
-                            var num16 = (int)smethod_7(0U, 3U, numArray);
+                            var num16 = (int)ReverseEndedness(0U, 3U, numArray);
                             var fileStream12 = fileStream_0;
                             var num17 = fileStream12.Position + num16 * 16;
                             fileStream12.Position = num17;
@@ -2027,28 +2030,28 @@ namespace GT5_Garage_Editor
                             break;
                         }
                     case 12:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         num1 = 1;
                         var fileStream13 = fileStream_0;
                         var num18 = fileStream13.Position + 1L;
                         fileStream13.Position = num18;
                         break;
                     case 13:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         num1 = 2;
                         var fileStream14 = fileStream_0;
                         var num19 = fileStream14.Position + 2L;
                         fileStream14.Position = num19;
                         break;
                     case 14:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         num1 = 4;
                         var fileStream15 = fileStream_0;
                         var num20 = fileStream15.Position + 4L;
                         fileStream15.Position = num20;
                         break;
                     case 15:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref byte_5, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                         num1 = 8;
                         var fileStream16 = fileStream_0;
                         var num21 = fileStream16.Position + 8L;
@@ -2072,24 +2075,24 @@ namespace GT5_Garage_Editor
                 {
                     if (byte_3[1] >= 128 && byte_3[1] <= 129)
                     {
-                        list_0.Add((int)smethod_7(0U, 2U, byte_3));
+                        list_0.Add((int)ReverseEndedness(0U, 2U, byte_3));
                         list_3.Add(int_1);
                     }
                     else
                     {
                         list_3.Add(int_1);
-                        list_0.Add((int)smethod_7(0U, 1U, byte_3));
+                        list_0.Add((int)ReverseEndedness(0U, 1U, byte_3));
                     }
                 }
                 else if (byte_3[1] <= sbyte.MaxValue)
                 {
                     list_3.Add(int_1);
-                    list_0.Add((int)smethod_7(0U, 1U, byte_3));
+                    list_0.Add((int)ReverseEndedness(0U, 1U, byte_3));
                 }
                 else if (byte_3[1] <= 129)
                 {
                     list_3.Add(int_1);
-                    list_0.Add((int)smethod_7(0U, 2U, byte_3));
+                    list_0.Add((int)ReverseEndedness(0U, 2U, byte_3));
                 }
                 ++int_0;
             }
@@ -2106,7 +2109,7 @@ namespace GT5_Garage_Editor
                 var numArray = new byte[4];
                 fileStream_0.Position = 33L;
                 fileStream_0.Read(numArray, 0, 4);
-                var num1 = (uint)smethod_7(0U, 3U, numArray);
+                var num1 = (uint)ReverseEndedness(0U, 3U, numArray);
                 fileStream_0.Position = num1 + 34U;
                 for (var index1 = 0; index1 <= int_0; ++index1)
                 {
@@ -2123,7 +2126,7 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public static int smethod_17(string string_4)
+        public static int FindOffsetForItem(string string_4)
         {
             try
             {
@@ -2137,14 +2140,13 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public static ulong smethod_18(string string_4, string string_5, byte byte_3)
+        public static ulong FindItemInPddb(string pathPddb, string itemKey, byte itemLengthBytes)
         {
             try
             {
                 var num1 = 0UL;
                 var numArray = new byte[8];
-                var fileStream1 = new FileStream(string_4, FileMode.Open);
-                fileStream1.Position = smethod_17(string_5);
+                var fileStream1 = new FileStream(pathPddb, FileMode.Open) { Position = FindOffsetForItem(itemKey) };
                 if ((byte)fileStream1.ReadByte() == 7)
                 {
                     var num2 = (byte)fileStream1.ReadByte();
@@ -2160,23 +2162,23 @@ namespace GT5_Garage_Editor
                         var num3 = fileStream2.Position + 2L;
                         fileStream2.Position = num3;
                     }
-                    switch (byte_3)
+                    switch (itemLengthBytes)
                     {
                         case 1:
                             fileStream1.Read(numArray, 7, 1);
-                            num1 = smethod_7(7U, 7U, numArray);
+                            num1 = ReverseEndedness(7U, 7U, numArray);
                             break;
                         case 2:
                             fileStream1.Read(numArray, 6, 2);
-                            num1 = smethod_7(6U, 7U, numArray);
+                            num1 = ReverseEndedness(6U, 7U, numArray);
                             break;
                         case 4:
                             fileStream1.Read(numArray, 4, 4);
-                            num1 = smethod_7(4U, 7U, numArray);
+                            num1 = ReverseEndedness(4U, 7U, numArray);
                             break;
                         case 8:
                             fileStream1.Read(numArray, 0, 8);
-                            num1 = smethod_7(0U, 7U, numArray);
+                            num1 = ReverseEndedness(0U, 7U, numArray);
                             break;
                     }
                 }
@@ -2194,7 +2196,7 @@ namespace GT5_Garage_Editor
             try
             {
                 var numArray = new byte[8];
-                var fileStream1 = new FileStream(string_4, FileMode.Open) {Position = smethod_17(string_5)};
+                var fileStream1 = new FileStream(string_4, FileMode.Open) { Position = FindOffsetForItem(string_5) };
                 if ((byte)fileStream1.ReadByte() == 7)
                 {
                     var num1 = (byte)fileStream1.ReadByte();
@@ -2249,7 +2251,7 @@ namespace GT5_Garage_Editor
                 ++_numberOfFilesInSave;
             var process = new Process
             {
-                StartInfo = {FileName = Application.StartupPath + @"\Dependancies" + "\\pfdtool.exe"}
+                StartInfo = { FileName = Application.StartupPath + @"\Dependencies" + "\\pfdtool.exe" }
             };
             switch (_numberOfFilesInSave)
             {
@@ -2271,7 +2273,7 @@ namespace GT5_Garage_Editor
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WorkingDirectory = Application.StartupPath + @"\Dependancies";
+            process.StartInfo.WorkingDirectory = Application.StartupPath + @"\Dependencies";
             process.Start();
             process.WaitForExit();
             process.Close();
@@ -2296,7 +2298,7 @@ namespace GT5_Garage_Editor
                     startInfo.Arguments = "-g BCES00569 -e \"" + pathToSave + "\" GT5.0 GT5.1 GT5.2 GT5.3";
                     break;
             }
-            startInfo.FileName = Application.StartupPath + @"\Dependancies" + "\\pfdtool.exe ";
+            startInfo.FileName = Application.StartupPath + @"\Dependencies" + "\\pfdtool.exe ";
             startInfo.RedirectStandardError = true;
             startInfo.RedirectStandardInput = true;
             startInfo.RedirectStandardOutput = true;
@@ -2346,18 +2348,18 @@ namespace GT5_Garage_Editor
             try
             {
                 var buffer = new byte[2097152];
-                fileStream1.Position = (long)ulong_0;
+                fileStream1.Position = (long)_sqlLiteOffset;
                 switch (_numberOfFilesInSave)
                 {
                     case 1:
-                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)ulong_0 - 1);
-                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)ulong_0 - 1);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset - 1);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset - 1);
                         fileStream1.Close();
                         fileStream5.Close();
                         break;
                     case 2:
-                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)ulong_0);
-                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)ulong_0);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
                         fileStream2.Read(buffer, 0, (int)fileStream2.Length - 1);
                         fileStream5.Write(buffer, 0, (int)fileStream2.Length - 1);
                         fileStream1.Close();
@@ -2365,8 +2367,8 @@ namespace GT5_Garage_Editor
                         fileStream5.Close();
                         break;
                     case 3:
-                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)ulong_0);
-                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)ulong_0);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
                         fileStream2.Read(buffer, 0, (int)fileStream2.Length);
                         fileStream5.Write(buffer, 0, (int)fileStream2.Length);
                         fileStream3.Read(buffer, 0, (int)fileStream3.Length - 1);
@@ -2377,8 +2379,8 @@ namespace GT5_Garage_Editor
                         fileStream5.Close();
                         break;
                     case 4:
-                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)ulong_0);
-                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)ulong_0);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
                         fileStream2.Read(buffer, 0, (int)fileStream2.Length);
                         fileStream5.Write(buffer, 0, (int)fileStream2.Length);
                         fileStream3.Read(buffer, 0, (int)fileStream3.Length);
@@ -2420,7 +2422,7 @@ namespace GT5_Garage_Editor
             FileStream fileStream1 = null;
             try
             {
-                if (!_pathToGT5PointZero.Equals(string.Empty))
+                if (!_pathToPddb.Equals(string.Empty))
                 {
                     Cursor = Cursors.WaitCursor;
                     var sqLiteConnection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
@@ -2431,50 +2433,50 @@ namespace GT5_Garage_Editor
                     Thread.Sleep(100);
                     var buffer1 = new byte[16777216];
                     var fileStream2 = new FileStream(string_4 + "\\GT5.0", FileMode.Open);
-                    fileStream2.Read(buffer1, 0, (int)ulong_0);
+                    fileStream2.Read(buffer1, 0, (int)_sqlLiteOffset);
                     fileStream2.Close();
                     fileStream1 = new FileStream(Application.StartupPath + "\\temp", FileMode.Open);
-                    fileStream1.Read(buffer1, (int)ulong_0, (int)fileStream1.Length);
+                    fileStream1.Read(buffer1, (int)_sqlLiteOffset, (int)fileStream1.Length);
                     var num = 2097152;
                     var fileStream_0 = new FileStream(string_4 + "\\GT5.0", FileMode.Create);
                     fileStream_0.SetLength(1L);
-                    fileStream_0.Write(buffer1, 0, (int)ulong_0);
-                    WriteLongToFileStream((long)ulong_0 - 9L, fileStream_0, 0L, 4L, fileStream1.Length + 10L);
-                    WriteLongToFileStream((long)ulong_0 - 4L, fileStream_0, 0L, 4L, fileStream1.Length);
-                    fileStream_0.Position = (long)ulong_0;
-                    if (fileStream1.Length + (long)ulong_0 > _numberOfFilesInSave * 2097152)
+                    fileStream_0.Write(buffer1, 0, (int)_sqlLiteOffset);
+                    WriteLongToFileStream((long)_sqlLiteOffset - 9L, fileStream_0, 0L, 4L, fileStream1.Length + 10L);
+                    WriteLongToFileStream((long)_sqlLiteOffset - 4L, fileStream_0, 0L, 4L, fileStream1.Length);
+                    fileStream_0.Position = (long)_sqlLiteOffset;
+                    if (fileStream1.Length + (long)_sqlLiteOffset > _numberOfFilesInSave * 2097152)
                         flag = true;
-                    if (fileStream1.Length + (long)ulong_0 < num)
+                    if (fileStream1.Length + (long)_sqlLiteOffset < num)
                     {
-                        fileStream_0.Write(buffer1, (int)ulong_0, (int)fileStream1.Length);
+                        fileStream_0.Write(buffer1, (int)_sqlLiteOffset, (int)fileStream1.Length);
                         fileStream_0.WriteByte(0);
                         fileStream_0.Close();
                     }
-                    else if (fileStream1.Length + (long)ulong_0 > num && fileStream1.Length + (long)ulong_0 < 2 * num)
+                    else if (fileStream1.Length + (long)_sqlLiteOffset > num && fileStream1.Length + (long)_sqlLiteOffset < 2 * num)
                     {
                         var fileStream3 = new FileStream(string_4 + "\\GT5.1", FileMode.Create);
                         fileStream3.SetLength(1L);
-                        fileStream_0.Write(buffer1, (int)ulong_0, num - (int)ulong_0);
-                        fileStream3.Write(buffer1, num, (int)fileStream1.Length + (int)ulong_0 - num);
+                        fileStream_0.Write(buffer1, (int)_sqlLiteOffset, num - (int)_sqlLiteOffset);
+                        fileStream3.Write(buffer1, num, (int)fileStream1.Length + (int)_sqlLiteOffset - num);
                         fileStream3.WriteByte(0);
                         fileStream_0.Close();
                         fileStream3.Close();
                     }
-                    else if (fileStream1.Length + (long)ulong_0 > 2 * num && fileStream1.Length + (long)ulong_0 < 3 * num)
+                    else if (fileStream1.Length + (long)_sqlLiteOffset > 2 * num && fileStream1.Length + (long)_sqlLiteOffset < 3 * num)
                     {
                         var fileStream3 = new FileStream(string_4 + "\\GT5.1", FileMode.Create);
                         fileStream3.SetLength(1L);
                         var fileStream4 = new FileStream(string_4 + "\\GT5.2", FileMode.Create);
                         fileStream4.SetLength(1L);
-                        fileStream_0.Write(buffer1, (int)ulong_0, num - (int)ulong_0);
+                        fileStream_0.Write(buffer1, (int)_sqlLiteOffset, num - (int)_sqlLiteOffset);
                         fileStream3.Write(buffer1, num, num);
-                        fileStream4.Write(buffer1, 2 * num, (int)fileStream1.Length + (int)ulong_0 - 2 * num);
+                        fileStream4.Write(buffer1, 2 * num, (int)fileStream1.Length + (int)_sqlLiteOffset - 2 * num);
                         fileStream4.WriteByte(0);
                         fileStream_0.Close();
                         fileStream3.Close();
                         fileStream4.Close();
                     }
-                    else if (fileStream1.Length + (long)ulong_0 > 3 * num && fileStream1.Length + (long)ulong_0 < 4 * num)
+                    else if (fileStream1.Length + (long)_sqlLiteOffset > 3 * num && fileStream1.Length + (long)_sqlLiteOffset < 4 * num)
                     {
                         var fileStream3 = new FileStream(string_4 + "\\GT5.1", FileMode.Create);
                         fileStream3.SetLength(1L);
@@ -2482,10 +2484,10 @@ namespace GT5_Garage_Editor
                         fileStream4.SetLength(1L);
                         var fileStream5 = new FileStream(string_4 + "\\GT5.3", FileMode.Create);
                         fileStream5.SetLength(1L);
-                        fileStream_0.Write(buffer1, (int)ulong_0, num - (int)ulong_0);
+                        fileStream_0.Write(buffer1, (int)_sqlLiteOffset, num - (int)_sqlLiteOffset);
                         fileStream3.Write(buffer1, num, num);
                         fileStream4.Write(buffer1, 2 * num, num);
-                        fileStream5.Write(buffer1, 3 * num, (int)fileStream1.Length + (int)ulong_0 - 3 * num);
+                        fileStream5.Write(buffer1, 3 * num, (int)fileStream1.Length + (int)_sqlLiteOffset - 3 * num);
                         fileStream5.WriteByte(0);
                         fileStream_0.Close();
                         fileStream3.Close();
@@ -2520,25 +2522,25 @@ namespace GT5_Garage_Editor
             Cursor = Cursors.Default;
         }
 
-        public static ulong smethod_20(string string_4, string string_5)
+        public static ulong FindSqlLiteOffset(string sqlLiteFileMagic, string filePath)
         {
-            var fileStream1 = new FileStream(string_5, FileMode.Open);
+            var fileStream1 = new FileStream(filePath, FileMode.Open);
             var flag = false;
             var num1 = 0UL;
-            var bytes = Encoding.ASCII.GetBytes(string_4);
-            var numArray = new byte[string_4.Length];
+            var magicBytes = Encoding.ASCII.GetBytes(sqlLiteFileMagic);
+            var numArray = new byte[sqlLiteFileMagic.Length];
             while (!flag && fileStream1.Position < fileStream1.Length)
             {
-                if ((char)fileStream1.ReadByte() == bytes[0])
+                if ((char)fileStream1.ReadByte() == magicBytes[0])
                 {
                     var fileStream2 = fileStream1;
                     var num2 = fileStream2.Position - 1L;
                     fileStream2.Position = num2;
-                    fileStream1.Read(numArray, 0, string_4.Length);
-                    if (ByteArrayComparer.smethod_0(bytes, numArray))
+                    fileStream1.Read(numArray, 0, sqlLiteFileMagic.Length);
+                    if (ByteArrayComparer.AreByteArraysEquivalent(magicBytes, numArray))
                     {
                         flag = true;
-                        num1 = (ulong)fileStream1.Position - (ulong)string_4.Length;
+                        num1 = (ulong)fileStream1.Position - (ulong)sqlLiteFileMagic.Length;
                     }
                 }
             }
@@ -2546,33 +2548,27 @@ namespace GT5_Garage_Editor
             return num1;
         }
 
-        private static void smethod_21(string string_4, string string_5, bool bool_0)
+        private static void BackupSaveGame(string pathToSaveGame, string pathToBackupSaveGame)
         {
-            var directoryInfo1 = new DirectoryInfo(string_4);
+            var directoryInfo1 = new DirectoryInfo(pathToSaveGame);
             var directories = directoryInfo1.GetDirectories();
             if (!directoryInfo1.Exists)
-                throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + string_4);
-            if (!Directory.Exists(string_5))
-                Directory.CreateDirectory(string_5);
+                throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + pathToSaveGame);
+            if (!Directory.Exists(pathToBackupSaveGame))
+                Directory.CreateDirectory(pathToBackupSaveGame);
             foreach (var fileInfo in directoryInfo1.GetFiles())
             {
-                var destFileName = Path.Combine(string_5, fileInfo.Name);
+                var destFileName = Path.Combine(pathToBackupSaveGame, fileInfo.Name);
                 fileInfo.CopyTo(destFileName, false);
             }
-            if (!bool_0)
-                return;
-            foreach (var directoryInfo2 in directories)
-            {
-                var string_5_1 = Path.Combine(string_5, directoryInfo2.Name);
-                smethod_21(directoryInfo2.FullName, string_5_1, bool_0);
-            }
+            return;
         }
 
         private void openGarageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                if (!_pathToGT5PointZero.Equals(string.Empty))
+                if (!_pathToPddb.Equals(string.Empty))
                     return;
                 var folderBrowserDialog = new FolderBrowserDialog();
                 folderBrowserDialog.Description = "Select your Save Data Folder";
@@ -2581,10 +2577,10 @@ namespace GT5_Garage_Editor
                 Cursor = Cursors.WaitCursor;
                 Enabled = false;
                 _pathToSave = folderBrowserDialog.SelectedPath;
-                smethod_21(_pathToSave, Application.StartupPath + "\\BACKUP\\" + DateTime.Now.ToString().Replace('/', '-').Replace(':', ','), false);
-                _pathToGT5PointZero = _pathToSave + "\\GT5.0";
+                BackupSaveGame(_pathToSave, Application.StartupPath + "\\BACKUP\\" + DateTime.Now.ToString().Replace('/', '-').Replace(':', ','));
+                _pathToPddb = _pathToSave + "\\GT5.0";
                 DecryptSave(_pathToSave);
-                var fileStream1 = new FileStream(_pathToGT5PointZero, FileMode.Open);
+                var fileStream1 = new FileStream(_pathToPddb, FileMode.Open);
                 var fileStream2 = fileStream1;
                 var num1 = fileStream2.Position + 3L;
                 fileStream2.Position = num1;
@@ -2592,25 +2588,25 @@ namespace GT5_Garage_Editor
                 fileStream1.Close();
                 if (num2 == 249)
                 {
-                    smethod_12(_pathToGT5PointZero);
-                    tb_creditcap.Text = smethod_18(_pathToGT5PointZero, "cash_limit", 8).ToString();
-                    tb_car_avail.Text = smethod_18(_pathToGT5PointZero, "car_available", 1).ToString();
-                    tb_course_avail.Text = smethod_18(_pathToGT5PointZero, "course_available", 4).ToString();
-                    tb_aspec_wins.Text = smethod_18(_pathToGT5PointZero, "total_aspec_win", 4).ToString();
-                    tb_bspec_wins.Text = smethod_18(_pathToGT5PointZero, "total_bspec_win", 4).ToString();
+                    smethod_12(_pathToPddb);
+                    tb_creditcap.Text = FindItemInPddb(_pathToPddb, "cash_limit", 8).ToString();
+                    tb_car_avail.Text = FindItemInPddb(_pathToPddb, "car_available", 1).ToString();
+                    tb_course_avail.Text = FindItemInPddb(_pathToPddb, "course_available", 4).ToString();
+                    tb_aspec_wins.Text = FindItemInPddb(_pathToPddb, "total_aspec_win", 4).ToString();
+                    tb_bspec_wins.Text = FindItemInPddb(_pathToPddb, "total_bspec_win", 4).ToString();
                     comboBox_gift_preset.SelectedIndex = 0;
-                    textBox_used_car_day.Text = smethod_18(_pathToGT5PointZero, "used_car_visit_day", 4).ToString();
-                    textBox_gamedays.Text = smethod_18(_pathToGT5PointZero, "gameday", 8).ToString();
-                    textBox_Credits.Text = smethod_18(_pathToGT5PointZero, "cash", 8).ToString();
-                    comboBox_spec_LeveLA.SelectedIndex = (int)smethod_18(_pathToGT5PointZero, "aspec_lv", 4);
-                    comboBox_spec_LevelB.SelectedIndex = (int)smethod_18(_pathToGT5PointZero, "bspec_lv", 4);
+                    textBox_used_car_day.Text = FindItemInPddb(_pathToPddb, "used_car_visit_day", 4).ToString();
+                    textBox_gamedays.Text = FindItemInPddb(_pathToPddb, "gameday", 8).ToString();
+                    textBox_Credits.Text = FindItemInPddb(_pathToPddb, "cash", 8).ToString();
+                    comboBox_spec_LeveLA.SelectedIndex = (int)FindItemInPddb(_pathToPddb, "aspec_lv", 4);
+                    comboBox_spec_LevelB.SelectedIndex = (int)FindItemInPddb(_pathToPddb, "bspec_lv", 4);
                     radioButton_secretOff.Checked = true;
                     rb_textdebug_off.Checked = true;
-                    if ((long)smethod_18(_pathToGT5PointZero, "open_special_option", 1) == 1L)
+                    if ((long)FindItemInPddb(_pathToPddb, "open_special_option", 1) == 1L)
                         radioButton_secretOn.Checked = true;
-                    if ((long)smethod_18(_pathToGT5PointZero, "rtext_debug", 1) == 1L)
+                    if ((long)FindItemInPddb(_pathToPddb, "rtext_debug", 1) == 1L)
                         rb_txtdebug_on.Checked = true;
-                    ulong_0 = smethod_20("SQLite format 3", _pathToGT5PointZero);
+                    _sqlLiteOffset = FindSqlLiteOffset("SQLite format 3", _pathToPddb);
                     CompileSaveIntoSingleDb(_pathToSave);
                     _sqlHelper2 = new SqlHelper(Application.StartupPath + "\\temp", true, passBytes);
                     GetTuners(_sqlHelper2, ref dataTable_6);
@@ -2659,7 +2655,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(textBox_Credits.Text) && ulong.Parse(textBox_Credits.Text) < ulong.MaxValue)
                 {
-                    smethod_19(_pathToGT5PointZero, "cash", 8, ulong.Parse(textBox_Credits.Text));
+                    smethod_19(_pathToPddb, "cash", 8, ulong.Parse(textBox_Credits.Text));
                     var num = (int)MessageBox.Show("Credits Updated Successfully!");
                 }
                 else
@@ -2677,8 +2673,8 @@ namespace GT5_Garage_Editor
         {
             try
             {
-                smethod_19(_pathToGT5PointZero, "aspec_point", 8, ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LeveLA.SelectedIndex]));
-                smethod_19(_pathToGT5PointZero, "aspec_lv", 4, (ulong)comboBox_spec_LeveLA.SelectedIndex);
+                smethod_19(_pathToPddb, "aspec_point", 8, ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LeveLA.SelectedIndex]));
+                smethod_19(_pathToPddb, "aspec_lv", 4, (ulong)comboBox_spec_LeveLA.SelectedIndex);
                 var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
@@ -2691,8 +2687,8 @@ namespace GT5_Garage_Editor
         {
             try
             {
-                smethod_19(_pathToGT5PointZero, "bspec_point", 8, ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LevelB.SelectedIndex]));
-                smethod_19(_pathToGT5PointZero, "bspec_lv", 4, (ulong)comboBox_spec_LevelB.SelectedIndex);
+                smethod_19(_pathToPddb, "bspec_point", 8, ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LevelB.SelectedIndex]));
+                smethod_19(_pathToPddb, "bspec_lv", 4, (ulong)comboBox_spec_LevelB.SelectedIndex);
                 var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
@@ -2706,9 +2702,9 @@ namespace GT5_Garage_Editor
             try
             {
                 if (radioButton_secretOn.Checked)
-                    smethod_19(_pathToGT5PointZero, "open_special_option", 1, 1UL);
+                    smethod_19(_pathToPddb, "open_special_option", 1, 1UL);
                 else
-                    smethod_19(_pathToGT5PointZero, "open_special_option", 1, 0UL);
+                    smethod_19(_pathToPddb, "open_special_option", 1, 0UL);
                 var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
@@ -2723,7 +2719,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(textBox_gamedays.Text) && ulong.Parse(textBox_gamedays.Text) < ulong.MaxValue)
                 {
-                    smethod_19(_pathToGT5PointZero, "gameday", 8, ulong.Parse(textBox_gamedays.Text));
+                    smethod_19(_pathToPddb, "gameday", 8, ulong.Parse(textBox_gamedays.Text));
                     var num = (int)MessageBox.Show("Gameday Updated Successfully!");
                 }
                 else
@@ -2743,7 +2739,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(textBox_used_car_day.Text) && ulong.Parse(textBox_used_car_day.Text) < uint.MaxValue)
                 {
-                    smethod_19(_pathToGT5PointZero, "used_car_visit_day", 4, ulong.Parse(textBox_used_car_day.Text));
+                    smethod_19(_pathToPddb, "used_car_visit_day", 4, ulong.Parse(textBox_used_car_day.Text));
                     var num = (int)MessageBox.Show("Used Car Visit Day Updated Successfully!");
                 }
                 else
@@ -2763,7 +2759,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_course_avail.Text) && ulong.Parse(tb_course_avail.Text) <= uint.MaxValue)
                 {
-                    smethod_19(_pathToGT5PointZero, "course_available", 4, ulong.Parse(tb_course_avail.Text));
+                    smethod_19(_pathToPddb, "course_available", 4, ulong.Parse(tb_course_avail.Text));
                     var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
@@ -2783,7 +2779,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_car_avail.Text) && ulong.Parse(tb_car_avail.Text) <= byte.MaxValue)
                 {
-                    smethod_19(_pathToGT5PointZero, "car_available", 1, ulong.Parse(tb_car_avail.Text));
+                    smethod_19(_pathToPddb, "car_available", 1, ulong.Parse(tb_car_avail.Text));
                     var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
@@ -2803,7 +2799,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_creditcap.Text) && ulong.Parse(tb_creditcap.Text) <= 999999999999999999UL)
                 {
-                    smethod_19(_pathToGT5PointZero, "cash_limit", 8, ulong.Parse(tb_creditcap.Text));
+                    smethod_19(_pathToPddb, "cash_limit", 8, ulong.Parse(tb_creditcap.Text));
                     var num = (int)MessageBox.Show("Credit Cap Updated Successfully!");
                 }
                 else
@@ -2823,7 +2819,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_aspec_wins.Text) && ulong.Parse(tb_aspec_wins.Text) <= uint.MaxValue)
                 {
-                    smethod_19(_pathToGT5PointZero, "total_aspec_win", 4, ulong.Parse(tb_aspec_wins.Text));
+                    smethod_19(_pathToPddb, "total_aspec_win", 4, ulong.Parse(tb_aspec_wins.Text));
                     var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
@@ -2843,7 +2839,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_bspec_wins.Text) && ulong.Parse(tb_bspec_wins.Text) <= uint.MaxValue)
                 {
-                    smethod_19(_pathToGT5PointZero, "total_bspec_win", 4, ulong.Parse(tb_bspec_wins.Text));
+                    smethod_19(_pathToPddb, "total_bspec_win", 4, ulong.Parse(tb_bspec_wins.Text));
                     var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
@@ -2862,9 +2858,9 @@ namespace GT5_Garage_Editor
             try
             {
                 if (rb_txtdebug_on.Checked)
-                    smethod_19(_pathToGT5PointZero, "rtext_debug", 1, 1UL);
+                    smethod_19(_pathToPddb, "rtext_debug", 1, 1UL);
                 else
-                    smethod_19(_pathToGT5PointZero, "rtext_debug", 1, 0UL);
+                    smethod_19(_pathToPddb, "rtext_debug", 1, 0UL);
                 var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
@@ -2888,192 +2884,192 @@ namespace GT5_Garage_Editor
                         var dictionary = new Dictionary<string, int>(46);
                         var key2 = "Odometer";
                         var num4 = 0;
-                        
+
                         dictionary.Add(key2, num4);
                         var key3 = "Oil";
                         var num5 = 1;
-                        
+
                         dictionary.Add(key3, num5);
                         var key4 = "Paint";
                         var num6 = 2;
-                        
+
                         dictionary.Add(key4, num6);
                         var key5 = "Body";
                         var num7 = 3;
-                        
+
                         dictionary.Add(key5, num7);
                         var key6 = "Colour";
                         var num8 = 4;
-                        
+
                         dictionary.Add(key6, num8);
                         var key7 = "Brakes";
                         var num9 = 5;
-                        
+
                         dictionary.Add(key7, num9);
                         var key8 = "_198_201";
                         var num10 = 6;
-                        
+
                         dictionary.Add(key8, num10);
                         var key9 = "Chassis";
                         var num11 = 7;
-                        
+
                         dictionary.Add(key9, num11);
                         var key10 = "Engine";
                         var num12 = 8;
-                        
+
                         dictionary.Add(key10, num12);
                         var key11 = "Drivetrain";
                         var num13 = 9;
-                        
+
                         dictionary.Add(key11, num13);
                         var key12 = "Transmission";
                         var num14 = 10;
-                        
+
                         dictionary.Add(key12, num14);
                         var key13 = "Suspension";
                         var num15 = 11;
-                        
+
                         dictionary.Add(key13, num15);
                         var key14 = "LSD";
                         var num16 = 12;
-                        
+
                         dictionary.Add(key14, num16);
                         var key15 = "_226_229";
                         var num17 = 13;
-                        
+
                         dictionary.Add(key15, num17);
                         var key16 = "WReduction";
                         var num18 = 14;
-                        
+
                         dictionary.Add(key16, num18);
                         var key17 = "_234_237";
                         var num19 = 15;
-                        
+
                         dictionary.Add(key17, num19);
                         var key18 = "_238_241";
                         var num20 = 16;
-                        
+
                         dictionary.Add(key18, num20);
                         var key19 = "ECU";
                         var num21 = 17;
-                        
+
                         dictionary.Add(key19, num21);
                         var key20 = "Engine Tune";
                         var num22 = 18;
-                        
+
                         dictionary.Add(key20, num22);
                         var key21 = "Turbo ";
                         var num23 = 19;
-                        
+
                         dictionary.Add(key21, num23);
                         var key22 = "Flywheel";
                         var num24 = 20;
-                        
+
                         dictionary.Add(key22, num24);
                         var key23 = "Clutch";
                         var num25 = 21;
-                        
+
                         dictionary.Add(key23, num25);
                         var key24 = "Driveshaft";
                         var num26 = 22;
-                        
+
                         dictionary.Add(key24, num26);
                         var key25 = "Exhaust";
                         var num27 = 23;
-                        
+
                         dictionary.Add(key25, num27);
                         var key26 = "_270_273";
                         var num28 = 24;
-                        
+
                         dictionary.Add(key26, num28);
                         var key27 = "ASM Controller";
                         var num29 = 25;
-                        
+
                         dictionary.Add(key27, num29);
                         var key28 = "TCS Controller";
                         var num30 = 26;
-                        
+
                         dictionary.Add(key28, num30);
                         var key29 = "_282_285";
                         var num31 = 27;
-                        
+
                         dictionary.Add(key29, num31);
                         var key30 = "Supercharger";
                         var num32 = 28;
-                        
+
                         dictionary.Add(key30, num32);
                         var key31 = "Intake Manifold";
                         var num33 = 29;
-                        
+
                         dictionary.Add(key31, num33);
                         var key32 = "Exhaust Manifold";
                         var num34 = 30;
-                        
+
                         dictionary.Add(key32, num34);
                         var key33 = "Catalytic Converter";
                         var num35 = 31;
-                        
+
                         dictionary.Add(key33, num35);
                         var key34 = "Air Filter";
                         var num36 = 32;
-                        
+
                         dictionary.Add(key34, num36);
                         var key35 = "_306_309";
                         var num37 = 33;
-                        
+
                         dictionary.Add(key35, num37);
                         var key36 = "WindowWR";
                         var num38 = 34;
-                        
+
                         dictionary.Add(key36, num38);
                         var key37 = "Hood";
                         var num39 = 35;
-                        
+
                         dictionary.Add(key37, num39);
                         var key38 = "FrBumper";
                         var num40 = 36;
-                        
+
                         dictionary.Add(key38, num40);
                         var key39 = "RrBumper";
                         var num41 = 37;
-                        
+
                         dictionary.Add(key39, num41);
                         var key40 = "Extension";
                         var num42 = 38;
-                        
+
                         dictionary.Add(key40, num42);
                         var key41 = "Wing";
                         var num43 = 39;
-                        
+
                         dictionary.Add(key41, num43);
                         var key42 = "_334_337";
                         var num44 = 40;
-                        
+
                         dictionary.Add(key42, num44);
                         var key43 = "Reinforcement";
                         var num45 = 41;
-                        
+
                         dictionary.Add(key43, num45);
                         var key44 = "NoS";
                         var num46 = 42;
-                        
+
                         dictionary.Add(key44, num46);
                         var key45 = "BHP";
                         var num47 = 43;
-                        
+
                         dictionary.Add(key45, num47);
                         var key46 = "Grip";
                         var num48 = 44;
-                        
+
                         dictionary.Add(key46, num48);
                         var key47 = "Weight";
                         var num49 = 45;
-                        
+
                         dictionary.Add(key47, num49);
                         Dictionaries.dictionary_3 = dictionary;
                     }
                     int num50;
-                    
+
                     if ((Dictionaries.dictionary_3.TryGetValue(key1, out num50)))
                     {
                         switch (num50)
@@ -3475,64 +3471,64 @@ namespace GT5_Garage_Editor
                         var dictionary = new Dictionary<string, int>(14);
                         var key2 = "Body/Chassis";
                         var num4 = 0;
-                        
+
                         dictionary.Add(key2, num4);
                         var key3 = "Engine";
                         var num5 = 1;
-                        
+
                         dictionary.Add(key3, num5);
                         var key4 = "Intake/Exhaust";
                         var num6 = 2;
-                        
+
                         dictionary.Add(key4, num6);
                         var key5 = "Turbo Kit";
                         var num7 = 3;
-                        
+
                         dictionary.Add(key5, num7);
                         var key6 = "Transmission";
                         var num8 = 4;
-                        
+
                         dictionary.Add(key6, num8);
                         var key7 = "Drivetrain";
                         var num9 = 5;
-                        
+
                         dictionary.Add(key7, num9);
                         var key8 = "Suspension";
                         var num10 = 6;
-                        
+
                         dictionary.Add(key8, num10);
                         var key9 = "Brakes";
                         var num11 = 7;
-                        
+
                         dictionary.Add(key9, num11);
                         var key10 = "Comfort Tires";
                         var num12 = 8;
-                        
+
                         dictionary.Add(key10, num12);
                         var key11 = "Sports Tires";
                         var num13 = 9;
-                        
+
                         dictionary.Add(key11, num13);
                         var key12 = "Racing Tires";
                         var num14 = 10;
-                        
+
                         dictionary.Add(key12, num14);
                         var key13 = "Special Tires";
                         var num15 = 11;
-                        
+
                         dictionary.Add(key13, num15);
                         var key14 = "Others";
                         var num16 = 12;
-                        
+
                         dictionary.Add(key14, num16);
                         var key15 = "Horns";
                         var num17 = 13;
-                        
+
                         dictionary.Add(key15, num17);
                         Dictionaries.dictionary_4 = dictionary;
                     }
                     int num18;
-                    
+
                     if ((Dictionaries.dictionary_4.TryGetValue(key1, out num18)))
                     {
                         switch (num18)
@@ -3814,13 +3810,13 @@ namespace GT5_Garage_Editor
 
         public void method_18()
         {
-            LoadCarSheet(currentSheet);
+            LoadCarSheet(_currentSheet);
             var byte_3 = new byte[679];
-            if (currentSheet.Equals('a'))
+            if (_currentSheet.Equals('a'))
                 byte_3 = _currentCar.GetBlob1().FullBlob();
-            if (currentSheet.Equals('b'))
+            if (_currentSheet.Equals('b'))
                 byte_3 = _currentCar.GetBlob2().FullBlob();
-            if (currentSheet.Equals('c'))
+            if (_currentSheet.Equals('c'))
                 byte_3 = _currentCar.GetBlob3().FullBlob();
             UpdateCarParamBlobFromDgv(ref dataGridView_Dest, ref byte_3);
             if (tabControl_garage.SelectedIndex == tabControl_garage.TabPages.IndexOf(tabPage_garage))
@@ -3906,22 +3902,22 @@ namespace GT5_Garage_Editor
         private void radioButton_A_CheckedChanged(object sender, EventArgs e)
         {
             method_18();
-            currentSheet = 'a';
-            LoadCarSheet(currentSheet);
+            _currentSheet = 'a';
+            LoadCarSheet(_currentSheet);
         }
 
         private void radioButton_B_CheckedChanged(object sender, EventArgs e)
         {
             method_18();
-            currentSheet = 'b';
-            LoadCarSheet(currentSheet);
+            _currentSheet = 'b';
+            LoadCarSheet(_currentSheet);
         }
 
         private void radioButton_C_CheckedChanged(object sender, EventArgs e)
         {
             method_18();
-            currentSheet = 'c';
-            LoadCarSheet(currentSheet);
+            _currentSheet = 'c';
+            LoadCarSheet(_currentSheet);
         }
 
         public string StringToMd5Hash(string str)

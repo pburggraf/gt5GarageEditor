@@ -39,7 +39,7 @@ namespace GT5_Garage_Editor
             try
             {
                 byte_0 = Encoding.ASCII.GetBytes("_akz&^_&*^950_dLu");
-                gclass2_0 = new SqlHelper(Application.StartupPath + @"\Dependancies" + _dbFileName, true, byte_0);
+                gclass2_0 = new SqlHelper(Application.StartupPath + @"\Dependencies" + _dbFileName, true, byte_0);
                 method_1(67108863U);
                 dataTable_2 = gclass2_0.ExecuteReader("SELECT DISTINCT Maker FROM t_colour");
                 InitializeComponent();

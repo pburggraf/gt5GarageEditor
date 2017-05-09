@@ -36,29 +36,29 @@ namespace GT5_Garage_Editor.Models.CarModels
         private uint _rideHeightR;
         private sbyte _toeF;
         private sbyte _toeR;
-        private byte byte_10;
-        private byte byte_11;
-        private byte byte_12;
-        private byte byte_13;
-        private byte byte_14;
-        private byte byte_15;
-        private byte byte_16;
-        private byte byte_17;
-        private byte byte_18;
-        private byte byte_19;
-        private byte byte_20;
-        private byte byte_21;
-        private byte byte_22;
-        private byte byte_23;
+        private byte _springF;
+        private byte _springR;
+        private byte _extenF;
+        private byte _compF;
+        private byte _extenR;
+        private byte _compR;
+        private byte _antiRollBarF;
+        private byte _antiRollBarR;
+        private byte _lsdInitF;
+        private byte _lsdInitR;
+        private byte _lsdAccF;
+        private byte _lsdAccR;
+        private byte _lsdDecF;
+        private byte _lsdDecR;
         private byte _ballastKg;
         private sbyte _ballastPos;
-        private byte byte_25;
-        private byte byte_26;
+        private byte _bbf;
+        private byte _bbr;
         private uint uint_20;
         private byte _colour;
-        private uint uint_21;
-        private byte byte_28;
-        private byte byte_29;
+        private uint _paint;
+        private byte _frRim;
+        private byte _rrRim;
         private byte _bhp;
         private byte _grip;
         private byte _weight;
@@ -116,7 +116,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             Oil(GetUInt(49U, 52U, blob));
             Changes(GetUInt(65U, 66U, blob));
             Wins(GetUInt(67U, 68U, blob));
-            method_105(GetUInt(77U, 80U, blob));
+            Paint(GetUInt(77U, 80U, blob));
             method_13(GetByte(183U, blob));
             method_15(GetByte(191U, blob));
             FrTyre(GetByte(185U, blob));
@@ -144,25 +144,25 @@ namespace GT5_Garage_Editor.Models.CarModels
             RideHeightR(GetUInt(390U, 391U, blob));
             ToeF((sbyte) GetByte(392U, blob));
             ToeR((sbyte) GetByte(393U, blob));
-            method_65(GetByte(394U, blob));
-            method_67(GetByte(395U, blob));
-            method_69(GetByte(399U, blob));
-            method_71(GetByte(401U, blob));
-            method_73(GetByte(403U, blob));
-            method_75(GetByte(405U, blob));
-            method_77(GetByte(406U, blob));
-            method_79(GetByte(407U, blob));
-            method_81(GetByte(408U, blob));
-            method_85(GetByte(410U, blob));
-            method_89(GetByte(412U, blob));
-            method_83(GetByte(409U, blob));
-            method_87(GetByte(411U, blob));
-            method_91(GetByte(413U, blob));
+            SpringF(GetByte(394U, blob));
+            SpringR(GetByte(395U, blob));
+            ExtenF(GetByte(399U, blob));
+            CompF(GetByte(401U, blob));
+            ExtenR(GetByte(403U, blob));
+            CompR(GetByte(405U, blob));
+            AntiRollBarF(GetByte(406U, blob));
+            AntiRollBarR(GetByte(407U, blob));
+            LsdInitF(GetByte(408U, blob));
+            LsdAccF(GetByte(410U, blob));
+            LsdDecF(GetByte(412U, blob));
+            LsdInitR(GetByte(409U, blob));
+            LsdAccR(GetByte(411U, blob));
+            LsdDecR(GetByte(413U, blob));
             BallastKg(GetByte(419U, blob));
             BallastPos((sbyte) GetByte(420U, blob));
             Grip(GetByte(431U, blob));
-            method_97(GetByte(432U, blob));
-            method_99(GetByte(433U, blob));
+            Bbf(GetByte(432U, blob));
+            Bbr(GetByte(433U, blob));
             Body(GetUInt(159U, 160U, blob));
             Colour((byte) GetUInt(169U, 169U, blob));
             Chassis(GetUInt(202U, 205U, blob));
@@ -212,8 +212,8 @@ namespace GT5_Garage_Editor.Models.CarModels
             method_189(GetUInt(334U, 337U, blob));
             Reinforcement(GetUInt(338U, 341U, blob));
             Nos(GetUInt(342U, 345U, blob));
-            method_107(GetByte(173U, blob));
-            method_109(GetByte(177U, blob));
+            FrRim(GetByte(173U, blob));
+            RrRim(GetByte(177U, blob));
         }
 
         public byte[] FullBlob()
@@ -538,142 +538,142 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public byte SpringF()
         {
-            return byte_10;
+            return _springF;
         }
 
-        public void method_65(byte byte_33)
+        public void SpringF(byte byte_33)
         {
-            byte_10 = byte_33;
+            _springF = byte_33;
         }
 
         public byte SpringR()
         {
-            return byte_11;
+            return _springR;
         }
 
-        public void method_67(byte byte_33)
+        public void SpringR(byte byte_33)
         {
-            byte_11 = byte_33;
+            _springR = byte_33;
         }
 
         public byte ExtenF()
         {
-            return byte_12;
+            return _extenF;
         }
 
-        public void method_69(byte byte_33)
+        public void ExtenF(byte byte_33)
         {
-            byte_12 = byte_33;
+            _extenF = byte_33;
         }
 
         public byte CompF()
         {
-            return byte_13;
+            return _compF;
         }
 
-        public void method_71(byte byte_33)
+        public void CompF(byte byte_33)
         {
-            byte_13 = byte_33;
+            _compF = byte_33;
         }
 
         public byte ExtenR()
         {
-            return byte_14;
+            return _extenR;
         }
 
-        public void method_73(byte byte_33)
+        public void ExtenR(byte byte_33)
         {
-            byte_14 = byte_33;
+            _extenR = byte_33;
         }
 
         public byte CompR()
         {
-            return byte_15;
+            return _compR;
         }
 
-        public void method_75(byte byte_33)
+        public void CompR(byte byte_33)
         {
-            byte_15 = byte_33;
+            _compR = byte_33;
         }
 
         public byte AntiRollBarF()
         {
-            return byte_16;
+            return _antiRollBarF;
         }
 
-        public void method_77(byte byte_33)
+        public void AntiRollBarF(byte byte_33)
         {
-            byte_16 = byte_33;
+            _antiRollBarF = byte_33;
         }
 
         public byte AntiRollBarR()
         {
-            return byte_17;
+            return _antiRollBarR;
         }
 
-        public void method_79(byte byte_33)
+        public void AntiRollBarR(byte byte_33)
         {
-            byte_17 = byte_33;
+            _antiRollBarR = byte_33;
         }
 
-        public byte LSDInitF()
+        public byte LsdInitF()
         {
-            return byte_18;
+            return _lsdInitF;
         }
 
-        public void method_81(byte byte_33)
+        public void LsdInitF(byte byte_33)
         {
-            byte_18 = byte_33;
+            _lsdInitF = byte_33;
         }
 
-        public byte LSDInitR()
+        public byte LsdInitR()
         {
-            return byte_19;
+            return _lsdInitR;
         }
 
-        public void method_83(byte byte_33)
+        public void LsdInitR(byte byte_33)
         {
-            byte_19 = byte_33;
+            _lsdInitR = byte_33;
         }
 
-        public byte LSDAccF()
+        public byte LsdAccF()
         {
-            return byte_20;
+            return _lsdAccF;
         }
 
-        public void method_85(byte byte_33)
+        public void LsdAccF(byte byte_33)
         {
-            byte_20 = byte_33;
+            _lsdAccF = byte_33;
         }
 
-        public byte LSDAccR()
+        public byte LsdAccR()
         {
-            return byte_21;
+            return _lsdAccR;
         }
 
-        public void method_87(byte byte_33)
+        public void LsdAccR(byte byte_33)
         {
-            byte_21 = byte_33;
+            _lsdAccR = byte_33;
         }
 
-        public byte LSDDecF()
+        public byte LsdDecF()
         {
-            return byte_22;
+            return _lsdDecF;
         }
 
-        public void method_89(byte byte_33)
+        public void LsdDecF(byte byte_33)
         {
-            byte_22 = byte_33;
+            _lsdDecF = byte_33;
         }
 
-        public byte LSDDecR()
+        public byte LsdDecR()
         {
-            return byte_23;
+            return _lsdDecR;
         }
 
-        public void method_91(byte byte_33)
+        public void LsdDecR(byte byte_33)
         {
-            byte_23 = byte_33;
+            _lsdDecR = byte_33;
         }
 
         public byte BallastKg()
@@ -696,24 +696,24 @@ namespace GT5_Garage_Editor.Models.CarModels
             _ballastPos = val;
         }
 
-        public byte BBF()
+        public byte Bbf()
         {
-            return byte_25;
+            return _bbf;
         }
 
-        public void method_97(byte byte_33)
+        public void Bbf(byte byte_33)
         {
-            byte_25 = byte_33;
+            _bbf = byte_33;
         }
 
-        public byte BBR()
+        public byte Bbr()
         {
-            return byte_26;
+            return _bbr;
         }
 
-        public void method_99(byte byte_33)
+        public void Bbr(byte byte_33)
         {
-            byte_26 = byte_33;
+            _bbr = byte_33;
         }
 
         public uint method_100()
@@ -738,32 +738,32 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public uint Paint()
         {
-            return uint_21;
+            return _paint;
         }
 
-        public void method_105(uint uint_61)
+        public void Paint(uint uint_61)
         {
-            uint_21 = uint_61;
+            _paint = uint_61;
         }
 
         public byte FrRim()
         {
-            return byte_28;
+            return _frRim;
         }
 
-        public void method_107(byte byte_33)
+        public void FrRim(byte byte_33)
         {
-            byte_28 = byte_33;
+            _frRim = byte_33;
         }
 
         public byte RrRim()
         {
-            return byte_29;
+            return _rrRim;
         }
 
-        public void method_109(byte byte_33)
+        public void RrRim(byte byte_33)
         {
-            byte_29 = byte_33;
+            _rrRim = byte_33;
         }
 
         public byte Bhp()
