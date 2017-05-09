@@ -23,7 +23,7 @@ namespace GT5_Garage_Editor
     public sealed partial class FormMain : Form
     {
         private static byte _numberOfFilesInSave = 0;
-        private static char _char0 = 'a';
+        private static char currentSheet = 'a';
         public static List<int> list_0 = new List<int>();
         public static List<int> list_1 = new List<int>();
         public static List<string> list_2 = new List<string>();
@@ -136,7 +136,7 @@ namespace GT5_Garage_Editor
                 comboBox_DMake.SelectedIndex = 0;
                 comboBox_DMake.Enabled = false;
                 comboBox_DModel.Enabled = false;
-                _char0 = 'a';
+                currentSheet = 'a';
                 _currentCar = new Car();
                 var num = smethod_17("riding_car");
                 var numArray = new byte[679];
@@ -313,7 +313,7 @@ namespace GT5_Garage_Editor
             dataTable_8 = _sqlHelper2.ExecuteReader("SELECT * FROM t_garage WHERE garage_id LIKE " + dataTable_7.Rows[comboBox_DModel.SelectedIndex].ItemArray[1]);
             _currentCar = new Car(dataTable_8);
             LoadCurrentCarDetails();
-            LoadCarSheet(_char0);
+            LoadCarSheet(currentSheet);
             groupBox_Sheet.Enabled = true;
         }
 
@@ -545,9 +545,9 @@ namespace GT5_Garage_Editor
             if (comboBox_DModel.SelectedIndex < 0 && tabControl_garage.SelectedIndex != tabControl_garage.TabPages.IndexOf(tabPage_ridingCar))
                 return;
             var str = dgvSrc.SelectedRows[0].Cells[0].Value.ToString();
-            if (!_char0.Equals('a') && tabControl_garage.SelectedIndex != tabControl_garage.TabPages.IndexOf(tabPage_ridingCar))
+            if (!currentSheet.Equals('a') && tabControl_garage.SelectedIndex != tabControl_garage.TabPages.IndexOf(tabPage_ridingCar))
             {
-                if (_char0.Equals('b'))
+                if (currentSheet.Equals('b'))
                 {
                     string key1;
                     if ((key1 = str) != null)
@@ -861,7 +861,7 @@ namespace GT5_Garage_Editor
                 else
                 {
                     string key1;
-                    if (_char0.Equals('c') && (key1 = str) != null)
+                    if (currentSheet.Equals('c') && (key1 = str) != null)
                     {
                         if (Dictionaries.dictionary_2 == null)
                         {
@@ -1504,7 +1504,7 @@ namespace GT5_Garage_Editor
                     var paintSelector = new PaintSelector();
                     if (paintSelector.ShowDialog() == DialogResult.OK)
                     {
-                        switch (_char0)
+                        switch (currentSheet)
                         {
                             case 'a':
                                 _currentCar.GetBlob1().method_105(paintSelector.method_0());
@@ -1526,7 +1526,7 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public void method_9(ref DataGridView dataGridView_0, ref byte[] carParamBlob)
+        public void UpdateCarParamBlobFromDgv(ref DataGridView dataGridView_0, ref byte[] carParamBlob)
         {
             try
             {
@@ -1583,13 +1583,13 @@ namespace GT5_Garage_Editor
             if (IsAlphaNumeric(dataGridView_Dest.CurrentCell.EditedFormattedValue.ToString()) && dataGridView_Dest.CurrentCell.EditedFormattedValue.ToString().Length == 8)
             {
                 var carParamBlob = new byte[679];
-                if (_char0.Equals('a'))
+                if (currentSheet.Equals('a'))
                     carParamBlob = _currentCar.GetBlob1().FullBlob();
-                if (_char0.Equals('b'))
+                if (currentSheet.Equals('b'))
                     carParamBlob = _currentCar.GetBlob2().FullBlob();
-                if (_char0.Equals('c'))
+                if (currentSheet.Equals('c'))
                     carParamBlob = _currentCar.GetBlob3().FullBlob();
-                method_9(ref dataGridView_Dest, ref carParamBlob);
+                UpdateCarParamBlobFromDgv(ref dataGridView_Dest, ref carParamBlob);
                 if (tabControl_garage.SelectedIndex == tabControl_garage.TabPages.IndexOf(tabPage_garage))
                 {
                     UpdateCarParamBlobs(_sqlHelper2, _currentCar);
@@ -1599,10 +1599,10 @@ namespace GT5_Garage_Editor
                 }
                 else
                     _currentCar.UpdateBlob1(new CarParameterBlob(_currentCar.GetBlob1().FullBlob()));
-                LoadCarSheet(_char0);
+                LoadCarSheet(currentSheet);
             }
             else
-                LoadCarSheet(_char0);
+                LoadCarSheet(currentSheet);
         }
 
         private void dataGridView_Dest_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
@@ -1612,7 +1612,7 @@ namespace GT5_Garage_Editor
                 var str = dataGridView_Dest.SelectedCells[0].Value.ToString();
                 if (comboBox_DModel.SelectedIndex < 0 || str.Equals("Paint") && str.Equals("Tune Sheet") || (dataGridView_Dest.SelectedCells[0].RowIndex <= 0 || dataGridView_Dest.SelectedCells[0].ColumnIndex != 1))
                     return;
-                LoadCarSheet(_char0);
+                LoadCarSheet(currentSheet);
             }
             catch
             {
@@ -3814,15 +3814,15 @@ namespace GT5_Garage_Editor
 
         public void method_18()
         {
-            LoadCarSheet(_char0);
+            LoadCarSheet(currentSheet);
             var byte_3 = new byte[679];
-            if (_char0.Equals('a'))
+            if (currentSheet.Equals('a'))
                 byte_3 = _currentCar.GetBlob1().FullBlob();
-            if (_char0.Equals('b'))
+            if (currentSheet.Equals('b'))
                 byte_3 = _currentCar.GetBlob2().FullBlob();
-            if (_char0.Equals('c'))
+            if (currentSheet.Equals('c'))
                 byte_3 = _currentCar.GetBlob3().FullBlob();
-            method_9(ref dataGridView_Dest, ref byte_3);
+            UpdateCarParamBlobFromDgv(ref dataGridView_Dest, ref byte_3);
             if (tabControl_garage.SelectedIndex == tabControl_garage.TabPages.IndexOf(tabPage_garage))
             {
                 UpdateCarParamBlobs(_sqlHelper2, _currentCar);
@@ -3906,22 +3906,22 @@ namespace GT5_Garage_Editor
         private void radioButton_A_CheckedChanged(object sender, EventArgs e)
         {
             method_18();
-            _char0 = 'a';
-            LoadCarSheet(_char0);
+            currentSheet = 'a';
+            LoadCarSheet(currentSheet);
         }
 
         private void radioButton_B_CheckedChanged(object sender, EventArgs e)
         {
             method_18();
-            _char0 = 'b';
-            LoadCarSheet(_char0);
+            currentSheet = 'b';
+            LoadCarSheet(currentSheet);
         }
 
         private void radioButton_C_CheckedChanged(object sender, EventArgs e)
         {
             method_18();
-            _char0 = 'c';
-            LoadCarSheet(_char0);
+            currentSheet = 'c';
+            LoadCarSheet(currentSheet);
         }
 
         public string StringToMd5Hash(string str)
