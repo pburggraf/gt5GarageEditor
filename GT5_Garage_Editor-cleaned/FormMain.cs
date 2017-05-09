@@ -340,12 +340,12 @@ namespace GT5_Garage_Editor
             AddColumnToDgv(ref dgvSrc, "Drivetrain", tempCar.GetBlob1().DriveTrain());
             AddColumnToDgv(ref dgvSrc, "Transmission", tempCar.GetBlob1().Transmission());
             AddColumnToDgv(ref dgvSrc, "Suspension", tempCar.GetBlob1().Suspension());
-            AddColumnToDgv(ref dgvSrc, "LSD", tempCar.GetBlob1().LSD());
+            AddColumnToDgv(ref dgvSrc, "LSD", tempCar.GetBlob1().Lsd());
             AddColumnToDgv(ref dgvSrc, "_226_229", tempCar.GetBlob1().method_134());
             AddColumnToDgv(ref dgvSrc, "WReduction", tempCar.GetBlob1().WReduction());
             AddColumnToDgv(ref dgvSrc, "_234_237", tempCar.GetBlob1().method_138());
             AddColumnToDgv(ref dgvSrc, "_238_241", tempCar.GetBlob1().method_140());
-            AddColumnToDgv(ref dgvSrc, "ECU", tempCar.GetBlob1().ECU());
+            AddColumnToDgv(ref dgvSrc, "ECU", tempCar.GetBlob1().Ecu());
             AddColumnToDgv(ref dgvSrc, "Engine Tune", tempCar.GetBlob1().EngineTune());
             AddColumnToDgv(ref dgvSrc, "Turbo", tempCar.GetBlob1().Turbo());
             AddColumnToDgv(ref dgvSrc, "Flywheel", tempCar.GetBlob1().Flywheel());
@@ -353,8 +353,8 @@ namespace GT5_Garage_Editor
             AddColumnToDgv(ref dgvSrc, "Driveshaft", tempCar.GetBlob1().Driveshaft());
             AddColumnToDgv(ref dgvSrc, "Exhaust", tempCar.GetBlob1().Exhaust());
             AddColumnToDgv(ref dgvSrc, "_270_273", tempCar.GetBlob1().method_156());
-            AddColumnToDgv(ref dgvSrc, "ASM Controller", tempCar.GetBlob1().ASM());
-            AddColumnToDgv(ref dgvSrc, "TCS Controller", tempCar.GetBlob1().TCS());
+            AddColumnToDgv(ref dgvSrc, "ASM Controller", tempCar.GetBlob1().Asm());
+            AddColumnToDgv(ref dgvSrc, "TCS Controller", tempCar.GetBlob1().Tcs());
             AddColumnToDgv(ref dgvSrc, "_282_285", tempCar.GetBlob1().method_162());
             AddColumnToDgv(ref dgvSrc, "Supercharger", tempCar.GetBlob1().Supercharger());
             AddColumnToDgv(ref dgvSrc, "Intake Manifold", tempCar.GetBlob1().Intake());
@@ -362,7 +362,7 @@ namespace GT5_Garage_Editor
             AddColumnToDgv(ref dgvSrc, "Catalytic Converter", tempCar.GetBlob1().CatConverter());
             AddColumnToDgv(ref dgvSrc, "Air Filter", tempCar.GetBlob1().AirFilter());
             AddColumnToDgv(ref dgvSrc, "_306_309", tempCar.GetBlob1().method_174());
-            AddColumnToDgv(ref dgvSrc, "WindowWR", tempCar.GetBlob1().WindowWR());
+            AddColumnToDgv(ref dgvSrc, "WindowWR", tempCar.GetBlob1().WindowWr());
             AddColumnToDgv(ref dgvSrc, "Hood", tempCar.GetBlob1().Hood());
             AddColumnToDgv(ref dgvSrc, "FrBumper", tempCar.GetBlob1().FrBumper());
             AddColumnToDgv(ref dgvSrc, "RrBumper", tempCar.GetBlob1().RrBumper());
@@ -397,12 +397,12 @@ namespace GT5_Garage_Editor
                         LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.GetBlob1().DriveTrain());
                         LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.GetBlob1().Transmission());
                         LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.GetBlob1().Suspension());
-                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.GetBlob1().LSD());
+                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.GetBlob1().Lsd());
                         LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.GetBlob1().method_134());
                         LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.GetBlob1().WReduction());
                         LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.GetBlob1().method_138());
                         LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.GetBlob1().method_140());
-                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.GetBlob1().ECU());
+                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.GetBlob1().Ecu());
                         LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.GetBlob1().EngineTune());
                         LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.GetBlob1().Turbo());
                         LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.GetBlob1().Flywheel());
@@ -410,8 +410,8 @@ namespace GT5_Garage_Editor
                         LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.GetBlob1().Driveshaft());
                         LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.GetBlob1().Exhaust());
                         LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.GetBlob1().method_156());
-                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob1().ASM());
-                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob1().TCS());
+                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob1().Asm());
+                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob1().Tcs());
                         LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.GetBlob1().method_162());
                         LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.GetBlob1().Supercharger());
                         LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.GetBlob1().Intake());
@@ -419,7 +419,7 @@ namespace GT5_Garage_Editor
                         LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.GetBlob1().CatConverter());
                         LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.GetBlob1().AirFilter());
                         LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.GetBlob1().method_174());
-                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob1().WindowWR());
+                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob1().WindowWr());
                         LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.GetBlob1().Hood());
                         LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.GetBlob1().FrBumper());
                         LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.GetBlob1().RrBumper());
@@ -441,12 +441,12 @@ namespace GT5_Garage_Editor
                         LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.GetBlob2().DriveTrain());
                         LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.GetBlob2().Transmission());
                         LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.GetBlob2().Suspension());
-                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.GetBlob2().LSD());
+                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.GetBlob2().Lsd());
                         LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.GetBlob2().method_134());
                         LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.GetBlob2().WReduction());
                         LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.GetBlob2().method_138());
                         LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.GetBlob2().method_140());
-                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.GetBlob2().ECU());
+                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.GetBlob2().Ecu());
                         LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.GetBlob2().EngineTune());
                         LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.GetBlob2().Turbo());
                         LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.GetBlob2().Flywheel());
@@ -454,8 +454,8 @@ namespace GT5_Garage_Editor
                         LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.GetBlob2().Driveshaft());
                         LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.GetBlob2().Exhaust());
                         LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.GetBlob2().method_156());
-                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob2().ASM());
-                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob2().TCS());
+                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob2().Asm());
+                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob2().Tcs());
                         LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.GetBlob2().method_162());
                         LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.GetBlob2().Supercharger());
                         LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.GetBlob2().Intake());
@@ -463,7 +463,7 @@ namespace GT5_Garage_Editor
                         LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.GetBlob2().CatConverter());
                         LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.GetBlob2().AirFilter());
                         LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.GetBlob2().method_174());
-                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob2().WindowWR());
+                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob2().WindowWr());
                         LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.GetBlob2().Hood());
                         LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.GetBlob2().FrBumper());
                         LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.GetBlob2().RrBumper());
@@ -485,12 +485,12 @@ namespace GT5_Garage_Editor
                         LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.GetBlob3().DriveTrain());
                         LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.GetBlob3().Transmission());
                         LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.GetBlob3().Suspension());
-                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.GetBlob3().LSD());
+                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.GetBlob3().Lsd());
                         LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.GetBlob3().method_134());
                         LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.GetBlob3().WReduction());
                         LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.GetBlob3().method_138());
                         LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.GetBlob3().method_140());
-                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.GetBlob3().ECU());
+                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.GetBlob3().Ecu());
                         LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.GetBlob3().EngineTune());
                         LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.GetBlob3().Turbo());
                         LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.GetBlob3().Flywheel());
@@ -498,8 +498,8 @@ namespace GT5_Garage_Editor
                         LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.GetBlob3().Driveshaft());
                         LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.GetBlob3().Exhaust());
                         LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.GetBlob3().method_156());
-                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob3().ASM());
-                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob3().TCS());
+                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.GetBlob3().Asm());
+                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.GetBlob3().Tcs());
                         LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.GetBlob3().method_162());
                         LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.GetBlob3().Supercharger());
                         LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.GetBlob3().Intake());
@@ -507,7 +507,7 @@ namespace GT5_Garage_Editor
                         LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.GetBlob3().CatConverter());
                         LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.GetBlob3().AirFilter());
                         LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.GetBlob3().method_174());
-                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob3().WindowWR());
+                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.GetBlob3().WindowWr());
                         LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.GetBlob3().Hood());
                         LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.GetBlob3().FrBumper());
                         LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.GetBlob3().RrBumper());
@@ -732,43 +732,43 @@ namespace GT5_Garage_Editor
                             switch (num)
                             {
                                 case 1:
-                                    _currentCar.GetBlob2().method_103(_tempCar.GetBlob1().Colour());
+                                    _currentCar.GetBlob2().Colour(_tempCar.GetBlob1().Colour());
                                     break;
                                 case 2:
                                     _currentCar.GetBlob2().method_105(_tempCar.GetBlob1().Paint());
                                     break;
                                 case 3:
-                                    _currentCar.GetBlob2().method_117(_tempCar.GetBlob1().Body());
+                                    _currentCar.GetBlob2().Body(_tempCar.GetBlob1().Body());
                                     break;
                                 case 4:
-                                    _currentCar.GetBlob2().method_119(_tempCar.GetBlob1().Brakes());
+                                    _currentCar.GetBlob2().Brakes(_tempCar.GetBlob1().Brakes());
                                     break;
                                 case 5:
                                     _currentCar.GetBlob2().method_121(_tempCar.GetBlob1()._198_201());
                                     break;
                                 case 6:
-                                    _currentCar.GetBlob2().method_123(_tempCar.GetBlob1().Chassis());
+                                    _currentCar.GetBlob2().Chassis(_tempCar.GetBlob1().Chassis());
                                     break;
                                 case 7:
-                                    _currentCar.GetBlob2().method_125(_tempCar.GetBlob1().Engine());
+                                    _currentCar.GetBlob2().Engine(_tempCar.GetBlob1().Engine());
                                     break;
                                 case 8:
-                                    _currentCar.GetBlob2().method_127(_tempCar.GetBlob1().DriveTrain());
+                                    _currentCar.GetBlob2().DriveTrain(_tempCar.GetBlob1().DriveTrain());
                                     break;
                                 case 9:
-                                    _currentCar.GetBlob2().method_129(_tempCar.GetBlob1().Transmission());
+                                    _currentCar.GetBlob2().Transmission(_tempCar.GetBlob1().Transmission());
                                     break;
                                 case 10:
-                                    _currentCar.GetBlob2().method_131(_tempCar.GetBlob1().Suspension());
+                                    _currentCar.GetBlob2().Suspension(_tempCar.GetBlob1().Suspension());
                                     break;
                                 case 11:
-                                    _currentCar.GetBlob2().method_133(_tempCar.GetBlob1().LSD());
+                                    _currentCar.GetBlob2().Lsd(_tempCar.GetBlob1().Lsd());
                                     break;
                                 case 12:
                                     _currentCar.GetBlob2().method_135(_tempCar.GetBlob1().method_134());
                                     break;
                                 case 13:
-                                    _currentCar.GetBlob2().method_137(_tempCar.GetBlob1().WReduction());
+                                    _currentCar.GetBlob2().WReduction(_tempCar.GetBlob1().WReduction());
                                     break;
                                 case 14:
                                     _currentCar.GetBlob2().method_139(_tempCar.GetBlob1().method_138());
@@ -777,58 +777,58 @@ namespace GT5_Garage_Editor
                                     _currentCar.GetBlob2().method_141(_tempCar.GetBlob1().method_140());
                                     break;
                                 case 16:
-                                    _currentCar.GetBlob2().method_143(_tempCar.GetBlob1().ECU());
+                                    _currentCar.GetBlob2().Ecu(_tempCar.GetBlob1().Ecu());
                                     break;
                                 case 17:
-                                    _currentCar.GetBlob2().method_145(_tempCar.GetBlob1().EngineTune());
+                                    _currentCar.GetBlob2().EngineTune(_tempCar.GetBlob1().EngineTune());
                                     break;
                                 case 18:
-                                    _currentCar.GetBlob2().method_147(_tempCar.GetBlob1().Turbo());
+                                    _currentCar.GetBlob2().Turbo(_tempCar.GetBlob1().Turbo());
                                     break;
                                 case 19:
-                                    _currentCar.GetBlob2().method_149(_tempCar.GetBlob1().Flywheel());
+                                    _currentCar.GetBlob2().Flywheel(_tempCar.GetBlob1().Flywheel());
                                     break;
                                 case 20:
-                                    _currentCar.GetBlob2().method_151(_tempCar.GetBlob1().Clutch());
+                                    _currentCar.GetBlob2().Clutch(_tempCar.GetBlob1().Clutch());
                                     break;
                                 case 21:
-                                    _currentCar.GetBlob2().method_153(_tempCar.GetBlob1().Driveshaft());
+                                    _currentCar.GetBlob2().Driveshaft(_tempCar.GetBlob1().Driveshaft());
                                     break;
                                 case 22:
-                                    _currentCar.GetBlob2().method_155(_tempCar.GetBlob1().Exhaust());
+                                    _currentCar.GetBlob2().Exhaust(_tempCar.GetBlob1().Exhaust());
                                     break;
                                 case 23:
                                     _currentCar.GetBlob2().method_157(_tempCar.GetBlob1().method_156());
                                     break;
                                 case 24:
-                                    _currentCar.GetBlob2().method_159(_tempCar.GetBlob1().ASM());
+                                    _currentCar.GetBlob2().Asm(_tempCar.GetBlob1().Asm());
                                     break;
                                 case 25:
-                                    _currentCar.GetBlob2().method_161(_tempCar.GetBlob1().TCS());
+                                    _currentCar.GetBlob2().Tcs(_tempCar.GetBlob1().Tcs());
                                     break;
                                 case 26:
                                     _currentCar.GetBlob2().method_163(_tempCar.GetBlob1().method_162());
                                     break;
                                 case 27:
-                                    _currentCar.GetBlob2().method_165(_tempCar.GetBlob1().Supercharger());
+                                    _currentCar.GetBlob2().Supercharger(_tempCar.GetBlob1().Supercharger());
                                     break;
                                 case 28:
-                                    _currentCar.GetBlob2().method_167(_tempCar.GetBlob1().Intake());
+                                    _currentCar.GetBlob2().Intake(_tempCar.GetBlob1().Intake());
                                     break;
                                 case 29:
-                                    _currentCar.GetBlob2().method_169(_tempCar.GetBlob1().ExhaustManifold());
+                                    _currentCar.GetBlob2().ExhaustManifold(_tempCar.GetBlob1().ExhaustManifold());
                                     break;
                                 case 30:
-                                    _currentCar.GetBlob2().method_171(_tempCar.GetBlob1().CatConverter());
+                                    _currentCar.GetBlob2().CatConverter(_tempCar.GetBlob1().CatConverter());
                                     break;
                                 case 31:
-                                    _currentCar.GetBlob2().method_173(_tempCar.GetBlob1().AirFilter());
+                                    _currentCar.GetBlob2().AirFilter(_tempCar.GetBlob1().AirFilter());
                                     break;
                                 case 32:
                                     _currentCar.GetBlob2().method_175(_tempCar.GetBlob1().method_174());
                                     break;
                                 case 33:
-                                    _currentCar.GetBlob2().method_177(_tempCar.GetBlob1().WindowWR());
+                                    _currentCar.GetBlob2().WindowRr(_tempCar.GetBlob1().WindowWr());
                                     break;
                                 case 34:
                                     _currentCar.GetBlob2().Hood(_tempCar.GetBlob1().Hood());
@@ -1043,43 +1043,43 @@ namespace GT5_Garage_Editor
                             switch (num)
                             {
                                 case 1:
-                                    _currentCar.GetBlob3().method_103(_tempCar.GetBlob1().Colour());
+                                    _currentCar.GetBlob3().Colour(_tempCar.GetBlob1().Colour());
                                     break;
                                 case 2:
                                     _currentCar.GetBlob3().method_105(_tempCar.GetBlob1().Paint());
                                     break;
                                 case 3:
-                                    _currentCar.GetBlob3().method_117(_tempCar.GetBlob1().Body());
+                                    _currentCar.GetBlob3().Body(_tempCar.GetBlob1().Body());
                                     break;
                                 case 4:
-                                    _currentCar.GetBlob3().method_119(_tempCar.GetBlob1().Brakes());
+                                    _currentCar.GetBlob3().Brakes(_tempCar.GetBlob1().Brakes());
                                     break;
                                 case 5:
                                     _currentCar.GetBlob3().method_121(_tempCar.GetBlob1()._198_201());
                                     break;
                                 case 6:
-                                    _currentCar.GetBlob3().method_123(_tempCar.GetBlob1().Chassis());
+                                    _currentCar.GetBlob3().Chassis(_tempCar.GetBlob1().Chassis());
                                     break;
                                 case 7:
-                                    _currentCar.GetBlob3().method_125(_tempCar.GetBlob1().Engine());
+                                    _currentCar.GetBlob3().Engine(_tempCar.GetBlob1().Engine());
                                     break;
                                 case 8:
-                                    _currentCar.GetBlob3().method_127(_tempCar.GetBlob1().DriveTrain());
+                                    _currentCar.GetBlob3().DriveTrain(_tempCar.GetBlob1().DriveTrain());
                                     break;
                                 case 9:
-                                    _currentCar.GetBlob3().method_129(_tempCar.GetBlob1().Transmission());
+                                    _currentCar.GetBlob3().Transmission(_tempCar.GetBlob1().Transmission());
                                     break;
                                 case 10:
-                                    _currentCar.GetBlob3().method_131(_tempCar.GetBlob1().Suspension());
+                                    _currentCar.GetBlob3().Suspension(_tempCar.GetBlob1().Suspension());
                                     break;
                                 case 11:
-                                    _currentCar.GetBlob3().method_133(_tempCar.GetBlob1().LSD());
+                                    _currentCar.GetBlob3().Lsd(_tempCar.GetBlob1().Lsd());
                                     break;
                                 case 12:
                                     _currentCar.GetBlob3().method_135(_tempCar.GetBlob1().method_134());
                                     break;
                                 case 13:
-                                    _currentCar.GetBlob3().method_137(_tempCar.GetBlob1().WReduction());
+                                    _currentCar.GetBlob3().WReduction(_tempCar.GetBlob1().WReduction());
                                     break;
                                 case 14:
                                     _currentCar.GetBlob3().method_139(_tempCar.GetBlob1().method_138());
@@ -1088,58 +1088,58 @@ namespace GT5_Garage_Editor
                                     _currentCar.GetBlob3().method_141(_tempCar.GetBlob1().method_140());
                                     break;
                                 case 16:
-                                    _currentCar.GetBlob3().method_143(_tempCar.GetBlob1().ECU());
+                                    _currentCar.GetBlob3().Ecu(_tempCar.GetBlob1().Ecu());
                                     break;
                                 case 17:
-                                    _currentCar.GetBlob3().method_145(_tempCar.GetBlob1().EngineTune());
+                                    _currentCar.GetBlob3().EngineTune(_tempCar.GetBlob1().EngineTune());
                                     break;
                                 case 18:
-                                    _currentCar.GetBlob3().method_147(_tempCar.GetBlob1().Turbo());
+                                    _currentCar.GetBlob3().Turbo(_tempCar.GetBlob1().Turbo());
                                     break;
                                 case 19:
-                                    _currentCar.GetBlob3().method_149(_tempCar.GetBlob1().Flywheel());
+                                    _currentCar.GetBlob3().Flywheel(_tempCar.GetBlob1().Flywheel());
                                     break;
                                 case 20:
-                                    _currentCar.GetBlob3().method_151(_tempCar.GetBlob1().Clutch());
+                                    _currentCar.GetBlob3().Clutch(_tempCar.GetBlob1().Clutch());
                                     break;
                                 case 21:
-                                    _currentCar.GetBlob3().method_153(_tempCar.GetBlob1().Driveshaft());
+                                    _currentCar.GetBlob3().Driveshaft(_tempCar.GetBlob1().Driveshaft());
                                     break;
                                 case 22:
-                                    _currentCar.GetBlob3().method_155(_tempCar.GetBlob1().Exhaust());
+                                    _currentCar.GetBlob3().Exhaust(_tempCar.GetBlob1().Exhaust());
                                     break;
                                 case 23:
                                     _currentCar.GetBlob3().method_157(_tempCar.GetBlob1().method_156());
                                     break;
                                 case 24:
-                                    _currentCar.GetBlob3().method_159(_tempCar.GetBlob1().ASM());
+                                    _currentCar.GetBlob3().Asm(_tempCar.GetBlob1().Asm());
                                     break;
                                 case 25:
-                                    _currentCar.GetBlob3().method_161(_tempCar.GetBlob1().TCS());
+                                    _currentCar.GetBlob3().Tcs(_tempCar.GetBlob1().Tcs());
                                     break;
                                 case 26:
                                     _currentCar.GetBlob3().method_163(_tempCar.GetBlob1().method_162());
                                     break;
                                 case 27:
-                                    _currentCar.GetBlob3().method_165(_tempCar.GetBlob1().Supercharger());
+                                    _currentCar.GetBlob3().Supercharger(_tempCar.GetBlob1().Supercharger());
                                     break;
                                 case 28:
-                                    _currentCar.GetBlob3().method_167(_tempCar.GetBlob1().Intake());
+                                    _currentCar.GetBlob3().Intake(_tempCar.GetBlob1().Intake());
                                     break;
                                 case 29:
-                                    _currentCar.GetBlob3().method_169(_tempCar.GetBlob1().ExhaustManifold());
+                                    _currentCar.GetBlob3().ExhaustManifold(_tempCar.GetBlob1().ExhaustManifold());
                                     break;
                                 case 30:
-                                    _currentCar.GetBlob3().method_171(_tempCar.GetBlob1().CatConverter());
+                                    _currentCar.GetBlob3().CatConverter(_tempCar.GetBlob1().CatConverter());
                                     break;
                                 case 31:
-                                    _currentCar.GetBlob3().method_173(_tempCar.GetBlob1().AirFilter());
+                                    _currentCar.GetBlob3().AirFilter(_tempCar.GetBlob1().AirFilter());
                                     break;
                                 case 32:
                                     _currentCar.GetBlob3().method_175(_tempCar.GetBlob1().method_174());
                                     break;
                                 case 33:
-                                    _currentCar.GetBlob3().method_177(_tempCar.GetBlob1().WindowWR());
+                                    _currentCar.GetBlob3().WindowRr(_tempCar.GetBlob1().WindowWr());
                                     break;
                                 case 34:
                                     _currentCar.GetBlob3().Hood(_tempCar.GetBlob1().Hood());
@@ -1355,43 +1355,43 @@ namespace GT5_Garage_Editor
                         switch (num)
                         {
                             case 1:
-                                _currentCar.GetBlob1().method_103(_tempCar.GetBlob1().Colour());
+                                _currentCar.GetBlob1().Colour(_tempCar.GetBlob1().Colour());
                                 break;
                             case 2:
                                 _currentCar.GetBlob1().method_105(_tempCar.GetBlob1().Paint());
                                 break;
                             case 3:
-                                _currentCar.GetBlob1().method_117(_tempCar.GetBlob1().Body());
+                                _currentCar.GetBlob1().Body(_tempCar.GetBlob1().Body());
                                 break;
                             case 4:
-                                _currentCar.GetBlob1().method_119(_tempCar.GetBlob1().Brakes());
+                                _currentCar.GetBlob1().Brakes(_tempCar.GetBlob1().Brakes());
                                 break;
                             case 5:
                                 _currentCar.GetBlob1().method_121(_tempCar.GetBlob1()._198_201());
                                 break;
                             case 6:
-                                _currentCar.GetBlob1().method_123(_tempCar.GetBlob1().Chassis());
+                                _currentCar.GetBlob1().Chassis(_tempCar.GetBlob1().Chassis());
                                 break;
                             case 7:
-                                _currentCar.GetBlob1().method_125(_tempCar.GetBlob1().Engine());
+                                _currentCar.GetBlob1().Engine(_tempCar.GetBlob1().Engine());
                                 break;
                             case 8:
-                                _currentCar.GetBlob1().method_127(_tempCar.GetBlob1().DriveTrain());
+                                _currentCar.GetBlob1().DriveTrain(_tempCar.GetBlob1().DriveTrain());
                                 break;
                             case 9:
-                                _currentCar.GetBlob1().method_129(_tempCar.GetBlob1().Transmission());
+                                _currentCar.GetBlob1().Transmission(_tempCar.GetBlob1().Transmission());
                                 break;
                             case 10:
-                                _currentCar.GetBlob1().method_131(_tempCar.GetBlob1().Suspension());
+                                _currentCar.GetBlob1().Suspension(_tempCar.GetBlob1().Suspension());
                                 break;
                             case 11:
-                                _currentCar.GetBlob1().method_133(_tempCar.GetBlob1().LSD());
+                                _currentCar.GetBlob1().Lsd(_tempCar.GetBlob1().Lsd());
                                 break;
                             case 12:
                                 _currentCar.GetBlob1().method_135(_tempCar.GetBlob1().method_134());
                                 break;
                             case 13:
-                                _currentCar.GetBlob1().method_137(_tempCar.GetBlob1().WReduction());
+                                _currentCar.GetBlob1().WReduction(_tempCar.GetBlob1().WReduction());
                                 break;
                             case 14:
                                 _currentCar.GetBlob1().method_139(_tempCar.GetBlob1().method_138());
@@ -1400,58 +1400,58 @@ namespace GT5_Garage_Editor
                                 _currentCar.GetBlob1().method_141(_tempCar.GetBlob1().method_140());
                                 break;
                             case 16:
-                                _currentCar.GetBlob1().method_143(_tempCar.GetBlob1().ECU());
+                                _currentCar.GetBlob1().Ecu(_tempCar.GetBlob1().Ecu());
                                 break;
                             case 17:
-                                _currentCar.GetBlob1().method_145(_tempCar.GetBlob1().EngineTune());
+                                _currentCar.GetBlob1().EngineTune(_tempCar.GetBlob1().EngineTune());
                                 break;
                             case 18:
-                                _currentCar.GetBlob1().method_147(_tempCar.GetBlob1().Turbo());
+                                _currentCar.GetBlob1().Turbo(_tempCar.GetBlob1().Turbo());
                                 break;
                             case 19:
-                                _currentCar.GetBlob1().method_149(_tempCar.GetBlob1().Flywheel());
+                                _currentCar.GetBlob1().Flywheel(_tempCar.GetBlob1().Flywheel());
                                 break;
                             case 20:
-                                _currentCar.GetBlob1().method_151(_tempCar.GetBlob1().Clutch());
+                                _currentCar.GetBlob1().Clutch(_tempCar.GetBlob1().Clutch());
                                 break;
                             case 21:
-                                _currentCar.GetBlob1().method_153(_tempCar.GetBlob1().Driveshaft());
+                                _currentCar.GetBlob1().Driveshaft(_tempCar.GetBlob1().Driveshaft());
                                 break;
                             case 22:
-                                _currentCar.GetBlob1().method_155(_tempCar.GetBlob1().Exhaust());
+                                _currentCar.GetBlob1().Exhaust(_tempCar.GetBlob1().Exhaust());
                                 break;
                             case 23:
                                 _currentCar.GetBlob1().method_157(_tempCar.GetBlob1().method_156());
                                 break;
                             case 24:
-                                _currentCar.GetBlob1().method_159(_tempCar.GetBlob1().ASM());
+                                _currentCar.GetBlob1().Asm(_tempCar.GetBlob1().Asm());
                                 break;
                             case 25:
-                                _currentCar.GetBlob1().method_161(_tempCar.GetBlob1().TCS());
+                                _currentCar.GetBlob1().Tcs(_tempCar.GetBlob1().Tcs());
                                 break;
                             case 26:
                                 _currentCar.GetBlob1().method_163(_tempCar.GetBlob1().method_162());
                                 break;
                             case 27:
-                                _currentCar.GetBlob1().method_165(_tempCar.GetBlob1().Supercharger());
+                                _currentCar.GetBlob1().Supercharger(_tempCar.GetBlob1().Supercharger());
                                 break;
                             case 28:
-                                _currentCar.GetBlob1().method_167(_tempCar.GetBlob1().Intake());
+                                _currentCar.GetBlob1().Intake(_tempCar.GetBlob1().Intake());
                                 break;
                             case 29:
-                                _currentCar.GetBlob1().method_169(_tempCar.GetBlob1().ExhaustManifold());
+                                _currentCar.GetBlob1().ExhaustManifold(_tempCar.GetBlob1().ExhaustManifold());
                                 break;
                             case 30:
-                                _currentCar.GetBlob1().method_171(_tempCar.GetBlob1().CatConverter());
+                                _currentCar.GetBlob1().CatConverter(_tempCar.GetBlob1().CatConverter());
                                 break;
                             case 31:
-                                _currentCar.GetBlob1().method_173(_tempCar.GetBlob1().AirFilter());
+                                _currentCar.GetBlob1().AirFilter(_tempCar.GetBlob1().AirFilter());
                                 break;
                             case 32:
                                 _currentCar.GetBlob1().method_175(_tempCar.GetBlob1().method_174());
                                 break;
                             case 33:
-                                _currentCar.GetBlob1().method_177(_tempCar.GetBlob1().WindowWR());
+                                _currentCar.GetBlob1().WindowRr(_tempCar.GetBlob1().WindowWr());
                                 break;
                             case 34:
                                 _currentCar.GetBlob1().Hood(_tempCar.GetBlob1().Hood());
@@ -1676,12 +1676,12 @@ namespace GT5_Garage_Editor
             InsertUIntToByteArray(carParamBlob, 210U, 4U, carParam.DriveTrain());
             InsertUIntToByteArray(carParamBlob, 214U, 4U, carParam.Transmission());
             InsertUIntToByteArray(carParamBlob, 218U, 4U, carParam.Suspension());
-            InsertUIntToByteArray(carParamBlob, 222U, 4U, carParam.LSD());
+            InsertUIntToByteArray(carParamBlob, 222U, 4U, carParam.Lsd());
             InsertUIntToByteArray(carParamBlob, 226U, 4U, carParam.method_134());
             InsertUIntToByteArray(carParamBlob, 230U, 4U, carParam.WReduction());
             InsertUIntToByteArray(carParamBlob, 234U, 4U, carParam.method_138());
             InsertUIntToByteArray(carParamBlob, 238U, 4U, carParam.method_140());
-            InsertUIntToByteArray(carParamBlob, 242U, 4U, carParam.ECU());
+            InsertUIntToByteArray(carParamBlob, 242U, 4U, carParam.Ecu());
             InsertUIntToByteArray(carParamBlob, 246U, 4U, carParam.EngineTune());
             InsertUIntToByteArray(carParamBlob, 250U, 4U, carParam.Turbo());
             InsertUIntToByteArray(carParamBlob, 254U, 4U, carParam.Flywheel());
@@ -1689,8 +1689,8 @@ namespace GT5_Garage_Editor
             InsertUIntToByteArray(carParamBlob, 262U, 4U, carParam.Driveshaft());
             InsertUIntToByteArray(carParamBlob, 266U, 4U, carParam.Exhaust());
             InsertUIntToByteArray(carParamBlob, 270U, 4U, carParam.method_156());
-            InsertUIntToByteArray(carParamBlob, 274U, 4U, carParam.ASM());
-            InsertUIntToByteArray(carParamBlob, 278U, 4U, carParam.TCS());
+            InsertUIntToByteArray(carParamBlob, 274U, 4U, carParam.Asm());
+            InsertUIntToByteArray(carParamBlob, 278U, 4U, carParam.Tcs());
             InsertUIntToByteArray(carParamBlob, 282U, 4U, carParam.method_162());
             InsertUIntToByteArray(carParamBlob, 286U, 4U, carParam.Supercharger());
             InsertUIntToByteArray(carParamBlob, 290U, 4U, carParam.Intake());
@@ -1698,7 +1698,7 @@ namespace GT5_Garage_Editor
             InsertUIntToByteArray(carParamBlob, 298U, 4U, carParam.CatConverter());
             InsertUIntToByteArray(carParamBlob, 302U, 4U, carParam.AirFilter());
             InsertUIntToByteArray(carParamBlob, 306U, 4U, carParam.method_174());
-            InsertUIntToByteArray(carParamBlob, 310U, 4U, carParam.WindowWR());
+            InsertUIntToByteArray(carParamBlob, 310U, 4U, carParam.WindowWr());
             InsertUIntToByteArray(carParamBlob, 314U, 4U, carParam.Hood());
             InsertUIntToByteArray(carParamBlob, 318U, 4U, carParam.FrBumper());
             InsertUIntToByteArray(carParamBlob, 322U, 4U, carParam.RrBumper());

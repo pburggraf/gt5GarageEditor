@@ -50,49 +50,49 @@ namespace GT5_Garage_Editor.Models.CarModels
         private byte byte_21;
         private byte byte_22;
         private byte byte_23;
-        private byte byte_24;
-        private sbyte sbyte_2;
+        private byte _ballastKg;
+        private sbyte _ballastPos;
         private byte byte_25;
         private byte byte_26;
         private uint uint_20;
-        private byte byte_27;
+        private byte _colour;
         private uint uint_21;
         private byte byte_28;
         private byte byte_29;
-        private byte byte_30;
-        private byte byte_31;
-        private byte byte_32;
-        private uint uint_22;
-        private uint uint_23;
+        private byte _bhp;
+        private byte _grip;
+        private byte _weight;
+        private uint _body;
+        private uint _brakes;
         private uint uint_24;
-        private uint uint_25;
-        private uint uint_26;
-        private uint uint_27;
-        private uint uint_28;
-        private uint uint_29;
-        private uint uint_30;
+        private uint _chassis;
+        private uint _engine;
+        private uint _driveTrain;
+        private uint _transmission;
+        private uint _suspension;
+        private uint _lsd;
         private uint uint_31;
-        private uint uint_32;
+        private uint _wReduction;
         private uint uint_33;
         private uint uint_34;
-        private uint uint_35;
-        private uint uint_36;
-        private uint uint_37;
-        private uint uint_38;
-        private uint uint_39;
-        private uint uint_40;
-        private uint uint_41;
+        private uint _ecu;
+        private uint _engineTune;
+        private uint _turbo;
+        private uint _flywheel;
+        private uint _clutch;
+        private uint _driveshaft;
+        private uint _exhaust;
         private uint uint_42;
-        private uint uint_43;
-        private uint uint_44;
+        private uint _asm;
+        private uint _tcs;
         private uint uint_45;
-        private uint uint_46;
-        private uint uint_47;
-        private uint uint_48;
-        private uint uint_49;
-        private uint uint_50;
+        private uint _supercharger;
+        private uint _intake;
+        private uint _exhaustManifold;
+        private uint _catConverter;
+        private uint _airfilter;
         private uint uint_51;
-        private uint uint_52;
+        private uint _windowWr;
         private uint _hood;
         private uint _frBumper;
         private uint _rrBumper;
@@ -121,7 +121,7 @@ namespace GT5_Garage_Editor.Models.CarModels
             method_15(GetByte(191U, blob));
             FrTyre(GetByte(185U, blob));
             RrTyre(GetByte(193U, blob));
-            method_119(GetUInt(194U, 197U, blob));
+            Brakes(GetUInt(194U, 197U, blob));
             GearRev(GetUInt(346U, 347U, blob));
             G1(GetUInt(348U, 349U, blob));
             method_25(GetUInt(350U, 351U, blob));
@@ -158,52 +158,52 @@ namespace GT5_Garage_Editor.Models.CarModels
             method_83(GetByte(409U, blob));
             method_87(GetByte(411U, blob));
             method_91(GetByte(413U, blob));
-            method_93(GetByte(419U, blob));
-            method_95((sbyte) GetByte(420U, blob));
-            method_113(GetByte(431U, blob));
+            BallastKg(GetByte(419U, blob));
+            BallastPos((sbyte) GetByte(420U, blob));
+            Grip(GetByte(431U, blob));
             method_97(GetByte(432U, blob));
             method_99(GetByte(433U, blob));
-            method_117(GetUInt(159U, 160U, blob));
-            method_103((byte) GetUInt(169U, 169U, blob));
-            method_123(GetUInt(202U, 205U, blob));
-            method_125(GetUInt(206U, 209U, blob));
-            method_111((byte) GetUInt(422U, 422U, blob));
-            method_115((byte) GetUInt(425U, 425U, blob));
-            method_127(GetUInt(210U, 213U, blob));
-            method_129(GetUInt(214U, 217U, blob));
-            method_131(GetUInt(218U, 221U, blob));
-            method_133(GetUInt(222U, 225U, blob));
-            method_117(GetUInt(157U, 160U, blob));
-            method_119(GetUInt(194U, 197U, blob));
+            Body(GetUInt(159U, 160U, blob));
+            Colour((byte) GetUInt(169U, 169U, blob));
+            Chassis(GetUInt(202U, 205U, blob));
+            Engine(GetUInt(206U, 209U, blob));
+            Bhp((byte) GetUInt(422U, 422U, blob));
+            Weight((byte) GetUInt(425U, 425U, blob));
+            DriveTrain(GetUInt(210U, 213U, blob));
+            Transmission(GetUInt(214U, 217U, blob));
+            Suspension(GetUInt(218U, 221U, blob));
+            Lsd(GetUInt(222U, 225U, blob));
+            Body(GetUInt(157U, 160U, blob));
+            Brakes(GetUInt(194U, 197U, blob));
             method_121(GetUInt(198U, 201U, blob));
-            method_123(GetUInt(202U, 205U, blob));
-            method_125(GetUInt(206U, 209U, blob));
-            method_127(GetUInt(210U, 213U, blob));
-            method_129(GetUInt(214U, 217U, blob));
-            method_131(GetUInt(218U, 221U, blob));
-            method_133(GetUInt(222U, 225U, blob));
+            Chassis(GetUInt(202U, 205U, blob));
+            Engine(GetUInt(206U, 209U, blob));
+            DriveTrain(GetUInt(210U, 213U, blob));
+            Transmission(GetUInt(214U, 217U, blob));
+            Suspension(GetUInt(218U, 221U, blob));
+            Lsd(GetUInt(222U, 225U, blob));
             method_135(GetUInt(226U, 229U, blob));
-            method_137(GetUInt(230U, 233U, blob));
+            WReduction(GetUInt(230U, 233U, blob));
             method_139(GetUInt(234U, 337U, blob));
             method_141(GetUInt(238U, 241U, blob));
-            method_143(GetUInt(242U, 245U, blob));
-            method_145(GetUInt(246U, 249U, blob));
-            method_147(GetUInt(250U, 253U, blob));
-            method_149(GetUInt(254U, 257U, blob));
-            method_151(GetUInt(258U, 261U, blob));
-            method_153(GetUInt(262U, 265U, blob));
-            method_155(GetUInt(266U, 269U, blob));
+            Ecu(GetUInt(242U, 245U, blob));
+            EngineTune(GetUInt(246U, 249U, blob));
+            Turbo(GetUInt(250U, 253U, blob));
+            Flywheel(GetUInt(254U, 257U, blob));
+            Clutch(GetUInt(258U, 261U, blob));
+            Driveshaft(GetUInt(262U, 265U, blob));
+            Exhaust(GetUInt(266U, 269U, blob));
             method_157(GetUInt(270U, 273U, blob));
-            method_159(GetUInt(274U, 277U, blob));
-            method_161(GetUInt(278U, 281U, blob));
+            Asm(GetUInt(274U, 277U, blob));
+            Tcs(GetUInt(278U, 281U, blob));
             method_163(GetUInt(282U, 285U, blob));
-            method_165(GetUInt(286U, 289U, blob));
-            method_167(GetUInt(290U, 293U, blob));
-            method_169(GetUInt(294U, 297U, blob));
-            method_171(GetUInt(298U, 301U, blob));
-            method_173(GetUInt(302U, 305U, blob));
+            Supercharger(GetUInt(286U, 289U, blob));
+            Intake(GetUInt(290U, 293U, blob));
+            ExhaustManifold(GetUInt(294U, 297U, blob));
+            CatConverter(GetUInt(298U, 301U, blob));
+            AirFilter(GetUInt(302U, 305U, blob));
             method_175(GetUInt(306U, 309U, blob));
-            method_177(GetUInt(310U, 313U, blob));
+            WindowRr(GetUInt(310U, 313U, blob));
             Hood(GetUInt(314U, 317U, blob));
             FrBumper(GetUInt(318U, 321U, blob));
             RrBumper(GetUInt(322U, 325U, blob));
@@ -678,22 +678,22 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public byte BallastKg()
         {
-            return byte_24;
+            return _ballastKg;
         }
 
-        public void method_93(byte byte_33)
+        public void BallastKg(byte val)
         {
-            byte_24 = byte_33;
+            _ballastKg = val;
         }
 
         public sbyte BallastPos()
         {
-            return sbyte_2;
+            return _ballastPos;
         }
 
-        public void method_95(sbyte sbyte_3)
+        public void BallastPos(sbyte val)
         {
-            sbyte_2 = sbyte_3;
+            _ballastPos = val;
         }
 
         public byte BBF()
@@ -728,12 +728,12 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public byte Colour()
         {
-            return byte_27;
+            return _colour;
         }
 
-        public void method_103(byte byte_33)
+        public void Colour(byte val)
         {
-            byte_27 = byte_33;
+            _colour = val;
         }
 
         public uint Paint()
@@ -768,52 +768,52 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public byte Bhp()
         {
-            return byte_30;
+            return _bhp;
         }
 
-        public void method_111(byte byte_33)
+        public void Bhp(byte val)
         {
-            byte_30 = byte_33;
+            _bhp = val;
         }
 
         public byte Grip()
         {
-            return byte_31;
+            return _grip;
         }
 
-        public void method_113(byte byte_33)
+        public void Grip(byte val)
         {
-            byte_31 = byte_33;
+            _grip = val;
         }
 
         public byte Weight()
         {
-            return byte_32;
+            return _weight;
         }
 
-        public void method_115(byte byte_33)
+        public void Weight(byte val)
         {
-            byte_32 = byte_33;
+            _weight = val;
         }
 
         public uint Body()
         {
-            return uint_22;
+            return _body;
         }
 
-        public void method_117(uint uint_61)
+        public void Body(uint val)
         {
-            uint_22 = uint_61;
+            _body = val;
         }
 
         public uint Brakes()
         {
-            return uint_23;
+            return _brakes;
         }
 
-        public void method_119(uint uint_61)
+        public void Brakes(uint val)
         {
-            uint_23 = uint_61;
+            _brakes = val;
         }
 
         public uint _198_201()
@@ -828,62 +828,62 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public uint Chassis()
         {
-            return uint_25;
+            return _chassis;
         }
 
-        public void method_123(uint uint_61)
+        public void Chassis(uint val)
         {
-            uint_25 = uint_61;
+            _chassis = val;
         }
 
         public uint Engine()
         {
-            return uint_26;
+            return _engine;
         }
 
-        public void method_125(uint uint_61)
+        public void Engine(uint val)
         {
-            uint_26 = uint_61;
+            _engine = val;
         }
 
         public uint DriveTrain()
         {
-            return uint_27;
+            return _driveTrain;
         }
 
-        public void method_127(uint uint_61)
+        public void DriveTrain(uint val)
         {
-            uint_27 = uint_61;
+            _driveTrain = val;
         }
 
         public uint Transmission()
         {
-            return uint_28;
+            return _transmission;
         }
 
-        public void method_129(uint uint_61)
+        public void Transmission(uint val)
         {
-            uint_28 = uint_61;
+            _transmission = val;
         }
 
         public uint Suspension()
         {
-            return uint_29;
+            return _suspension;
         }
 
-        public void method_131(uint uint_61)
+        public void Suspension(uint val)
         {
-            uint_29 = uint_61;
+            _suspension = val;
         }
 
-        public uint LSD()
+        public uint Lsd()
         {
-            return uint_30;
+            return _lsd;
         }
 
-        public void method_133(uint uint_61)
+        public void Lsd(uint val)
         {
-            uint_30 = uint_61;
+            _lsd = val;
         }
 
         public uint method_134()
@@ -898,12 +898,12 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public uint WReduction()
         {
-            return uint_32;
+            return _wReduction;
         }
 
-        public void method_137(uint uint_61)
+        public void WReduction(uint val)
         {
-            uint_32 = uint_61;
+            _wReduction = val;
         }
 
         public uint method_138()
@@ -926,74 +926,74 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_34 = uint_61;
         }
 
-        public uint ECU()
+        public uint Ecu()
         {
-            return uint_35;
+            return _ecu;
         }
 
-        public void method_143(uint uint_61)
+        public void Ecu(uint val)
         {
-            uint_35 = uint_61;
+            _ecu = val;
         }
 
         public uint EngineTune()
         {
-            return uint_36;
+            return _engineTune;
         }
 
-        public void method_145(uint uint_61)
+        public void EngineTune(uint val)
         {
-            uint_36 = uint_61;
+            _engineTune = val;
         }
 
         public uint Turbo()
         {
-            return uint_37;
+            return _turbo;
         }
 
-        public void method_147(uint uint_61)
+        public void Turbo(uint val)
         {
-            uint_37 = uint_61;
+            _turbo = val;
         }
 
         public uint Flywheel()
         {
-            return uint_38;
+            return _flywheel;
         }
 
-        public void method_149(uint uint_61)
+        public void Flywheel(uint val)
         {
-            uint_38 = uint_61;
+            _flywheel = val;
         }
 
         public uint Clutch()
         {
-            return uint_39;
+            return _clutch;
         }
 
-        public void method_151(uint uint_61)
+        public void Clutch(uint val)
         {
-            uint_39 = uint_61;
+            _clutch = val;
         }
 
         public uint Driveshaft()
         {
-            return uint_40;
+            return _driveshaft;
         }
 
-        public void method_153(uint uint_61)
+        public void Driveshaft(uint val)
         {
-            uint_40 = uint_61;
+            _driveshaft = val;
         }
 
         public uint Exhaust()
         {
-            return uint_41;
+            return _exhaust;
         }
 
-        public void method_155(uint uint_61)
+        public void Exhaust(uint val)
         {
-            uint_41 = uint_61;
+            _exhaust = val;
         }
 
         public uint method_156()
@@ -1006,24 +1006,24 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_42 = uint_61;
         }
 
-        public uint ASM()
+        public uint Asm()
         {
-            return uint_43;
+            return _asm;
         }
 
-        public void method_159(uint uint_61)
+        public void Asm(uint val)
         {
-            uint_43 = uint_61;
+            _asm = val;
         }
 
-        public uint TCS()
+        public uint Tcs()
         {
-            return uint_44;
+            return _tcs;
         }
 
-        public void method_161(uint uint_61)
+        public void Tcs(uint val)
         {
-            uint_44 = uint_61;
+            _tcs = val;
         }
 
         public uint method_162()
@@ -1038,52 +1038,52 @@ namespace GT5_Garage_Editor.Models.CarModels
 
         public uint Supercharger()
         {
-            return uint_46;
+            return _supercharger;
         }
 
-        public void method_165(uint uint_61)
+        public void Supercharger(uint val)
         {
-            uint_46 = uint_61;
+            _supercharger = val;
         }
 
         public uint Intake()
         {
-            return uint_47;
+            return _intake;
         }
 
-        public void method_167(uint uint_61)
+        public void Intake(uint val)
         {
-            uint_47 = uint_61;
+            _intake = val;
         }
 
         public uint ExhaustManifold()
         {
-            return uint_48;
+            return _exhaustManifold;
         }
 
-        public void method_169(uint uint_61)
+        public void ExhaustManifold(uint val)
         {
-            uint_48 = uint_61;
+            _exhaustManifold = val;
         }
 
         public uint CatConverter()
         {
-            return uint_49;
+            return _catConverter;
         }
 
-        public void method_171(uint uint_61)
+        public void CatConverter(uint val)
         {
-            uint_49 = uint_61;
+            _catConverter = val;
         }
 
         public uint AirFilter()
         {
-            return uint_50;
+            return _airfilter;
         }
 
-        public void method_173(uint uint_61)
+        public void AirFilter(uint val)
         {
-            uint_50 = uint_61;
+            _airfilter = val;
         }
 
         public uint method_174()
@@ -1096,14 +1096,14 @@ namespace GT5_Garage_Editor.Models.CarModels
             uint_51 = uint_61;
         }
 
-        public uint WindowWR()
+        public uint WindowWr()
         {
-            return uint_52;
+            return _windowWr;
         }
 
-        public void method_177(uint uint_61)
+        public void WindowRr(uint val)
         {
-            uint_52 = uint_61;
+            _windowWr = val;
         }
 
         public uint Hood()
