@@ -25,8 +25,8 @@ namespace GT5_Garage_Editor
         private static char _currentSheet = 'a';
         public static List<int> list_0 = new List<int>();
         public static List<int> list_1 = new List<int>();
-        public static List<string> list_2 = new List<string>();
-        public static List<int> list_3 = new List<int>();
+        public static List<string> pddbItemListNames = new List<string>();
+        public static List<int> itemOffsets = new List<int>();
         private DataTable _itemsDataTable = new DataTable();
         private DataTable dataTable_1 = new DataTable();
         private DataTable dataTable_2 = new DataTable();
@@ -242,7 +242,7 @@ namespace GT5_Garage_Editor
 
         private void button11_Click(object sender, EventArgs e)
         {
-            smethod_19(_pathToPddb, "friend_car_id", 4, uint.MaxValue);
+            UpdatePddb(_pathToPddb, "friend_car_id", 4, uint.MaxValue);
             var num = (int)MessageBox.Show("Car has been permanently borrowed", "Info", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
@@ -1796,32 +1796,32 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public static void smethod_11(byte[] byte_3, uint uint_0, uint uint_1, ulong ulong_1)
+        public static void ConvertToPddbValue(byte[] byteArray, uint start, uint dataLength, ulong value)
         {
-            switch (uint_1)
+            switch (dataLength)
             {
                 case 1U:
-                    byte_3[uint_0] = (byte)(ulong_1 & byte.MaxValue);
+                    byteArray[start] = (byte)(value & byte.MaxValue);
                     break;
                 case 2U:
-                    byte_3[uint_0] = (byte)(ulong_1 >> 8 & byte.MaxValue);
-                    byte_3[(uint_0 + 1U)] = (byte)(ulong_1 & byte.MaxValue);
+                    byteArray[start] = (byte)(value >> 8 & byte.MaxValue);
+                    byteArray[(start + 1U)] = (byte)(value & byte.MaxValue);
                     break;
                 case 4U:
-                    byte_3[uint_0] = (byte)(ulong_1 >> 24 & byte.MaxValue);
-                    byte_3[(uint_0 + 1U)] = (byte)(ulong_1 >> 16 & byte.MaxValue);
-                    byte_3[(uint_0 + 2U)] = (byte)(ulong_1 >> 8 & byte.MaxValue);
-                    byte_3[(uint_0 + 3U)] = (byte)(ulong_1 & byte.MaxValue);
+                    byteArray[start] = (byte)(value >> 24 & byte.MaxValue);
+                    byteArray[(start + 1U)] = (byte)(value >> 16 & byte.MaxValue);
+                    byteArray[(start + 2U)] = (byte)(value >> 8 & byte.MaxValue);
+                    byteArray[(start + 3U)] = (byte)(value & byte.MaxValue);
                     break;
                 case 8U:
-                    byte_3[uint_0] = (byte)(ulong_1 >> 56 & byte.MaxValue);
-                    byte_3[(uint_0 + 1U)] = (byte)(ulong_1 >> 48 & byte.MaxValue);
-                    byte_3[(uint_0 + 2U)] = (byte)(ulong_1 >> 40 & byte.MaxValue);
-                    byte_3[(uint_0 + 3U)] = (byte)(ulong_1 >> 32 & byte.MaxValue);
-                    byte_3[(uint_0 + 4U)] = (byte)(ulong_1 >> 24 & byte.MaxValue);
-                    byte_3[(uint_0 + 5U)] = (byte)(ulong_1 >> 16 & byte.MaxValue);
-                    byte_3[(uint_0 + 6U)] = (byte)(ulong_1 >> 8 & byte.MaxValue);
-                    byte_3[(uint_0 + 7U)] = (byte)(ulong_1 & byte.MaxValue);
+                    byteArray[start] = (byte)(value >> 56 & byte.MaxValue);
+                    byteArray[(start + 1U)] = (byte)(value >> 48 & byte.MaxValue);
+                    byteArray[(start + 2U)] = (byte)(value >> 40 & byte.MaxValue);
+                    byteArray[(start + 3U)] = (byte)(value >> 32 & byte.MaxValue);
+                    byteArray[(start + 4U)] = (byte)(value >> 24 & byte.MaxValue);
+                    byteArray[(start + 5U)] = (byte)(value >> 16 & byte.MaxValue);
+                    byteArray[(start + 6U)] = (byte)(value >> 8 & byte.MaxValue);
+                    byteArray[(start + 7U)] = (byte)(value & byte.MaxValue);
                     break;
             }
         }
@@ -1851,7 +1851,7 @@ namespace GT5_Garage_Editor
                 list_1.Sort();
                 var num2 = 0;
                 foreach (var num3 in list_1)
-                    list_2.Add(smethod_16(fileStream, num2++));
+                    pddbItemListNames.Add(smethod_16(fileStream, num2++));
                 fileStream.Close();
             }
             catch
@@ -2075,22 +2075,22 @@ namespace GT5_Garage_Editor
                     if (byte_3[1] >= 128 && byte_3[1] <= 129)
                     {
                         list_0.Add((int)ReverseEndedness(0U, 2U, byte_3));
-                        list_3.Add(int_1);
+                        itemOffsets.Add(int_1);
                     }
                     else
                     {
-                        list_3.Add(int_1);
+                        itemOffsets.Add(int_1);
                         list_0.Add((int)ReverseEndedness(0U, 1U, byte_3));
                     }
                 }
                 else if (byte_3[1] <= sbyte.MaxValue)
                 {
-                    list_3.Add(int_1);
+                    itemOffsets.Add(int_1);
                     list_0.Add((int)ReverseEndedness(0U, 1U, byte_3));
                 }
                 else if (byte_3[1] <= 129)
                 {
-                    list_3.Add(int_1);
+                    itemOffsets.Add(int_1);
                     list_0.Add((int)ReverseEndedness(0U, 2U, byte_3));
                 }
                 ++int_0;
@@ -2100,22 +2100,22 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public static string smethod_16(FileStream fileStream_0, int int_0)
+        public static string smethod_16(FileStream fs, int value)
         {
             try
             {
                 var stringBuilder = new StringBuilder(string.Empty);
                 var numArray = new byte[4];
-                fileStream_0.Position = 33L;
-                fileStream_0.Read(numArray, 0, 4);
+                fs.Position = 33L;
+                fs.Read(numArray, 0, 4);
                 var num1 = (uint)ReverseEndedness(0U, 3U, numArray);
-                fileStream_0.Position = num1 + 34U;
-                for (var index1 = 0; index1 <= int_0; ++index1)
+                fs.Position = num1 + 34U;
+                for (var index1 = 0; index1 <= value; ++index1)
                 {
                     stringBuilder.Remove(0, stringBuilder.Length);
-                    var num2 = fileStream_0.ReadByte();
+                    var num2 = fs.ReadByte();
                     for (var index2 = 0; index2 < num2; ++index2)
-                        stringBuilder.Append((char)fileStream_0.ReadByte());
+                        stringBuilder.Append((char)fs.ReadByte());
                 }
                 return stringBuilder.ToString();
             }
@@ -2125,13 +2125,13 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public static int FindOffsetForItem(string string_4)
+        public static int FindOffsetForItem(string itemName)
         {
             try
             {
-                var index1 = list_2.IndexOf(string_4);
-                var index2 = list_0.IndexOf(list_1[index1]);
-                return list_3[index2];
+                var indexOfItemName = pddbItemListNames.IndexOf(itemName);
+                var index2 = list_0.IndexOf(list_1[indexOfItemName]);
+                return itemOffsets[index2];
             }
             catch
             {
@@ -2190,43 +2190,43 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public static void smethod_19(string string_4, string string_5, byte byte_3, ulong ulong_1)
+        public static void UpdatePddb(string pathToPddb, string itemToUpdate, byte dataLength, ulong valueToWrite)
         {
             try
             {
                 var numArray = new byte[8];
-                var fileStream1 = new FileStream(string_4, FileMode.Open) { Position = FindOffsetForItem(string_5) };
+                var fileStream1 = new FileStream(pathToPddb, FileMode.Open) { Position = FindOffsetForItem(itemToUpdate) };
                 if ((byte)fileStream1.ReadByte() == 7)
                 {
-                    var num1 = (byte)fileStream1.ReadByte();
-                    if (num1 <= sbyte.MaxValue)
+                    var nextByte = (byte)fileStream1.ReadByte();
+                    if (nextByte <= sbyte.MaxValue)
                     {
                         var fileStream2 = fileStream1;
                         var num2 = fileStream2.Position + 1L;
                         fileStream2.Position = num2;
                     }
-                    else if (num1 == 128 || num1 == 129)
+                    else if (nextByte == 128 || nextByte == 129)
                     {
                         var fileStream2 = fileStream1;
                         var num2 = fileStream2.Position + 2L;
                         fileStream2.Position = num2;
                     }
-                    switch (byte_3)
+                    switch (dataLength)
                     {
                         case 1:
-                            smethod_11(numArray, 7U, 1U, ulong_1);
+                            ConvertToPddbValue(numArray, 7U, 1U, valueToWrite);
                             fileStream1.Write(numArray, 7, 1);
                             break;
                         case 2:
-                            smethod_11(numArray, 6U, 2U, ulong_1);
+                            ConvertToPddbValue(numArray, 6U, 2U, valueToWrite);
                             fileStream1.Write(numArray, 6, 2);
                             break;
                         case 4:
-                            smethod_11(numArray, 4U, 4U, ulong_1);
+                            ConvertToPddbValue(numArray, 4U, 4U, valueToWrite);
                             fileStream1.Write(numArray, 4, 4);
                             break;
                         case 8:
-                            smethod_11(numArray, 0U, 8U, ulong_1);
+                            ConvertToPddbValue(numArray, 0U, 8U, valueToWrite);
                             fileStream1.Write(numArray, 0, 8);
                             break;
                     }
@@ -2654,7 +2654,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(textBox_Credits.Text) && ulong.Parse(textBox_Credits.Text) < ulong.MaxValue)
                 {
-                    smethod_19(_pathToPddb, "cash", 8, ulong.Parse(textBox_Credits.Text));
+                    UpdatePddb(_pathToPddb, "cash", 8, ulong.Parse(textBox_Credits.Text));
                     var num = (int)MessageBox.Show("Credits Updated Successfully!");
                 }
                 else
@@ -2672,8 +2672,8 @@ namespace GT5_Garage_Editor
         {
             try
             {
-                smethod_19(_pathToPddb, "aspec_point", 8, ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LeveLA.SelectedIndex]));
-                smethod_19(_pathToPddb, "aspec_lv", 4, (ulong)comboBox_spec_LeveLA.SelectedIndex);
+                UpdatePddb(_pathToPddb, "aspec_point", 8, ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LeveLA.SelectedIndex]));
+                UpdatePddb(_pathToPddb, "aspec_lv", 4, (ulong)comboBox_spec_LeveLA.SelectedIndex);
                 var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
@@ -2686,8 +2686,8 @@ namespace GT5_Garage_Editor
         {
             try
             {
-                smethod_19(_pathToPddb, "bspec_point", 8, ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LevelB.SelectedIndex]));
-                smethod_19(_pathToPddb, "bspec_lv", 4, (ulong)comboBox_spec_LevelB.SelectedIndex);
+                UpdatePddb(_pathToPddb, "bspec_point", 8, ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LevelB.SelectedIndex]));
+                UpdatePddb(_pathToPddb, "bspec_lv", 4, (ulong)comboBox_spec_LevelB.SelectedIndex);
                 var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
@@ -2700,10 +2700,7 @@ namespace GT5_Garage_Editor
         {
             try
             {
-                if (radioButton_secretOn.Checked)
-                    smethod_19(_pathToPddb, "open_special_option", 1, 1UL);
-                else
-                    smethod_19(_pathToPddb, "open_special_option", 1, 0UL);
+                UpdatePddb(_pathToPddb, "open_special_option", 1, radioButton_secretOn.Checked ? 1UL : 0UL);
                 var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
@@ -2718,7 +2715,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(textBox_gamedays.Text) && ulong.Parse(textBox_gamedays.Text) < ulong.MaxValue)
                 {
-                    smethod_19(_pathToPddb, "gameday", 8, ulong.Parse(textBox_gamedays.Text));
+                    UpdatePddb(_pathToPddb, "gameday", 8, ulong.Parse(textBox_gamedays.Text));
                     var num = (int)MessageBox.Show("Gameday Updated Successfully!");
                 }
                 else
@@ -2738,7 +2735,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(textBox_used_car_day.Text) && ulong.Parse(textBox_used_car_day.Text) < uint.MaxValue)
                 {
-                    smethod_19(_pathToPddb, "used_car_visit_day", 4, ulong.Parse(textBox_used_car_day.Text));
+                    UpdatePddb(_pathToPddb, "used_car_visit_day", 4, ulong.Parse(textBox_used_car_day.Text));
                     var num = (int)MessageBox.Show("Used Car Visit Day Updated Successfully!");
                 }
                 else
@@ -2758,7 +2755,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_course_avail.Text) && ulong.Parse(tb_course_avail.Text) <= uint.MaxValue)
                 {
-                    smethod_19(_pathToPddb, "course_available", 4, ulong.Parse(tb_course_avail.Text));
+                    UpdatePddb(_pathToPddb, "course_available", 4, ulong.Parse(tb_course_avail.Text));
                     var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
@@ -2778,7 +2775,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_car_avail.Text) && ulong.Parse(tb_car_avail.Text) <= byte.MaxValue)
                 {
-                    smethod_19(_pathToPddb, "car_available", 1, ulong.Parse(tb_car_avail.Text));
+                    UpdatePddb(_pathToPddb, "car_available", 1, ulong.Parse(tb_car_avail.Text));
                     var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
@@ -2798,7 +2795,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_creditcap.Text) && ulong.Parse(tb_creditcap.Text) <= 999999999999999999UL)
                 {
-                    smethod_19(_pathToPddb, "cash_limit", 8, ulong.Parse(tb_creditcap.Text));
+                    UpdatePddb(_pathToPddb, "cash_limit", 8, ulong.Parse(tb_creditcap.Text));
                     var num = (int)MessageBox.Show("Credit Cap Updated Successfully!");
                 }
                 else
@@ -2818,7 +2815,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_aspec_wins.Text) && ulong.Parse(tb_aspec_wins.Text) <= uint.MaxValue)
                 {
-                    smethod_19(_pathToPddb, "total_aspec_win", 4, ulong.Parse(tb_aspec_wins.Text));
+                    UpdatePddb(_pathToPddb, "total_aspec_win", 4, ulong.Parse(tb_aspec_wins.Text));
                     var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
@@ -2838,7 +2835,7 @@ namespace GT5_Garage_Editor
             {
                 if (IsNumeric(tb_bspec_wins.Text) && ulong.Parse(tb_bspec_wins.Text) <= uint.MaxValue)
                 {
-                    smethod_19(_pathToPddb, "total_bspec_win", 4, ulong.Parse(tb_bspec_wins.Text));
+                    UpdatePddb(_pathToPddb, "total_bspec_win", 4, ulong.Parse(tb_bspec_wins.Text));
                     var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
@@ -2857,9 +2854,9 @@ namespace GT5_Garage_Editor
             try
             {
                 if (rb_txtdebug_on.Checked)
-                    smethod_19(_pathToPddb, "rtext_debug", 1, 1UL);
+                    UpdatePddb(_pathToPddb, "rtext_debug", 1, 1UL);
                 else
-                    smethod_19(_pathToPddb, "rtext_debug", 1, 0UL);
+                    UpdatePddb(_pathToPddb, "rtext_debug", 1, 0UL);
                 var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
@@ -3754,27 +3751,27 @@ namespace GT5_Garage_Editor
                 {
                     case 0:
                         carBlob = StringToByteArray(chevroletXxxxxxx);
-                        smethod_11(carBlob, 61U, 4U, nextId);
+                        ConvertToPddbValue(carBlob, 61U, 4U, nextId);
                         sqLiteCommand.CommandText = "INSERT INTO t_garage VALUES (" + nextId + ",1804,0,1,'US','chevrolet','FR',0,0,0,'0',500,1000,0,0,'XXXXXXX','XXXXXXX',@blob,0,0,0,0,0,0,0,@blob,@blob,'','','',0,0,0)";
                         break;
                     case 1:
                         carBlob = StringToByteArray(pdRedBulljp);
-                        smethod_11(carBlob, 61U, 4U, nextId);
+                        ConvertToPddbValue(carBlob, 61U, 4U, nextId);
                         sqLiteCommand.CommandText = "INSERT INTO t_garage VALUES (" + nextId + ",'1745','0','1','JP','polyphony','---','0','2010','0','0','0','0','0','0','Red Bull X2010 JP Flag Color','Red Bull X2010 JP Flag Color',@blob,'0','0','0','0','0','0','0',@blob,@blob,'','','','0','0','0')";
                         break;
                     case 2:
                         carBlob = StringToByteArray(pdRedBull5G1);
-                        smethod_11(carBlob, 61U, 4U, nextId);
+                        ConvertToPddbValue(carBlob, 61U, 4U, nextId);
                         sqLiteCommand.CommandText = "INSERT INTO t_garage VALUES (" + nextId + ",'1803','0','1','JP','polyphony','---','0','2010','0','0','0','0','0','0','Red Bull X2010 5G','Red Bull X2010 5G',@blob,'0','0','0','0','0','0','0',@blob,@blob,'','','','0','0','0')";
                         break;
                     case 3:
                         carBlob = StringToByteArray(pdRedBull5G2);
-                        smethod_11(carBlob, 61U, 4U, nextId);
+                        ConvertToPddbValue(carBlob, 61U, 4U, nextId);
                         sqLiteCommand.CommandText = "INSERT INTO t_garage VALUES (" + nextId + ",'1807','0','1','JP','polyphony','---','0','2010','0','0','0','0','0','0','Red Bull X2010 5G','Red Bull X2010 5G',@blob,'0','0','0','0','0','0','0',@blob,@blob,'','','','0','0','0')";
                         break;
                     case 4:
                         carBlob = StringToByteArray(pdRedBull5G3);
-                        smethod_11(carBlob, 61U, 4U, nextId);
+                        ConvertToPddbValue(carBlob, 61U, 4U, nextId);
                         sqLiteCommand.CommandText = "INSERT INTO t_garage VALUES (" + nextId + ",'1808','0','1','JP','polyphony','---','0','2010','0','0','0','0','0','0','Red Bull X2010 5G','Red Bull X2010 5G',@blob,'0','0','0','0','0','0','0',@blob,@blob,'','','','0','0','0')";
                         break;
                 }
