@@ -131,28 +131,28 @@ namespace GT5_Garage_Editor
         public SetUp(Car car)
         {
             method_1(car);
-            method_3(car.GetBlob1());
-            method_5(car.GetBlob2());
-            method_7(car.GetBlob3());
+            method_3(car.SheetA);
+            method_5(car.SheetB);
+            method_7(car.SheetC);
             InitializeComponent();
             pictureBox_gear.Image = new Bitmap(pictureBox_gear.Width, pictureBox_gear.Height);
             graphics_0 = Graphics.FromImage(pictureBox_gear.Image);
             if (radioButton_A.Checked)
             {
                 method_9(1);
-                method_10(method_0().GetBlob1());
+                method_10(method_0().SheetA);
             }
             else if (radioButton_B.Checked)
             {
                 method_9(2);
-                method_10(method_0().GetBlob2());
+                method_10(method_0().SheetB);
             }
             else
             {
                 if (!radioButton_C.Checked)
                     return;
                 method_9(3);
-                method_10(method_0().GetBlob3());
+                method_10(method_0().SheetC);
             }
         }
 
@@ -1680,19 +1680,19 @@ namespace GT5_Garage_Editor
                 if (radioButton_A.Checked)
                 {
                     method_9(1);
-                    method_10(method_0().GetBlob1());
+                    method_10(method_0().SheetA);
                 }
                 else if (radioButton_B.Checked)
                 {
                     method_9(2);
-                    method_10(method_0().GetBlob2());
+                    method_10(method_0().SheetB);
                 }
                 else
                 {
                     if (!radioButton_C.Checked)
                         return;
                     method_9(3);
-                    method_10(method_0().GetBlob3());
+                    method_10(method_0().SheetC);
                 }
             }
             catch
@@ -1729,17 +1729,17 @@ namespace GT5_Garage_Editor
                     return;
                 var numArray2 = new double[11];
                 var num1 = 11.0;
-                numArray2[0] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[1] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[1] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[2] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[2] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[3] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[3] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[4] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[4] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[5] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[5] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[6] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[6] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[7] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[7] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[8] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[8] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[9] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[9] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[10] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
-                numArray2[10] = double.Parse(method_0().GetRpm()) * num1 / (numArray1[11] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[0] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[1] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[1] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[2] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[2] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[3] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[3] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[4] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[4] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[5] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[5] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[6] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[6] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[7] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[7] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[8] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[8] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[9] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[9] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[10] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
+                numArray2[10] = double.Parse(method_0().PowerRpm) * num1 / (numArray1[11] / 1000.0 * numArray1[12] / 1000.0 * 88.0);
                 var num2 = 0;
                 foreach (var num3 in numArray2)
                 {
@@ -1773,7 +1773,7 @@ namespace GT5_Garage_Editor
                     });
                 graphics_0.FillRectangle(Brushes.White, 0, 138, 5000, 5000);
                 graphics_0.DrawLine(Pens.Red, new Point(0, 15), new Point(5000, 15));
-                graphics_0.DrawString(method_0().GetRpm() + " r·min⁻\x00B9", new Font("Arial", 8f), Brushes.Red, new PointF(2f, 2f));
+                graphics_0.DrawString(method_0().PowerRpm + " r·min⁻\x00B9", new Font("Arial", 8f), Brushes.Red, new PointF(2f, 2f));
                 if (num2 <= 0)
                     return;
                 tb_Max.Text = numArray2[num2 - 1].ToString("N");
