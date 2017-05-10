@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -28,7 +27,7 @@ namespace GT5_Garage_Editor
         public static List<int> list_1 = new List<int>();
         public static List<string> list_2 = new List<string>();
         public static List<int> list_3 = new List<int>();
-        private DataTable itemsDataTable = new DataTable();
+        private DataTable _itemsDataTable = new DataTable();
         private DataTable dataTable_1 = new DataTable();
         private DataTable dataTable_2 = new DataTable();
         private const string DBFileName = "\\_db";
@@ -36,7 +35,7 @@ namespace GT5_Garage_Editor
         private DataTable dataTable_4 = new DataTable();
         private DataTable dataTable_5 = new DataTable();
         private Car _tempCar = new Car();
-        private readonly byte[] passBytes = new byte[16];
+        private readonly byte[] _passBytes = new byte[16];
         private DataTable dataTable_6 = new DataTable();
         private DataTable dataTable_7 = new DataTable();
         private DataTable dataTable_8 = new DataTable();
@@ -45,9 +44,9 @@ namespace GT5_Garage_Editor
         private string _pathToSave = string.Empty;
         public string _pathToPddb = string.Empty;
         private byte[] _dbPassBytes;
-        private SqlHelper _sqlHelper;
+        private readonly SqlHelper _sqlHelper;
         private SqlHelper _sqlHelper2;
-        public ulong _sqlLiteOffset;
+        public ulong SqlLiteOffset;
 
         public FormMain()
         {
@@ -88,15 +87,15 @@ namespace GT5_Garage_Editor
             try
             {
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
-                connection.SetPassword(passBytes);
+                connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection);
                 var parameter1 = new SQLiteParameter("@blobA", DbType.Binary);
                 var parameter2 = new SQLiteParameter("@blobB", DbType.Binary);
                 var parameter3 = new SQLiteParameter("@blobC", DbType.Binary);
-                parameter1.Value = car.SheetA.FullBlob();
-                parameter2.Value = car.SheetB.FullBlob();
-                parameter3.Value = car.SheetC.FullBlob();
+                parameter1.Value = car.SheetA.FullBlob;
+                parameter2.Value = car.SheetB.FullBlob;
+                parameter3.Value = car.SheetC.FullBlob;
                 sqLiteCommand.Parameters.Add(parameter1);
                 sqLiteCommand.Parameters.Add(parameter2);
                 sqLiteCommand.Parameters.Add(parameter3);
@@ -169,7 +168,7 @@ namespace GT5_Garage_Editor
                 fileStream.Position = num + 22;
             else
                 fileStream.Position = num + 23;
-            fileStream.Write(_currentCar.SheetA.FullBlob(), 25, 640);
+            fileStream.Write(_currentCar.SheetA.FullBlob, 25, 640);
             fileStream.Close();
             comboBox_DMake.Items.Clear();
             comboBox_DModel.Items.Clear();
@@ -329,47 +328,47 @@ namespace GT5_Garage_Editor
             textBox_SCountry.Text = tempCar.Country;
             dgvSrc.Rows.Clear();
             AddColumnToDgv(ref dgvSrc, "Tune Sheet", 0U);
-            AddColumnToDgv(ref dgvSrc, "Paint", tempCar.SheetA.Paint());
-            AddColumnToDgv(ref dgvSrc, "Body", tempCar.SheetA.Body());
-            AddColumnToDgv(ref dgvSrc, "Colour", tempCar.SheetA.Colour());
-            AddColumnToDgv(ref dgvSrc, "Brakes", tempCar.SheetA.Brakes());
-            AddColumnToDgv(ref dgvSrc, "_198_201", tempCar.SheetA.UnKnown10());
-            AddColumnToDgv(ref dgvSrc, "Chassis", tempCar.SheetA.Chassis());
-            AddColumnToDgv(ref dgvSrc, "Engine", tempCar.SheetA.Engine());
-            AddColumnToDgv(ref dgvSrc, "Drivetrain", tempCar.SheetA.DriveTrain());
-            AddColumnToDgv(ref dgvSrc, "Transmission", tempCar.SheetA.Transmission());
-            AddColumnToDgv(ref dgvSrc, "Suspension", tempCar.SheetA.Suspension());
-            AddColumnToDgv(ref dgvSrc, "LSD", tempCar.SheetA.Lsd());
-            AddColumnToDgv(ref dgvSrc, "_226_229", tempCar.SheetA.UnKnown3());
-            AddColumnToDgv(ref dgvSrc, "WReduction", tempCar.SheetA.WReduction());
-            AddColumnToDgv(ref dgvSrc, "_234_237", tempCar.SheetA.UnKnown4());
-            AddColumnToDgv(ref dgvSrc, "_238_241", tempCar.SheetA.UnKnown5());
-            AddColumnToDgv(ref dgvSrc, "ECU", tempCar.SheetA.Ecu());
-            AddColumnToDgv(ref dgvSrc, "Engine Tune", tempCar.SheetA.EngineTune());
-            AddColumnToDgv(ref dgvSrc, "Turbo", tempCar.SheetA.Turbo());
-            AddColumnToDgv(ref dgvSrc, "Flywheel", tempCar.SheetA.Flywheel());
-            AddColumnToDgv(ref dgvSrc, "Clutch", tempCar.SheetA.Clutch());
-            AddColumnToDgv(ref dgvSrc, "Driveshaft", tempCar.SheetA.Driveshaft());
-            AddColumnToDgv(ref dgvSrc, "Exhaust", tempCar.SheetA.Exhaust());
-            AddColumnToDgv(ref dgvSrc, "_270_273", tempCar.SheetA.UnKnown6());
-            AddColumnToDgv(ref dgvSrc, "ASM Controller", tempCar.SheetA.Asm());
-            AddColumnToDgv(ref dgvSrc, "TCS Controller", tempCar.SheetA.Tcs());
-            AddColumnToDgv(ref dgvSrc, "_282_285", tempCar.SheetA.UnKnown7());
-            AddColumnToDgv(ref dgvSrc, "Supercharger", tempCar.SheetA.Supercharger());
-            AddColumnToDgv(ref dgvSrc, "Intake Manifold", tempCar.SheetA.Intake());
-            AddColumnToDgv(ref dgvSrc, "Exhaust Manifold", tempCar.SheetA.ExhaustManifold());
-            AddColumnToDgv(ref dgvSrc, "Catalytic Converter", tempCar.SheetA.CatConverter());
-            AddColumnToDgv(ref dgvSrc, "Air Filter", tempCar.SheetA.AirFilter());
-            AddColumnToDgv(ref dgvSrc, "_306_309", tempCar.SheetA.UnKnown8());
-            AddColumnToDgv(ref dgvSrc, "WindowWR", tempCar.SheetA.WindowWr());
-            AddColumnToDgv(ref dgvSrc, "Hood", tempCar.SheetA.Hood());
-            AddColumnToDgv(ref dgvSrc, "FrBumper", tempCar.SheetA.FrBumper());
-            AddColumnToDgv(ref dgvSrc, "RrBumper", tempCar.SheetA.RrBumper());
-            AddColumnToDgv(ref dgvSrc, "Extension", tempCar.SheetA.Extension());
-            AddColumnToDgv(ref dgvSrc, "Wing", tempCar.SheetA.Wing());
-            AddColumnToDgv(ref dgvSrc, "_334_337", tempCar.SheetA.UnKnown9());
-            AddColumnToDgv(ref dgvSrc, "Reinforcement", tempCar.SheetA.Reinforcement());
-            AddColumnToDgv(ref dgvSrc, "NoS", tempCar.SheetA.Nos());
+            AddColumnToDgv(ref dgvSrc, "Paint", tempCar.SheetA.Paint);
+            AddColumnToDgv(ref dgvSrc, "Body", tempCar.SheetA.Body);
+            AddColumnToDgv(ref dgvSrc, "Colour", tempCar.SheetA.Colour);
+            AddColumnToDgv(ref dgvSrc, "Brakes", tempCar.SheetA.Brakes);
+            AddColumnToDgv(ref dgvSrc, "_198_201", tempCar.SheetA.UnKnown10);
+            AddColumnToDgv(ref dgvSrc, "Chassis", tempCar.SheetA.Chassis);
+            AddColumnToDgv(ref dgvSrc, "Engine", tempCar.SheetA.Engine);
+            AddColumnToDgv(ref dgvSrc, "Drivetrain", tempCar.SheetA.DriveTrain);
+            AddColumnToDgv(ref dgvSrc, "Transmission", tempCar.SheetA.Transmission);
+            AddColumnToDgv(ref dgvSrc, "Suspension", tempCar.SheetA.Suspension);
+            AddColumnToDgv(ref dgvSrc, "LSD", tempCar.SheetA.Lsd);
+            AddColumnToDgv(ref dgvSrc, "_226_229", tempCar.SheetA.UnKnown3);
+            AddColumnToDgv(ref dgvSrc, "WReduction", tempCar.SheetA.WReduction);
+            AddColumnToDgv(ref dgvSrc, "_234_237", tempCar.SheetA.UnKnown4);
+            AddColumnToDgv(ref dgvSrc, "_238_241", tempCar.SheetA.UnKnown5);
+            AddColumnToDgv(ref dgvSrc, "ECU", tempCar.SheetA.Ecu);
+            AddColumnToDgv(ref dgvSrc, "Engine Tune", tempCar.SheetA.EngineTune);
+            AddColumnToDgv(ref dgvSrc, "Turbo", tempCar.SheetA.Transmission);
+            AddColumnToDgv(ref dgvSrc, "Flywheel", tempCar.SheetA.Flywheel);
+            AddColumnToDgv(ref dgvSrc, "Clutch", tempCar.SheetA.Clutch);
+            AddColumnToDgv(ref dgvSrc, "Driveshaft", tempCar.SheetA.Driveshaft);
+            AddColumnToDgv(ref dgvSrc, "Exhaust", tempCar.SheetA.Exhaust);
+            AddColumnToDgv(ref dgvSrc, "_270_273", tempCar.SheetA.UnKnown6);
+            AddColumnToDgv(ref dgvSrc, "ASM Controller", tempCar.SheetA.Asm);
+            AddColumnToDgv(ref dgvSrc, "TCS Controller", tempCar.SheetA.Tcs);
+            AddColumnToDgv(ref dgvSrc, "_282_285", tempCar.SheetA.UnKnown7);
+            AddColumnToDgv(ref dgvSrc, "Supercharger", tempCar.SheetA.Supercharger);
+            AddColumnToDgv(ref dgvSrc, "Intake Manifold", tempCar.SheetA.Intake);
+            AddColumnToDgv(ref dgvSrc, "Exhaust Manifold", tempCar.SheetA.ExhaustManifold);
+            AddColumnToDgv(ref dgvSrc, "Catalytic Converter", tempCar.SheetA.CatConverter);
+            AddColumnToDgv(ref dgvSrc, "Air Filter", tempCar.SheetA.Airfilter);
+            AddColumnToDgv(ref dgvSrc, "_306_309", tempCar.SheetA.UnKnown8);
+            AddColumnToDgv(ref dgvSrc, "WindowWR", tempCar.SheetA.WindowWr);
+            AddColumnToDgv(ref dgvSrc, "Hood", tempCar.SheetA.Hood);
+            AddColumnToDgv(ref dgvSrc, "FrBumper", tempCar.SheetA.FrBumper);
+            AddColumnToDgv(ref dgvSrc, "RrBumper", tempCar.SheetA.RrBumper);
+            AddColumnToDgv(ref dgvSrc, "Extension", tempCar.SheetA.Extension);
+            AddColumnToDgv(ref dgvSrc, "Wing", tempCar.SheetA.Wing);
+            AddColumnToDgv(ref dgvSrc, "_334_337", tempCar.SheetA.UnKnown9);
+            AddColumnToDgv(ref dgvSrc, "Reinforcement", tempCar.SheetA.Reinforcement);
+            AddColumnToDgv(ref dgvSrc, "NoS", tempCar.SheetA.Nos);
         }
 
         public void LoadCarSheet(char sheet)
@@ -386,135 +385,135 @@ namespace GT5_Garage_Editor
                 {
                     case 'a':
                         LoadItemToDgv(ref dataGridView_Dest, "Tune Sheet", 0U);
-                        LoadItemToDgv(ref dataGridView_Dest, "Paint", tempCar.SheetA.Paint());
-                        LoadItemToDgv(ref dataGridView_Dest, "Body", tempCar.SheetA.Body());
-                        LoadItemToDgv(ref dataGridView_Dest, "Colour", tempCar.SheetA.Colour());
-                        LoadItemToDgv(ref dataGridView_Dest, "Brakes", tempCar.SheetA.Brakes());
-                        LoadItemToDgv(ref dataGridView_Dest, "_198_201", tempCar.SheetA.UnKnown10());
-                        LoadItemToDgv(ref dataGridView_Dest, "Chassis", tempCar.SheetA.Chassis());
-                        LoadItemToDgv(ref dataGridView_Dest, "Engine", tempCar.SheetA.Engine());
-                        LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.SheetA.DriveTrain());
-                        LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.SheetA.Transmission());
-                        LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.SheetA.Suspension());
-                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.SheetA.Lsd());
-                        LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.SheetA.UnKnown3());
-                        LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.SheetA.WReduction());
-                        LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.SheetA.UnKnown4());
-                        LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.SheetA.UnKnown5());
-                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.SheetA.Ecu());
-                        LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.SheetA.EngineTune());
-                        LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.SheetA.Turbo());
-                        LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.SheetA.Flywheel());
-                        LoadItemToDgv(ref dataGridView_Dest, "Clutch", tempCar.SheetA.Clutch());
-                        LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.SheetA.Driveshaft());
-                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.SheetA.Exhaust());
-                        LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.SheetA.UnKnown6());
-                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.SheetA.Asm());
-                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.SheetA.Tcs());
-                        LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.SheetA.UnKnown7());
-                        LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.SheetA.Supercharger());
-                        LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.SheetA.Intake());
-                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust Manifold", tempCar.SheetA.ExhaustManifold());
-                        LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.SheetA.CatConverter());
-                        LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.SheetA.AirFilter());
-                        LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.SheetA.UnKnown8());
-                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.SheetA.WindowWr());
-                        LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.SheetA.Hood());
-                        LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.SheetA.FrBumper());
-                        LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.SheetA.RrBumper());
-                        LoadItemToDgv(ref dataGridView_Dest, "Extension", tempCar.SheetA.Extension());
-                        LoadItemToDgv(ref dataGridView_Dest, "Wing", tempCar.SheetA.Wing());
-                        LoadItemToDgv(ref dataGridView_Dest, "_334_337", tempCar.SheetA.UnKnown9());
-                        LoadItemToDgv(ref dataGridView_Dest, "Reinforcement", tempCar.SheetA.Reinforcement());
-                        LoadItemToDgv(ref dataGridView_Dest, "NoS", tempCar.SheetA.Nos());
+                        LoadItemToDgv(ref dataGridView_Dest, "Paint", tempCar.SheetA.Paint);
+                        LoadItemToDgv(ref dataGridView_Dest, "Body", tempCar.SheetA.Body);
+                        LoadItemToDgv(ref dataGridView_Dest, "Colour", tempCar.SheetA.Colour);
+                        LoadItemToDgv(ref dataGridView_Dest, "Brakes", tempCar.SheetA.Brakes);
+                        LoadItemToDgv(ref dataGridView_Dest, "_198_201", tempCar.SheetA.UnKnown10);
+                        LoadItemToDgv(ref dataGridView_Dest, "Chassis", tempCar.SheetA.Chassis);
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine", tempCar.SheetA.Engine);
+                        LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.SheetA.DriveTrain);
+                        LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.SheetA.Transmission);
+                        LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.SheetA.Suspension);
+                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.SheetA.Lsd);
+                        LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.SheetA.UnKnown3);
+                        LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.SheetA.WReduction);
+                        LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.SheetA.UnKnown4);
+                        LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.SheetA.UnKnown5);
+                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.SheetA.Ecu);
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.SheetA.EngineTune);
+                        LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.SheetA.Transmission);
+                        LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.SheetA.Flywheel);
+                        LoadItemToDgv(ref dataGridView_Dest, "Clutch", tempCar.SheetA.Clutch);
+                        LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.SheetA.Driveshaft);
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.SheetA.Exhaust);
+                        LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.SheetA.UnKnown6);
+                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.SheetA.Asm);
+                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.SheetA.Tcs);
+                        LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.SheetA.UnKnown7);
+                        LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.SheetA.Supercharger);
+                        LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.SheetA.Intake);
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust Manifold", tempCar.SheetA.ExhaustManifold);
+                        LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.SheetA.CatConverter);
+                        LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.SheetA.Airfilter);
+                        LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.SheetA.UnKnown8);
+                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.SheetA.WindowWr);
+                        LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.SheetA.Hood);
+                        LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.SheetA.FrBumper);
+                        LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.SheetA.RrBumper);
+                        LoadItemToDgv(ref dataGridView_Dest, "Extension", tempCar.SheetA.Extension);
+                        LoadItemToDgv(ref dataGridView_Dest, "Wing", tempCar.SheetA.Wing);
+                        LoadItemToDgv(ref dataGridView_Dest, "_334_337", tempCar.SheetA.UnKnown9);
+                        LoadItemToDgv(ref dataGridView_Dest, "Reinforcement", tempCar.SheetA.Reinforcement);
+                        LoadItemToDgv(ref dataGridView_Dest, "NoS", tempCar.SheetA.Nos);
                         break;
                     case 'b':
                         LoadItemToDgv(ref dataGridView_Dest, "Tune Sheet", 0U);
-                        LoadItemToDgv(ref dataGridView_Dest, "Paint", tempCar.SheetB.Paint());
-                        LoadItemToDgv(ref dataGridView_Dest, "Body", tempCar.SheetB.Body());
-                        LoadItemToDgv(ref dataGridView_Dest, "Colour", tempCar.SheetB.Colour());
-                        LoadItemToDgv(ref dataGridView_Dest, "Brakes", tempCar.SheetB.Brakes());
-                        LoadItemToDgv(ref dataGridView_Dest, "_198_201", tempCar.SheetB.UnKnown10());
-                        LoadItemToDgv(ref dataGridView_Dest, "Chassis", tempCar.SheetB.Chassis());
-                        LoadItemToDgv(ref dataGridView_Dest, "Engine", tempCar.SheetB.Engine());
-                        LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.SheetB.DriveTrain());
-                        LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.SheetB.Transmission());
-                        LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.SheetB.Suspension());
-                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.SheetB.Lsd());
-                        LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.SheetB.UnKnown3());
-                        LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.SheetB.WReduction());
-                        LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.SheetB.UnKnown4());
-                        LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.SheetB.UnKnown5());
-                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.SheetB.Ecu());
-                        LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.SheetB.EngineTune());
-                        LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.SheetB.Turbo());
-                        LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.SheetB.Flywheel());
-                        LoadItemToDgv(ref dataGridView_Dest, "Clutch", tempCar.SheetB.Clutch());
-                        LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.SheetB.Driveshaft());
-                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.SheetB.Exhaust());
-                        LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.SheetB.UnKnown6());
-                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.SheetB.Asm());
-                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.SheetB.Tcs());
-                        LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.SheetB.UnKnown7());
-                        LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.SheetB.Supercharger());
-                        LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.SheetB.Intake());
-                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust Manifold", tempCar.SheetB.ExhaustManifold());
-                        LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.SheetB.CatConverter());
-                        LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.SheetB.AirFilter());
-                        LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.SheetB.UnKnown8());
-                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.SheetB.WindowWr());
-                        LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.SheetB.Hood());
-                        LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.SheetB.FrBumper());
-                        LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.SheetB.RrBumper());
-                        LoadItemToDgv(ref dataGridView_Dest, "Extension", tempCar.SheetB.Extension());
-                        LoadItemToDgv(ref dataGridView_Dest, "Wing", tempCar.SheetB.Wing());
-                        LoadItemToDgv(ref dataGridView_Dest, "_334_337", tempCar.SheetB.UnKnown9());
-                        LoadItemToDgv(ref dataGridView_Dest, "Reinforcement", tempCar.SheetB.Reinforcement());
-                        LoadItemToDgv(ref dataGridView_Dest, "NoS", tempCar.SheetB.Nos());
+                        LoadItemToDgv(ref dataGridView_Dest, "Paint", tempCar.SheetB.Paint);
+                        LoadItemToDgv(ref dataGridView_Dest, "Body", tempCar.SheetB.Body);
+                        LoadItemToDgv(ref dataGridView_Dest, "Colour", tempCar.SheetB.Colour);
+                        LoadItemToDgv(ref dataGridView_Dest, "Brakes", tempCar.SheetB.Brakes);
+                        LoadItemToDgv(ref dataGridView_Dest, "_198_201", tempCar.SheetB.UnKnown10);
+                        LoadItemToDgv(ref dataGridView_Dest, "Chassis", tempCar.SheetB.Chassis);
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine", tempCar.SheetB.Engine);
+                        LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.SheetB.DriveTrain);
+                        LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.SheetB.Transmission);
+                        LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.SheetB.Suspension);
+                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.SheetB.Lsd);
+                        LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.SheetB.UnKnown3);
+                        LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.SheetB.WReduction);
+                        LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.SheetB.UnKnown4);
+                        LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.SheetB.UnKnown5);
+                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.SheetB.Ecu);
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.SheetB.EngineTune);
+                        LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.SheetB.Transmission);
+                        LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.SheetB.Flywheel);
+                        LoadItemToDgv(ref dataGridView_Dest, "Clutch", tempCar.SheetB.Clutch);
+                        LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.SheetB.Driveshaft);
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.SheetB.Exhaust);
+                        LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.SheetB.UnKnown6);
+                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.SheetB.Asm);
+                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.SheetB.Tcs);
+                        LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.SheetB.UnKnown7);
+                        LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.SheetB.Supercharger);
+                        LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.SheetB.Intake);
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust Manifold", tempCar.SheetB.ExhaustManifold);
+                        LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.SheetB.CatConverter);
+                        LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.SheetB.Airfilter);
+                        LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.SheetB.UnKnown8);
+                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.SheetB.WindowWr);
+                        LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.SheetB.Hood);
+                        LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.SheetB.FrBumper);
+                        LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.SheetB.RrBumper);
+                        LoadItemToDgv(ref dataGridView_Dest, "Extension", tempCar.SheetB.Extension);
+                        LoadItemToDgv(ref dataGridView_Dest, "Wing", tempCar.SheetB.Wing);
+                        LoadItemToDgv(ref dataGridView_Dest, "_334_337", tempCar.SheetB.UnKnown9);
+                        LoadItemToDgv(ref dataGridView_Dest, "Reinforcement", tempCar.SheetB.Reinforcement);
+                        LoadItemToDgv(ref dataGridView_Dest, "NoS", tempCar.SheetB.Nos);
                         break;
                     case 'c':
                         LoadItemToDgv(ref dataGridView_Dest, "Tune Sheet", 0U);
-                        LoadItemToDgv(ref dataGridView_Dest, "Paint", tempCar.SheetC.Paint());
-                        LoadItemToDgv(ref dataGridView_Dest, "Body", tempCar.SheetC.Body());
-                        LoadItemToDgv(ref dataGridView_Dest, "Colour", tempCar.SheetC.Colour());
-                        LoadItemToDgv(ref dataGridView_Dest, "Brakes", tempCar.SheetC.Brakes());
-                        LoadItemToDgv(ref dataGridView_Dest, "_198_201", tempCar.SheetC.UnKnown10());
-                        LoadItemToDgv(ref dataGridView_Dest, "Chassis", tempCar.SheetC.Chassis());
-                        LoadItemToDgv(ref dataGridView_Dest, "Engine", tempCar.SheetC.Engine());
-                        LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.SheetC.DriveTrain());
-                        LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.SheetC.Transmission());
-                        LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.SheetC.Suspension());
-                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.SheetC.Lsd());
-                        LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.SheetC.UnKnown3());
-                        LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.SheetC.WReduction());
-                        LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.SheetC.UnKnown4());
-                        LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.SheetC.UnKnown5());
-                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.SheetC.Ecu());
-                        LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.SheetC.EngineTune());
-                        LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.SheetC.Turbo());
-                        LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.SheetC.Flywheel());
-                        LoadItemToDgv(ref dataGridView_Dest, "Clutch", tempCar.SheetC.Clutch());
-                        LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.SheetC.Driveshaft());
-                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.SheetC.Exhaust());
-                        LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.SheetC.UnKnown6());
-                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.SheetC.Asm());
-                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.SheetC.Tcs());
-                        LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.SheetC.UnKnown7());
-                        LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.SheetC.Supercharger());
-                        LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.SheetC.Intake());
-                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust Manifold", tempCar.SheetC.ExhaustManifold());
-                        LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.SheetC.CatConverter());
-                        LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.SheetC.AirFilter());
-                        LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.SheetC.UnKnown8());
-                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.SheetC.WindowWr());
-                        LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.SheetC.Hood());
-                        LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.SheetC.FrBumper());
-                        LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.SheetC.RrBumper());
-                        LoadItemToDgv(ref dataGridView_Dest, "Extension", tempCar.SheetC.Extension());
-                        LoadItemToDgv(ref dataGridView_Dest, "Wing", tempCar.SheetC.Wing());
-                        LoadItemToDgv(ref dataGridView_Dest, "_334_337", tempCar.SheetC.UnKnown9());
-                        LoadItemToDgv(ref dataGridView_Dest, "Reinforcement", tempCar.SheetC.Reinforcement());
-                        LoadItemToDgv(ref dataGridView_Dest, "NoS", tempCar.SheetC.Nos());
+                        LoadItemToDgv(ref dataGridView_Dest, "Paint", tempCar.SheetC.Paint);
+                        LoadItemToDgv(ref dataGridView_Dest, "Body", tempCar.SheetC.Body);
+                        LoadItemToDgv(ref dataGridView_Dest, "Colour", tempCar.SheetC.Colour);
+                        LoadItemToDgv(ref dataGridView_Dest, "Brakes", tempCar.SheetC.Brakes);
+                        LoadItemToDgv(ref dataGridView_Dest, "_198_201", tempCar.SheetC.UnKnown10);
+                        LoadItemToDgv(ref dataGridView_Dest, "Chassis", tempCar.SheetC.Chassis);
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine", tempCar.SheetC.Engine);
+                        LoadItemToDgv(ref dataGridView_Dest, "Drivetrain", tempCar.SheetC.DriveTrain);
+                        LoadItemToDgv(ref dataGridView_Dest, "Transmission", tempCar.SheetC.Transmission);
+                        LoadItemToDgv(ref dataGridView_Dest, "Suspension", tempCar.SheetC.Suspension);
+                        LoadItemToDgv(ref dataGridView_Dest, "LSD", tempCar.SheetC.Lsd);
+                        LoadItemToDgv(ref dataGridView_Dest, "_226_229", tempCar.SheetC.UnKnown3);
+                        LoadItemToDgv(ref dataGridView_Dest, "WReduction", tempCar.SheetC.WReduction);
+                        LoadItemToDgv(ref dataGridView_Dest, "_234_237", tempCar.SheetC.UnKnown4);
+                        LoadItemToDgv(ref dataGridView_Dest, "_238_241", tempCar.SheetC.UnKnown5);
+                        LoadItemToDgv(ref dataGridView_Dest, "ECU", tempCar.SheetC.Ecu);
+                        LoadItemToDgv(ref dataGridView_Dest, "Engine Tune", tempCar.SheetC.EngineTune);
+                        LoadItemToDgv(ref dataGridView_Dest, "Turbo", tempCar.SheetC.Transmission);
+                        LoadItemToDgv(ref dataGridView_Dest, "Flywheel", tempCar.SheetC.Flywheel);
+                        LoadItemToDgv(ref dataGridView_Dest, "Clutch", tempCar.SheetC.Clutch);
+                        LoadItemToDgv(ref dataGridView_Dest, "Driveshaft", tempCar.SheetC.Driveshaft);
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust", tempCar.SheetC.Exhaust);
+                        LoadItemToDgv(ref dataGridView_Dest, "_270_273", tempCar.SheetC.UnKnown6);
+                        LoadItemToDgv(ref dataGridView_Dest, "ASM Controller", tempCar.SheetC.Asm);
+                        LoadItemToDgv(ref dataGridView_Dest, "TCS Controller", tempCar.SheetC.Tcs);
+                        LoadItemToDgv(ref dataGridView_Dest, "_282_285", tempCar.SheetC.UnKnown7);
+                        LoadItemToDgv(ref dataGridView_Dest, "Supercharger", tempCar.SheetC.Supercharger);
+                        LoadItemToDgv(ref dataGridView_Dest, "Intake Manifold", tempCar.SheetC.Intake);
+                        LoadItemToDgv(ref dataGridView_Dest, "Exhaust Manifold", tempCar.SheetC.ExhaustManifold);
+                        LoadItemToDgv(ref dataGridView_Dest, "Catalytic Converter", tempCar.SheetC.CatConverter);
+                        LoadItemToDgv(ref dataGridView_Dest, "Air Filter", tempCar.SheetC.Airfilter);
+                        LoadItemToDgv(ref dataGridView_Dest, "_306_309", tempCar.SheetC.UnKnown8);
+                        LoadItemToDgv(ref dataGridView_Dest, "WindowWR", tempCar.SheetC.WindowWr);
+                        LoadItemToDgv(ref dataGridView_Dest, "Hood", tempCar.SheetC.Hood);
+                        LoadItemToDgv(ref dataGridView_Dest, "FrBumper", tempCar.SheetC.FrBumper);
+                        LoadItemToDgv(ref dataGridView_Dest, "RrBumper", tempCar.SheetC.RrBumper);
+                        LoadItemToDgv(ref dataGridView_Dest, "Extension", tempCar.SheetC.Extension);
+                        LoadItemToDgv(ref dataGridView_Dest, "Wing", tempCar.SheetC.Wing);
+                        LoadItemToDgv(ref dataGridView_Dest, "_334_337", tempCar.SheetC.UnKnown9);
+                        LoadItemToDgv(ref dataGridView_Dest, "Reinforcement", tempCar.SheetC.Reinforcement);
+                        LoadItemToDgv(ref dataGridView_Dest, "NoS", tempCar.SheetC.Nos);
                         break;
                 }
             }
@@ -731,127 +730,127 @@ namespace GT5_Garage_Editor
                             switch (num)
                             {
                                 case 1:
-                                    _currentCar.SheetB.Colour(_tempCar.SheetA.Colour());
+                                    _currentCar.SheetB.Colour=(_tempCar.SheetA.Colour);
                                     break;
                                 case 2:
-                                    _currentCar.SheetB.Paint(_tempCar.SheetA.Paint());
+                                    _currentCar.SheetB.Paint=(_tempCar.SheetA.Paint);
                                     break;
                                 case 3:
-                                    _currentCar.SheetB.Body(_tempCar.SheetA.Body());
+                                    _currentCar.SheetB.Body=(_tempCar.SheetA.Body);
                                     break;
                                 case 4:
-                                    _currentCar.SheetB.Brakes(_tempCar.SheetA.Brakes());
+                                    _currentCar.SheetB.Brakes=(_tempCar.SheetA.Brakes);
                                     break;
                                 case 5:
-                                    _currentCar.SheetB.UnKnown10(_tempCar.SheetA.UnKnown10());
+                                    _currentCar.SheetB.UnKnown10=(_tempCar.SheetA.UnKnown10);
                                     break;
                                 case 6:
-                                    _currentCar.SheetB.Chassis(_tempCar.SheetA.Chassis());
+                                    _currentCar.SheetB.Chassis=(_tempCar.SheetA.Chassis);
                                     break;
                                 case 7:
-                                    _currentCar.SheetB.Engine(_tempCar.SheetA.Engine());
+                                    _currentCar.SheetB.Engine=(_tempCar.SheetA.Engine);
                                     break;
                                 case 8:
-                                    _currentCar.SheetB.DriveTrain(_tempCar.SheetA.DriveTrain());
+                                    _currentCar.SheetB.DriveTrain=(_tempCar.SheetA.DriveTrain);
                                     break;
                                 case 9:
-                                    _currentCar.SheetB.Transmission(_tempCar.SheetA.Transmission());
+                                    _currentCar.SheetB.Transmission=(_tempCar.SheetA.Transmission);
                                     break;
                                 case 10:
-                                    _currentCar.SheetB.Suspension(_tempCar.SheetA.Suspension());
+                                    _currentCar.SheetB.Suspension=(_tempCar.SheetA.Suspension);
                                     break;
                                 case 11:
-                                    _currentCar.SheetB.Lsd(_tempCar.SheetA.Lsd());
+                                    _currentCar.SheetB.Lsd=(_tempCar.SheetA.Lsd);
                                     break;
                                 case 12:
-                                    _currentCar.SheetB.UnKnown3(_tempCar.SheetA.UnKnown3());
+                                    _currentCar.SheetB.UnKnown3=(_tempCar.SheetA.UnKnown3);
                                     break;
                                 case 13:
-                                    _currentCar.SheetB.WReduction(_tempCar.SheetA.WReduction());
+                                    _currentCar.SheetB.WReduction=(_tempCar.SheetA.WReduction);
                                     break;
                                 case 14:
-                                    _currentCar.SheetB.UnKnown4(_tempCar.SheetA.UnKnown4());
+                                    _currentCar.SheetB.UnKnown4=(_tempCar.SheetA.UnKnown4);
                                     break;
                                 case 15:
-                                    _currentCar.SheetB.UnKnown5(_tempCar.SheetA.UnKnown5());
+                                    _currentCar.SheetB.UnKnown5=(_tempCar.SheetA.UnKnown5);
                                     break;
                                 case 16:
-                                    _currentCar.SheetB.Ecu(_tempCar.SheetA.Ecu());
+                                    _currentCar.SheetB.Ecu=(_tempCar.SheetA.Ecu);
                                     break;
                                 case 17:
-                                    _currentCar.SheetB.EngineTune(_tempCar.SheetA.EngineTune());
+                                    _currentCar.SheetB.EngineTune=(_tempCar.SheetA.EngineTune);
                                     break;
                                 case 18:
-                                    _currentCar.SheetB.Turbo(_tempCar.SheetA.Turbo());
+                                    _currentCar.SheetB.Turbo=(_tempCar.SheetA.Turbo);
                                     break;
                                 case 19:
-                                    _currentCar.SheetB.Flywheel(_tempCar.SheetA.Flywheel());
+                                    _currentCar.SheetB.Flywheel=(_tempCar.SheetA.Flywheel);
                                     break;
                                 case 20:
-                                    _currentCar.SheetB.Clutch(_tempCar.SheetA.Clutch());
+                                    _currentCar.SheetB.Clutch=(_tempCar.SheetA.Clutch);
                                     break;
                                 case 21:
-                                    _currentCar.SheetB.Driveshaft(_tempCar.SheetA.Driveshaft());
+                                    _currentCar.SheetB.Driveshaft=(_tempCar.SheetA.Driveshaft);
                                     break;
                                 case 22:
-                                    _currentCar.SheetB.Exhaust(_tempCar.SheetA.Exhaust());
+                                    _currentCar.SheetB.Exhaust=(_tempCar.SheetA.Exhaust);
                                     break;
                                 case 23:
-                                    _currentCar.SheetB.UnKnown6(_tempCar.SheetA.UnKnown6());
+                                    _currentCar.SheetB.UnKnown6=(_tempCar.SheetA.UnKnown6);
                                     break;
                                 case 24:
-                                    _currentCar.SheetB.Asm(_tempCar.SheetA.Asm());
+                                    _currentCar.SheetB.Asm=(_tempCar.SheetA.Asm);
                                     break;
                                 case 25:
-                                    _currentCar.SheetB.Tcs(_tempCar.SheetA.Tcs());
+                                    _currentCar.SheetB.Tcs=(_tempCar.SheetA.Tcs);
                                     break;
                                 case 26:
-                                    _currentCar.SheetB.UnKnown7(_tempCar.SheetA.UnKnown7());
+                                    _currentCar.SheetB.UnKnown7=(_tempCar.SheetA.UnKnown7);
                                     break;
                                 case 27:
-                                    _currentCar.SheetB.Supercharger(_tempCar.SheetA.Supercharger());
+                                    _currentCar.SheetB.Supercharger=(_tempCar.SheetA.Supercharger);
                                     break;
                                 case 28:
-                                    _currentCar.SheetB.Intake(_tempCar.SheetA.Intake());
+                                    _currentCar.SheetB.Intake=(_tempCar.SheetA.Intake);
                                     break;
                                 case 29:
-                                    _currentCar.SheetB.ExhaustManifold(_tempCar.SheetA.ExhaustManifold());
+                                    _currentCar.SheetB.ExhaustManifold=(_tempCar.SheetA.ExhaustManifold);
                                     break;
                                 case 30:
-                                    _currentCar.SheetB.CatConverter(_tempCar.SheetA.CatConverter());
+                                    _currentCar.SheetB.CatConverter=(_tempCar.SheetA.CatConverter);
                                     break;
                                 case 31:
-                                    _currentCar.SheetB.AirFilter(_tempCar.SheetA.AirFilter());
+                                    _currentCar.SheetB.Airfilter=(_tempCar.SheetA.Airfilter);
                                     break;
                                 case 32:
-                                    _currentCar.SheetB.UnKnown8(_tempCar.SheetA.UnKnown8());
+                                    _currentCar.SheetB.UnKnown8=(_tempCar.SheetA.UnKnown8);
                                     break;
                                 case 33:
-                                    _currentCar.SheetB.WindowWr(_tempCar.SheetA.WindowWr());
+                                    _currentCar.SheetB.WindowWr=(_tempCar.SheetA.WindowWr);
                                     break;
                                 case 34:
-                                    _currentCar.SheetB.Hood(_tempCar.SheetA.Hood());
+                                    _currentCar.SheetB.Hood=(_tempCar.SheetA.Hood);
                                     break;
                                 case 35:
-                                    _currentCar.SheetB.FrBumper(_tempCar.SheetA.FrBumper());
+                                    _currentCar.SheetB.FrBumper=(_tempCar.SheetA.FrBumper);
                                     break;
                                 case 36:
-                                    _currentCar.SheetB.RrBumper(_tempCar.SheetA.RrBumper());
+                                    _currentCar.SheetB.RrBumper=(_tempCar.SheetA.RrBumper);
                                     break;
                                 case 37:
-                                    _currentCar.SheetB.Extension(_tempCar.SheetA.Extension());
+                                    _currentCar.SheetB.Extension=(_tempCar.SheetA.Extension);
                                     break;
                                 case 38:
-                                    _currentCar.SheetB.Wing(_tempCar.SheetA.Wing());
+                                    _currentCar.SheetB.Wing=(_tempCar.SheetA.Wing);
                                     break;
                                 case 39:
-                                    _currentCar.SheetB.UnKnown9(_tempCar.SheetA.UnKnown9());
+                                    _currentCar.SheetB.UnKnown9=(_tempCar.SheetA.UnKnown9);
                                     break;
                                 case 40:
-                                    _currentCar.SheetB.Reinforcement(_tempCar.SheetA.Reinforcement());
+                                    _currentCar.SheetB.Reinforcement=(_tempCar.SheetA.Reinforcement);
                                     break;
                                 case 41:
-                                    _currentCar.SheetB.Nos(_tempCar.SheetA.Nos());
+                                    _currentCar.SheetB.Nos=(_tempCar.SheetA.Nos);
                                     break;
                             }
                         }
@@ -1042,127 +1041,127 @@ namespace GT5_Garage_Editor
                             switch (num)
                             {
                                 case 1:
-                                    _currentCar.SheetC.Colour(_tempCar.SheetA.Colour());
+                                    _currentCar.SheetC.Colour=(_tempCar.SheetA.Colour);
                                     break;
                                 case 2:
-                                    _currentCar.SheetC.Paint(_tempCar.SheetA.Paint());
+                                    _currentCar.SheetC.Paint=(_tempCar.SheetA.Paint);
                                     break;
                                 case 3:
-                                    _currentCar.SheetC.Body(_tempCar.SheetA.Body());
+                                    _currentCar.SheetC.Body=(_tempCar.SheetA.Body);
                                     break;
                                 case 4:
-                                    _currentCar.SheetC.Brakes(_tempCar.SheetA.Brakes());
+                                    _currentCar.SheetC.Brakes=(_tempCar.SheetA.Brakes);
                                     break;
                                 case 5:
-                                    _currentCar.SheetC.UnKnown10(_tempCar.SheetA.UnKnown10());
+                                    _currentCar.SheetC.UnKnown10=(_tempCar.SheetA.UnKnown10);
                                     break;
                                 case 6:
-                                    _currentCar.SheetC.Chassis(_tempCar.SheetA.Chassis());
+                                    _currentCar.SheetC.Chassis=(_tempCar.SheetA.Chassis);
                                     break;
                                 case 7:
-                                    _currentCar.SheetC.Engine(_tempCar.SheetA.Engine());
+                                    _currentCar.SheetC.Engine=(_tempCar.SheetA.Engine);
                                     break;
                                 case 8:
-                                    _currentCar.SheetC.DriveTrain(_tempCar.SheetA.DriveTrain());
+                                    _currentCar.SheetC.DriveTrain=(_tempCar.SheetA.DriveTrain);
                                     break;
                                 case 9:
-                                    _currentCar.SheetC.Transmission(_tempCar.SheetA.Transmission());
+                                    _currentCar.SheetC.Transmission=(_tempCar.SheetA.Transmission);
                                     break;
                                 case 10:
-                                    _currentCar.SheetC.Suspension(_tempCar.SheetA.Suspension());
+                                    _currentCar.SheetC.Suspension=(_tempCar.SheetA.Suspension);
                                     break;
                                 case 11:
-                                    _currentCar.SheetC.Lsd(_tempCar.SheetA.Lsd());
+                                    _currentCar.SheetC.Lsd=(_tempCar.SheetA.Lsd);
                                     break;
                                 case 12:
-                                    _currentCar.SheetC.UnKnown3(_tempCar.SheetA.UnKnown3());
+                                    _currentCar.SheetC.UnKnown3=(_tempCar.SheetA.UnKnown3);
                                     break;
                                 case 13:
-                                    _currentCar.SheetC.WReduction(_tempCar.SheetA.WReduction());
+                                    _currentCar.SheetC.WReduction=(_tempCar.SheetA.WReduction);
                                     break;
                                 case 14:
-                                    _currentCar.SheetC.UnKnown4(_tempCar.SheetA.UnKnown4());
+                                    _currentCar.SheetC.UnKnown4=(_tempCar.SheetA.UnKnown4);
                                     break;
                                 case 15:
-                                    _currentCar.SheetC.UnKnown5(_tempCar.SheetA.UnKnown5());
+                                    _currentCar.SheetC.UnKnown5=(_tempCar.SheetA.UnKnown5);
                                     break;
                                 case 16:
-                                    _currentCar.SheetC.Ecu(_tempCar.SheetA.Ecu());
+                                    _currentCar.SheetC.Ecu=(_tempCar.SheetA.Ecu);
                                     break;
                                 case 17:
-                                    _currentCar.SheetC.EngineTune(_tempCar.SheetA.EngineTune());
+                                    _currentCar.SheetC.EngineTune=(_tempCar.SheetA.EngineTune);
                                     break;
                                 case 18:
-                                    _currentCar.SheetC.Turbo(_tempCar.SheetA.Turbo());
+                                    _currentCar.SheetC.Turbo=(_tempCar.SheetA.Transmission);
                                     break;
                                 case 19:
-                                    _currentCar.SheetC.Flywheel(_tempCar.SheetA.Flywheel());
+                                    _currentCar.SheetC.Flywheel=(_tempCar.SheetA.Flywheel);
                                     break;
                                 case 20:
-                                    _currentCar.SheetC.Clutch(_tempCar.SheetA.Clutch());
+                                    _currentCar.SheetC.Clutch=(_tempCar.SheetA.Clutch);
                                     break;
                                 case 21:
-                                    _currentCar.SheetC.Driveshaft(_tempCar.SheetA.Driveshaft());
+                                    _currentCar.SheetC.Driveshaft=(_tempCar.SheetA.Driveshaft);
                                     break;
                                 case 22:
-                                    _currentCar.SheetC.Exhaust(_tempCar.SheetA.Exhaust());
+                                    _currentCar.SheetC.Exhaust=(_tempCar.SheetA.Exhaust);
                                     break;
                                 case 23:
-                                    _currentCar.SheetC.UnKnown6(_tempCar.SheetA.UnKnown6());
+                                    _currentCar.SheetC.UnKnown6=(_tempCar.SheetA.UnKnown6);
                                     break;
                                 case 24:
-                                    _currentCar.SheetC.Asm(_tempCar.SheetA.Asm());
+                                    _currentCar.SheetC.Asm=(_tempCar.SheetA.Asm);
                                     break;
                                 case 25:
-                                    _currentCar.SheetC.Tcs(_tempCar.SheetA.Tcs());
+                                    _currentCar.SheetC.Tcs=(_tempCar.SheetA.Tcs);
                                     break;
                                 case 26:
-                                    _currentCar.SheetC.UnKnown7(_tempCar.SheetA.UnKnown7());
+                                    _currentCar.SheetC.UnKnown7=(_tempCar.SheetA.UnKnown7);
                                     break;
                                 case 27:
-                                    _currentCar.SheetC.Supercharger(_tempCar.SheetA.Supercharger());
+                                    _currentCar.SheetC.Supercharger=(_tempCar.SheetA.Supercharger);
                                     break;
                                 case 28:
-                                    _currentCar.SheetC.Intake(_tempCar.SheetA.Intake());
+                                    _currentCar.SheetC.Intake=(_tempCar.SheetA.Intake);
                                     break;
                                 case 29:
-                                    _currentCar.SheetC.ExhaustManifold(_tempCar.SheetA.ExhaustManifold());
+                                    _currentCar.SheetC.ExhaustManifold=(_tempCar.SheetA.ExhaustManifold);
                                     break;
                                 case 30:
-                                    _currentCar.SheetC.CatConverter(_tempCar.SheetA.CatConverter());
+                                    _currentCar.SheetC.CatConverter=(_tempCar.SheetA.CatConverter);
                                     break;
                                 case 31:
-                                    _currentCar.SheetC.AirFilter(_tempCar.SheetA.AirFilter());
+                                    _currentCar.SheetC.Airfilter=(_tempCar.SheetA.Airfilter);
                                     break;
                                 case 32:
-                                    _currentCar.SheetC.UnKnown8(_tempCar.SheetA.UnKnown8());
+                                    _currentCar.SheetC.UnKnown8=(_tempCar.SheetA.UnKnown8);
                                     break;
                                 case 33:
-                                    _currentCar.SheetC.WindowWr(_tempCar.SheetA.WindowWr());
+                                    _currentCar.SheetC.WindowWr=(_tempCar.SheetA.WindowWr);
                                     break;
                                 case 34:
-                                    _currentCar.SheetC.Hood(_tempCar.SheetA.Hood());
+                                    _currentCar.SheetC.Hood=(_tempCar.SheetA.Hood);
                                     break;
                                 case 35:
-                                    _currentCar.SheetC.FrBumper(_tempCar.SheetA.FrBumper());
+                                    _currentCar.SheetC.FrBumper=(_tempCar.SheetA.FrBumper);
                                     break;
                                 case 36:
-                                    _currentCar.SheetC.RrBumper(_tempCar.SheetA.RrBumper());
+                                    _currentCar.SheetC.RrBumper=(_tempCar.SheetA.RrBumper);
                                     break;
                                 case 37:
-                                    _currentCar.SheetC.Extension(_tempCar.SheetA.Extension());
+                                    _currentCar.SheetC.Extension=(_tempCar.SheetA.Extension);
                                     break;
                                 case 38:
-                                    _currentCar.SheetC.Wing(_tempCar.SheetA.Wing());
+                                    _currentCar.SheetC.Wing=(_tempCar.SheetA.Wing);
                                     break;
                                 case 39:
-                                    _currentCar.SheetC.UnKnown9(_tempCar.SheetA.UnKnown9());
+                                    _currentCar.SheetC.UnKnown9=(_tempCar.SheetA.UnKnown9);
                                     break;
                                 case 40:
-                                    _currentCar.SheetC.Reinforcement(_tempCar.SheetA.Reinforcement());
+                                    _currentCar.SheetC.Reinforcement=(_tempCar.SheetA.Reinforcement);
                                     break;
                                 case 41:
-                                    _currentCar.SheetC.Nos(_tempCar.SheetA.Nos());
+                                    _currentCar.SheetC.Nos=(_tempCar.SheetA.Nos);
                                     break;
                             }
                         }
@@ -1354,133 +1353,133 @@ namespace GT5_Garage_Editor
                         switch (num)
                         {
                             case 1:
-                                _currentCar.SheetA.Colour(_tempCar.SheetA.Colour());
+                                _currentCar.SheetA.Colour=(_tempCar.SheetA.Colour);
                                 break;
                             case 2:
-                                _currentCar.SheetA.Paint(_tempCar.SheetA.Paint());
+                                _currentCar.SheetA.Paint=(_tempCar.SheetA.Paint);
                                 break;
                             case 3:
-                                _currentCar.SheetA.Body(_tempCar.SheetA.Body());
+                                _currentCar.SheetA.Body=(_tempCar.SheetA.Body);
                                 break;
                             case 4:
-                                _currentCar.SheetA.Brakes(_tempCar.SheetA.Brakes());
+                                _currentCar.SheetA.Brakes=(_tempCar.SheetA.Brakes);
                                 break;
                             case 5:
-                                _currentCar.SheetA.UnKnown10(_tempCar.SheetA.UnKnown10());
+                                _currentCar.SheetA.UnKnown10=(_tempCar.SheetA.UnKnown10);
                                 break;
                             case 6:
-                                _currentCar.SheetA.Chassis(_tempCar.SheetA.Chassis());
+                                _currentCar.SheetA.Chassis=(_tempCar.SheetA.Chassis);
                                 break;
                             case 7:
-                                _currentCar.SheetA.Engine(_tempCar.SheetA.Engine());
+                                _currentCar.SheetA.Engine=(_tempCar.SheetA.Engine);
                                 break;
                             case 8:
-                                _currentCar.SheetA.DriveTrain(_tempCar.SheetA.DriveTrain());
+                                _currentCar.SheetA.DriveTrain=(_tempCar.SheetA.DriveTrain);
                                 break;
                             case 9:
-                                _currentCar.SheetA.Transmission(_tempCar.SheetA.Transmission());
+                                _currentCar.SheetA.Transmission=(_tempCar.SheetA.Transmission);
                                 break;
                             case 10:
-                                _currentCar.SheetA.Suspension(_tempCar.SheetA.Suspension());
+                                _currentCar.SheetA.Suspension=(_tempCar.SheetA.Suspension);
                                 break;
                             case 11:
-                                _currentCar.SheetA.Lsd(_tempCar.SheetA.Lsd());
+                                _currentCar.SheetA.Lsd=(_tempCar.SheetA.Lsd);
                                 break;
                             case 12:
-                                _currentCar.SheetA.UnKnown3(_tempCar.SheetA.UnKnown3());
+                                _currentCar.SheetA.UnKnown3=(_tempCar.SheetA.UnKnown3);
                                 break;
                             case 13:
-                                _currentCar.SheetA.WReduction(_tempCar.SheetA.WReduction());
+                                _currentCar.SheetA.WReduction=(_tempCar.SheetA.WReduction);
                                 break;
                             case 14:
-                                _currentCar.SheetA.UnKnown4(_tempCar.SheetA.UnKnown4());
+                                _currentCar.SheetA.UnKnown4=(_tempCar.SheetA.UnKnown4);
                                 break;
                             case 15:
-                                _currentCar.SheetA.UnKnown5(_tempCar.SheetA.UnKnown5());
+                                _currentCar.SheetA.UnKnown5=(_tempCar.SheetA.UnKnown5);
                                 break;
                             case 16:
-                                _currentCar.SheetA.Ecu(_tempCar.SheetA.Ecu());
+                                _currentCar.SheetA.Ecu=(_tempCar.SheetA.Ecu);
                                 break;
                             case 17:
-                                _currentCar.SheetA.EngineTune(_tempCar.SheetA.EngineTune());
+                                _currentCar.SheetA.EngineTune=(_tempCar.SheetA.EngineTune);
                                 break;
                             case 18:
-                                _currentCar.SheetA.Turbo(_tempCar.SheetA.Turbo());
+                                _currentCar.SheetA.Turbo=(_tempCar.SheetA.Transmission);
                                 break;
                             case 19:
-                                _currentCar.SheetA.Flywheel(_tempCar.SheetA.Flywheel());
+                                _currentCar.SheetA.Flywheel=(_tempCar.SheetA.Flywheel);
                                 break;
                             case 20:
-                                _currentCar.SheetA.Clutch(_tempCar.SheetA.Clutch());
+                                _currentCar.SheetA.Clutch=(_tempCar.SheetA.Clutch);
                                 break;
                             case 21:
-                                _currentCar.SheetA.Driveshaft(_tempCar.SheetA.Driveshaft());
+                                _currentCar.SheetA.Driveshaft=(_tempCar.SheetA.Driveshaft);
                                 break;
                             case 22:
-                                _currentCar.SheetA.Exhaust(_tempCar.SheetA.Exhaust());
+                                _currentCar.SheetA.Exhaust=(_tempCar.SheetA.Exhaust);
                                 break;
                             case 23:
-                                _currentCar.SheetA.UnKnown6(_tempCar.SheetA.UnKnown6());
+                                _currentCar.SheetA.UnKnown6=(_tempCar.SheetA.UnKnown6);
                                 break;
                             case 24:
-                                _currentCar.SheetA.Asm(_tempCar.SheetA.Asm());
+                                _currentCar.SheetA.Asm=(_tempCar.SheetA.Asm);
                                 break;
                             case 25:
-                                _currentCar.SheetA.Tcs(_tempCar.SheetA.Tcs());
+                                _currentCar.SheetA.Tcs=(_tempCar.SheetA.Tcs);
                                 break;
                             case 26:
-                                _currentCar.SheetA.UnKnown7(_tempCar.SheetA.UnKnown7());
+                                _currentCar.SheetA.UnKnown7=(_tempCar.SheetA.UnKnown7);
                                 break;
                             case 27:
-                                _currentCar.SheetA.Supercharger(_tempCar.SheetA.Supercharger());
+                                _currentCar.SheetA.Supercharger=(_tempCar.SheetA.Supercharger);
                                 break;
                             case 28:
-                                _currentCar.SheetA.Intake(_tempCar.SheetA.Intake());
+                                _currentCar.SheetA.Intake=(_tempCar.SheetA.Intake);
                                 break;
                             case 29:
-                                _currentCar.SheetA.ExhaustManifold(_tempCar.SheetA.ExhaustManifold());
+                                _currentCar.SheetA.ExhaustManifold=(_tempCar.SheetA.ExhaustManifold);
                                 break;
                             case 30:
-                                _currentCar.SheetA.CatConverter(_tempCar.SheetA.CatConverter());
+                                _currentCar.SheetA.CatConverter=(_tempCar.SheetA.CatConverter);
                                 break;
                             case 31:
-                                _currentCar.SheetA.AirFilter(_tempCar.SheetA.AirFilter());
+                                _currentCar.SheetA.Airfilter=(_tempCar.SheetA.Airfilter);
                                 break;
                             case 32:
-                                _currentCar.SheetA.UnKnown8(_tempCar.SheetA.UnKnown8());
+                                _currentCar.SheetA.UnKnown8=(_tempCar.SheetA.UnKnown8);
                                 break;
                             case 33:
-                                _currentCar.SheetA.WindowWr(_tempCar.SheetA.WindowWr());
+                                _currentCar.SheetA.WindowWr=(_tempCar.SheetA.WindowWr);
                                 break;
                             case 34:
-                                _currentCar.SheetA.Hood(_tempCar.SheetA.Hood());
+                                _currentCar.SheetA.Hood=(_tempCar.SheetA.Hood);
                                 break;
                             case 35:
-                                _currentCar.SheetA.FrBumper(_tempCar.SheetA.FrBumper());
+                                _currentCar.SheetA.FrBumper=(_tempCar.SheetA.FrBumper);
                                 break;
                             case 36:
-                                _currentCar.SheetA.RrBumper(_tempCar.SheetA.RrBumper());
+                                _currentCar.SheetA.RrBumper=(_tempCar.SheetA.RrBumper);
                                 break;
                             case 37:
-                                _currentCar.SheetA.Extension(_tempCar.SheetA.Extension());
+                                _currentCar.SheetA.Extension=(_tempCar.SheetA.Extension);
                                 break;
                             case 38:
-                                _currentCar.SheetA.Wing(_tempCar.SheetA.Wing());
+                                _currentCar.SheetA.Wing=(_tempCar.SheetA.Wing);
                                 break;
                             case 39:
-                                _currentCar.SheetA.UnKnown9(_tempCar.SheetA.UnKnown9());
+                                _currentCar.SheetA.UnKnown9=(_tempCar.SheetA.UnKnown9);
                                 break;
                             case 40:
-                                _currentCar.SheetA.Reinforcement(_tempCar.SheetA.Reinforcement());
+                                _currentCar.SheetA.Reinforcement=(_tempCar.SheetA.Reinforcement);
                                 break;
                             case 41:
-                                _currentCar.SheetA.Nos(_tempCar.SheetA.Nos());
+                                _currentCar.SheetA.Nos=(_tempCar.SheetA.Nos);
                                 break;
                         }
                     }
                 }
             }
-            method_18();
+            RefreshCarFromDgv();
         }
 
         private void dataGridView_Dest_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1494,10 +1493,10 @@ namespace GT5_Garage_Editor
                     _currentCar.SheetA = setUp.method_2();
                     _currentCar.SheetB = setUp.method_4();
                     _currentCar.SheetC = setUp.method_6();
-                    UpdateBlobFromCarParam(_currentCar.SheetA.FullBlob(), _currentCar.SheetA);
-                    UpdateBlobFromCarParam(_currentCar.SheetB.FullBlob(), _currentCar.SheetB);
-                    UpdateBlobFromCarParam(_currentCar.SheetC.FullBlob(), _currentCar.SheetC);
-                    method_18();
+                    UpdateBlobFromCarParam(_currentCar.SheetA.FullBlob, _currentCar.SheetA);
+                    UpdateBlobFromCarParam(_currentCar.SheetB.FullBlob, _currentCar.SheetB);
+                    UpdateBlobFromCarParam(_currentCar.SheetC.FullBlob, _currentCar.SheetC);
+                    RefreshCarFromDgv();
                     break;
                 case "Paint":
                     var paintSelector = new PaintSelector();
@@ -1506,19 +1505,19 @@ namespace GT5_Garage_Editor
                         switch (_currentSheet)
                         {
                             case 'a':
-                                _currentCar.SheetA.Paint(paintSelector.method_0());
+                                _currentCar.SheetA.Paint=paintSelector.method_0();
                                 LoadCarSheet('a');
                                 break;
                             case 'b':
-                                _currentCar.SheetB.Paint(paintSelector.method_0());
+                                _currentCar.SheetB.Paint=paintSelector.method_0();
                                 LoadCarSheet('b');
                                 break;
                             case 'c':
-                                _currentCar.SheetC.Paint(paintSelector.method_0());
+                                _currentCar.SheetC.Paint=paintSelector.method_0();
                                 LoadCarSheet('c');
                                 break;
                         }
-                        method_18();
+                        RefreshCarFromDgv();
                     }
                     paintSelector.Dispose();
                     break;
@@ -1583,11 +1582,11 @@ namespace GT5_Garage_Editor
             {
                 var carParamBlob = new byte[679];
                 if (_currentSheet.Equals('a'))
-                    carParamBlob = _currentCar.SheetA.FullBlob();
+                    carParamBlob = _currentCar.SheetA.FullBlob;
                 if (_currentSheet.Equals('b'))
-                    carParamBlob = _currentCar.SheetB.FullBlob();
+                    carParamBlob = _currentCar.SheetB.FullBlob;
                 if (_currentSheet.Equals('c'))
-                    carParamBlob = _currentCar.SheetC.FullBlob();
+                    carParamBlob = _currentCar.SheetC.FullBlob;
                 UpdateCarParamBlobFromDgv(ref dataGridView_Dest, ref carParamBlob);
                 if (tabControl_garage.SelectedIndex == tabControl_garage.TabPages.IndexOf(tabPage_garage))
                 {
@@ -1597,7 +1596,7 @@ namespace GT5_Garage_Editor
                     LoadCurrentCarDetails();
                 }
                 else
-                    _currentCar.SheetA = new CarParameterBlob(_currentCar.SheetA.FullBlob());
+                    _currentCar.SheetA = new CarParameterBlob(_currentCar.SheetA.FullBlob);
                 LoadCarSheet(_currentSheet);
             }
             else
@@ -1656,103 +1655,103 @@ namespace GT5_Garage_Editor
 
         public static void UpdateBlobFromCarParam(byte[] carParamBlob, CarParameterBlob carParam)
         {
-            InsertUIntToByteArray(carParamBlob, 37U, 4U, carParam.Metres());
-            InsertUIntToByteArray(carParamBlob, 41U, 4U, carParam.Wash());
-            InsertUIntToByteArray(carParamBlob, 49U, 4U, carParam.Oil());
-            InsertUIntToByteArray(carParamBlob, 65U, 2U, carParam.Changes());
-            InsertUIntToByteArray(carParamBlob, 67U, 2U, carParam.Wins());
-            InsertUIntToByteArray(carParamBlob, 77U, 4U, carParam.Paint());
-            InsertUIntToByteArray(carParamBlob, 157U, 4U, carParam.Body());
-            UpdateBlobWithByte(carParamBlob, 169U, carParam.Colour());
-            InsertUIntToByteArray(carParamBlob, 170U, 4U, carParam.FrRim());
-            InsertUIntToByteArray(carParamBlob, 174U, 4U, carParam.RrRim());
-            UpdateBlobWithByte(carParamBlob, 185U, carParam.FrTyre());
-            UpdateBlobWithByte(carParamBlob, 193U, carParam.RrTyre());
-            InsertUIntToByteArray(carParamBlob, 194U, 4U, carParam.Brakes());
-            InsertUIntToByteArray(carParamBlob, 198U, 4U, carParam.UnKnown10());
-            InsertUIntToByteArray(carParamBlob, 202U, 4U, carParam.Chassis());
-            InsertUIntToByteArray(carParamBlob, 206U, 4U, carParam.Engine());
-            InsertUIntToByteArray(carParamBlob, 210U, 4U, carParam.DriveTrain());
-            InsertUIntToByteArray(carParamBlob, 214U, 4U, carParam.Transmission());
-            InsertUIntToByteArray(carParamBlob, 218U, 4U, carParam.Suspension());
-            InsertUIntToByteArray(carParamBlob, 222U, 4U, carParam.Lsd());
-            InsertUIntToByteArray(carParamBlob, 226U, 4U, carParam.UnKnown3());
-            InsertUIntToByteArray(carParamBlob, 230U, 4U, carParam.WReduction());
-            InsertUIntToByteArray(carParamBlob, 234U, 4U, carParam.UnKnown4());
-            InsertUIntToByteArray(carParamBlob, 238U, 4U, carParam.UnKnown5());
-            InsertUIntToByteArray(carParamBlob, 242U, 4U, carParam.Ecu());
-            InsertUIntToByteArray(carParamBlob, 246U, 4U, carParam.EngineTune());
-            InsertUIntToByteArray(carParamBlob, 250U, 4U, carParam.Turbo());
-            InsertUIntToByteArray(carParamBlob, 254U, 4U, carParam.Flywheel());
-            InsertUIntToByteArray(carParamBlob, 258U, 4U, carParam.Clutch());
-            InsertUIntToByteArray(carParamBlob, 262U, 4U, carParam.Driveshaft());
-            InsertUIntToByteArray(carParamBlob, 266U, 4U, carParam.Exhaust());
-            InsertUIntToByteArray(carParamBlob, 270U, 4U, carParam.UnKnown6());
-            InsertUIntToByteArray(carParamBlob, 274U, 4U, carParam.Asm());
-            InsertUIntToByteArray(carParamBlob, 278U, 4U, carParam.Tcs());
-            InsertUIntToByteArray(carParamBlob, 282U, 4U, carParam.UnKnown7());
-            InsertUIntToByteArray(carParamBlob, 286U, 4U, carParam.Supercharger());
-            InsertUIntToByteArray(carParamBlob, 290U, 4U, carParam.Intake());
-            InsertUIntToByteArray(carParamBlob, 294U, 4U, carParam.ExhaustManifold());
-            InsertUIntToByteArray(carParamBlob, 298U, 4U, carParam.CatConverter());
-            InsertUIntToByteArray(carParamBlob, 302U, 4U, carParam.AirFilter());
-            InsertUIntToByteArray(carParamBlob, 306U, 4U, carParam.UnKnown8());
-            InsertUIntToByteArray(carParamBlob, 310U, 4U, carParam.WindowWr());
-            InsertUIntToByteArray(carParamBlob, 314U, 4U, carParam.Hood());
-            InsertUIntToByteArray(carParamBlob, 318U, 4U, carParam.FrBumper());
-            InsertUIntToByteArray(carParamBlob, 322U, 4U, carParam.RrBumper());
-            InsertUIntToByteArray(carParamBlob, 326U, 4U, carParam.Extension());
-            InsertUIntToByteArray(carParamBlob, 330U, 4U, carParam.Wing());
-            InsertUIntToByteArray(carParamBlob, 334U, 4U, carParam.UnKnown9());
-            InsertUIntToByteArray(carParamBlob, 338U, 4U, carParam.Reinforcement());
-            InsertUIntToByteArray(carParamBlob, 342U, 4U, carParam.Nos());
-            InsertUIntToByteArray(carParamBlob, 346U, 2U, carParam.GearRev());
-            InsertUIntToByteArray(carParamBlob, 348U, 2U, carParam.G1());
-            InsertUIntToByteArray(carParamBlob, 350U, 2U, carParam.G2());
-            InsertUIntToByteArray(carParamBlob, 352U, 2U, carParam.G3());
-            InsertUIntToByteArray(carParamBlob, 354U, 2U, carParam.G4());
-            InsertUIntToByteArray(carParamBlob, 356U, 2U, carParam.G5());
-            InsertUIntToByteArray(carParamBlob, 358U, 2U, carParam.G6());
-            InsertUIntToByteArray(carParamBlob, 360U, 2U, carParam.G7());
-            InsertUIntToByteArray(carParamBlob, 362U, 2U, carParam.G8());
-            InsertUIntToByteArray(carParamBlob, 364U, 2U, carParam.G9());
-            InsertUIntToByteArray(carParamBlob, 366U, 2U, carParam.G10());
-            InsertUIntToByteArray(carParamBlob, 368U, 2U, carParam.G11());
-            InsertUIntToByteArray(carParamBlob, 370U, 2U, carParam.GFinal());
-            UpdateBlobWithByte(carParamBlob, 375U, carParam.FrTorque());
-            UpdateBlobWithByte(carParamBlob, 378U, carParam.DfF());
-            UpdateBlobWithByte(carParamBlob, 379U, carParam.DfR());
-            UpdateBlobWithByte(carParamBlob, 386U, carParam.CamberFront());
-            UpdateBlobWithByte(carParamBlob, 387U, carParam.CamberR());
-            InsertUIntToByteArray(carParamBlob, 388U, 2U, carParam.RideHeightF());
-            InsertUIntToByteArray(carParamBlob, 390U, 2U, carParam.RideHeightR());
-            UpdateBlobWithSByte(carParamBlob, 392U, carParam.ToeF());
-            UpdateBlobWithSByte(carParamBlob, 393U, carParam.ToeR());
-            UpdateBlobWithByte(carParamBlob, 394U, carParam.SpringF());
-            UpdateBlobWithByte(carParamBlob, 395U, carParam.SpringR());
-            UpdateBlobWithByte(carParamBlob, 398U, carParam.ExtenF());
-            UpdateBlobWithByte(carParamBlob, 399U, carParam.ExtenF());
-            UpdateBlobWithByte(carParamBlob, 400U, carParam.CompF());
-            UpdateBlobWithByte(carParamBlob, 401U, carParam.CompF());
-            UpdateBlobWithByte(carParamBlob, 402U, carParam.ExtenR());
-            UpdateBlobWithByte(carParamBlob, 403U, carParam.ExtenR());
-            UpdateBlobWithByte(carParamBlob, 404U, carParam.CompR());
-            UpdateBlobWithByte(carParamBlob, 405U, carParam.CompR());
-            UpdateBlobWithByte(carParamBlob, 406U, carParam.AntiRollBarF());
-            UpdateBlobWithByte(carParamBlob, 407U, carParam.AntiRollBarR());
-            UpdateBlobWithByte(carParamBlob, 408U, carParam.LsdInitF());
-            UpdateBlobWithByte(carParamBlob, 409U, carParam.LsdInitR());
-            UpdateBlobWithByte(carParamBlob, 410U, carParam.LsdAccF());
-            UpdateBlobWithByte(carParamBlob, 411U, carParam.LsdAccR());
-            UpdateBlobWithByte(carParamBlob, 412U, carParam.LsdDecF());
-            UpdateBlobWithByte(carParamBlob, 413U, carParam.LsdDecR());
-            UpdateBlobWithByte(carParamBlob, 419U, carParam.BallastKg());
-            UpdateBlobWithSByte(carParamBlob, 420U, carParam.BallastPos());
-            UpdateBlobWithByte(carParamBlob, 431U, carParam.Grip());
-            UpdateBlobWithByte(carParamBlob, 432U, carParam.Bbf());
-            UpdateBlobWithByte(carParamBlob, 433U, carParam.Bbr());
-            UpdateBlobWithByte(carParamBlob, 422U, carParam.Bhp());
-            UpdateBlobWithByte(carParamBlob, 425U, carParam.Weight());
+            InsertUIntToByteArray(carParamBlob, 37U, 4U, carParam.Metres);
+            InsertUIntToByteArray(carParamBlob, 41U, 4U, carParam.Wash);
+            InsertUIntToByteArray(carParamBlob, 49U, 4U, carParam.Oil);
+            InsertUIntToByteArray(carParamBlob, 65U, 2U, carParam.Changes);
+            InsertUIntToByteArray(carParamBlob, 67U, 2U, carParam.Wins);
+            InsertUIntToByteArray(carParamBlob, 77U, 4U, carParam.Paint);
+            InsertUIntToByteArray(carParamBlob, 157U, 4U, carParam.Body);
+            UpdateBlobWithByte(carParamBlob, 169U, carParam.Colour);
+            InsertUIntToByteArray(carParamBlob, 170U, 4U, carParam.FrRim);
+            InsertUIntToByteArray(carParamBlob, 174U, 4U, carParam.RrRim);
+            UpdateBlobWithByte(carParamBlob, 185U, carParam.FrTyre);
+            UpdateBlobWithByte(carParamBlob, 193U, carParam.RrTyre);
+            InsertUIntToByteArray(carParamBlob, 194U, 4U, carParam.Brakes);
+            InsertUIntToByteArray(carParamBlob, 198U, 4U, carParam.UnKnown10);
+            InsertUIntToByteArray(carParamBlob, 202U, 4U, carParam.Chassis);
+            InsertUIntToByteArray(carParamBlob, 206U, 4U, carParam.Engine);
+            InsertUIntToByteArray(carParamBlob, 210U, 4U, carParam.DriveTrain);
+            InsertUIntToByteArray(carParamBlob, 214U, 4U, carParam.Transmission);
+            InsertUIntToByteArray(carParamBlob, 218U, 4U, carParam.Suspension);
+            InsertUIntToByteArray(carParamBlob, 222U, 4U, carParam.Lsd);
+            InsertUIntToByteArray(carParamBlob, 226U, 4U, carParam.UnKnown3);
+            InsertUIntToByteArray(carParamBlob, 230U, 4U, carParam.WReduction);
+            InsertUIntToByteArray(carParamBlob, 234U, 4U, carParam.UnKnown4);
+            InsertUIntToByteArray(carParamBlob, 238U, 4U, carParam.UnKnown5);
+            InsertUIntToByteArray(carParamBlob, 242U, 4U, carParam.Ecu);
+            InsertUIntToByteArray(carParamBlob, 246U, 4U, carParam.EngineTune);
+            InsertUIntToByteArray(carParamBlob, 250U, 4U, carParam.Transmission);
+            InsertUIntToByteArray(carParamBlob, 254U, 4U, carParam.Flywheel);
+            InsertUIntToByteArray(carParamBlob, 258U, 4U, carParam.Clutch);
+            InsertUIntToByteArray(carParamBlob, 262U, 4U, carParam.Driveshaft);
+            InsertUIntToByteArray(carParamBlob, 266U, 4U, carParam.Exhaust);
+            InsertUIntToByteArray(carParamBlob, 270U, 4U, carParam.UnKnown6);
+            InsertUIntToByteArray(carParamBlob, 274U, 4U, carParam.Asm);
+            InsertUIntToByteArray(carParamBlob, 278U, 4U, carParam.Tcs);
+            InsertUIntToByteArray(carParamBlob, 282U, 4U, carParam.UnKnown7);
+            InsertUIntToByteArray(carParamBlob, 286U, 4U, carParam.Supercharger);
+            InsertUIntToByteArray(carParamBlob, 290U, 4U, carParam.Intake);
+            InsertUIntToByteArray(carParamBlob, 294U, 4U, carParam.ExhaustManifold);
+            InsertUIntToByteArray(carParamBlob, 298U, 4U, carParam.CatConverter);
+            InsertUIntToByteArray(carParamBlob, 302U, 4U, carParam.Airfilter);
+            InsertUIntToByteArray(carParamBlob, 306U, 4U, carParam.UnKnown8);
+            InsertUIntToByteArray(carParamBlob, 310U, 4U, carParam.WindowWr);
+            InsertUIntToByteArray(carParamBlob, 314U, 4U, carParam.Hood);
+            InsertUIntToByteArray(carParamBlob, 318U, 4U, carParam.FrBumper);
+            InsertUIntToByteArray(carParamBlob, 322U, 4U, carParam.RrBumper);
+            InsertUIntToByteArray(carParamBlob, 326U, 4U, carParam.Extension);
+            InsertUIntToByteArray(carParamBlob, 330U, 4U, carParam.Wing);
+            InsertUIntToByteArray(carParamBlob, 334U, 4U, carParam.UnKnown9);
+            InsertUIntToByteArray(carParamBlob, 338U, 4U, carParam.Reinforcement);
+            InsertUIntToByteArray(carParamBlob, 342U, 4U, carParam.Nos);
+            InsertUIntToByteArray(carParamBlob, 346U, 2U, carParam.GearRev);
+            InsertUIntToByteArray(carParamBlob, 348U, 2U, carParam.G1);
+            InsertUIntToByteArray(carParamBlob, 350U, 2U, carParam.G2);
+            InsertUIntToByteArray(carParamBlob, 352U, 2U, carParam.G3);
+            InsertUIntToByteArray(carParamBlob, 354U, 2U, carParam.G4);
+            InsertUIntToByteArray(carParamBlob, 356U, 2U, carParam.G5);
+            InsertUIntToByteArray(carParamBlob, 358U, 2U, carParam.G6);
+            InsertUIntToByteArray(carParamBlob, 360U, 2U, carParam.G7);
+            InsertUIntToByteArray(carParamBlob, 362U, 2U, carParam.G8);
+            InsertUIntToByteArray(carParamBlob, 364U, 2U, carParam.G9);
+            InsertUIntToByteArray(carParamBlob, 366U, 2U, carParam.G10);
+            InsertUIntToByteArray(carParamBlob, 368U, 2U, carParam.G11);
+            InsertUIntToByteArray(carParamBlob, 370U, 2U, carParam.GFinal);
+            UpdateBlobWithByte(carParamBlob, 375U, carParam.FrTorque);
+            UpdateBlobWithByte(carParamBlob, 378U, carParam.DfF);
+            UpdateBlobWithByte(carParamBlob, 379U, carParam.DfR);
+            UpdateBlobWithByte(carParamBlob, 386U, carParam.CamberFront);
+            UpdateBlobWithByte(carParamBlob, 387U, carParam.CamberR);
+            InsertUIntToByteArray(carParamBlob, 388U, 2U, carParam.RideHeightF);
+            InsertUIntToByteArray(carParamBlob, 390U, 2U, carParam.RideHeightR);
+            UpdateBlobWithSByte(carParamBlob, 392U, carParam.ToeF);
+            UpdateBlobWithSByte(carParamBlob, 393U, carParam.ToeR);
+            UpdateBlobWithByte(carParamBlob, 394U, carParam.RrTyre);
+            UpdateBlobWithByte(carParamBlob, 395U, carParam.SpringR);
+            UpdateBlobWithByte(carParamBlob, 398U, carParam.ExtenF);
+            UpdateBlobWithByte(carParamBlob, 399U, carParam.ExtenF);
+            UpdateBlobWithByte(carParamBlob, 400U, carParam.CompF);
+            UpdateBlobWithByte(carParamBlob, 401U, carParam.CompF);
+            UpdateBlobWithByte(carParamBlob, 402U, carParam.ExtenR);
+            UpdateBlobWithByte(carParamBlob, 403U, carParam.ExtenR);
+            UpdateBlobWithByte(carParamBlob, 404U, carParam.CompR);
+            UpdateBlobWithByte(carParamBlob, 405U, carParam.CompR);
+            UpdateBlobWithByte(carParamBlob, 406U, carParam.AntiRollBarF);
+            UpdateBlobWithByte(carParamBlob, 407U, carParam.AntiRollBarR);
+            UpdateBlobWithByte(carParamBlob, 408U, carParam.LsdInitF);
+            UpdateBlobWithByte(carParamBlob, 409U, carParam.LsdInitR);
+            UpdateBlobWithByte(carParamBlob, 410U, carParam.LsdAccF);
+            UpdateBlobWithByte(carParamBlob, 411U, carParam.LsdAccR);
+            UpdateBlobWithByte(carParamBlob, 412U, carParam.LsdDecF);
+            UpdateBlobWithByte(carParamBlob, 413U, carParam.LsdDecR);
+            UpdateBlobWithByte(carParamBlob, 419U, carParam.BallastKg);
+            UpdateBlobWithSByte(carParamBlob, 420U, carParam.BallastPos);
+            UpdateBlobWithByte(carParamBlob, 431U, carParam.Grip);
+            UpdateBlobWithByte(carParamBlob, 432U, carParam.Bbf);
+            UpdateBlobWithByte(carParamBlob, 433U, carParam.Bbr);
+            UpdateBlobWithByte(carParamBlob, 422U, carParam.Bhp);
+            UpdateBlobWithByte(carParamBlob, 425U, carParam.Weight);
         }
 
         public static ulong ReverseEndedness(uint begin, uint end, byte[] byteArray)
@@ -2348,18 +2347,18 @@ namespace GT5_Garage_Editor
             try
             {
                 var buffer = new byte[2097152];
-                fileStream1.Position = (long)_sqlLiteOffset;
+                fileStream1.Position = (long)SqlLiteOffset;
                 switch (_numberOfFilesInSave)
                 {
                     case 1:
-                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset - 1);
-                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset - 1);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset - 1);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset - 1);
                         fileStream1.Close();
                         fileStream5.Close();
                         break;
                     case 2:
-                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
-                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
                         fileStream2.Read(buffer, 0, (int)fileStream2.Length - 1);
                         fileStream5.Write(buffer, 0, (int)fileStream2.Length - 1);
                         fileStream1.Close();
@@ -2367,8 +2366,8 @@ namespace GT5_Garage_Editor
                         fileStream5.Close();
                         break;
                     case 3:
-                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
-                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
                         fileStream2.Read(buffer, 0, (int)fileStream2.Length);
                         fileStream5.Write(buffer, 0, (int)fileStream2.Length);
                         fileStream3.Read(buffer, 0, (int)fileStream3.Length - 1);
@@ -2379,8 +2378,8 @@ namespace GT5_Garage_Editor
                         fileStream5.Close();
                         break;
                     case 4:
-                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
-                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)_sqlLiteOffset);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
                         fileStream2.Read(buffer, 0, (int)fileStream2.Length);
                         fileStream5.Write(buffer, 0, (int)fileStream2.Length);
                         fileStream3.Read(buffer, 0, (int)fileStream3.Length);
@@ -2405,7 +2404,7 @@ namespace GT5_Garage_Editor
                 Thread.Sleep(50);
                 sqLiteConnection.Open();
                 Thread.Sleep(50);
-                sqLiteConnection.ChangePassword(passBytes);
+                sqLiteConnection.ChangePassword(_passBytes);
                 Thread.Sleep(50);
                 sqLiteConnection.Close();
             }
@@ -2426,57 +2425,57 @@ namespace GT5_Garage_Editor
                 {
                     Cursor = Cursors.WaitCursor;
                     var sqLiteConnection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
-                    sqLiteConnection.SetPassword(passBytes);
+                    sqLiteConnection.SetPassword(_passBytes);
                     sqLiteConnection.Open();
                     sqLiteConnection.ChangePassword(string.Empty);
                     sqLiteConnection.Close();
                     Thread.Sleep(100);
                     var buffer1 = new byte[16777216];
                     var fileStream2 = new FileStream(string_4 + "\\GT5.0", FileMode.Open);
-                    fileStream2.Read(buffer1, 0, (int)_sqlLiteOffset);
+                    fileStream2.Read(buffer1, 0, (int)SqlLiteOffset);
                     fileStream2.Close();
                     fileStream1 = new FileStream(Application.StartupPath + "\\temp", FileMode.Open);
-                    fileStream1.Read(buffer1, (int)_sqlLiteOffset, (int)fileStream1.Length);
+                    fileStream1.Read(buffer1, (int)SqlLiteOffset, (int)fileStream1.Length);
                     var num = 2097152;
                     var fileStream_0 = new FileStream(string_4 + "\\GT5.0", FileMode.Create);
                     fileStream_0.SetLength(1L);
-                    fileStream_0.Write(buffer1, 0, (int)_sqlLiteOffset);
-                    WriteLongToFileStream((long)_sqlLiteOffset - 9L, fileStream_0, 0L, 4L, fileStream1.Length + 10L);
-                    WriteLongToFileStream((long)_sqlLiteOffset - 4L, fileStream_0, 0L, 4L, fileStream1.Length);
-                    fileStream_0.Position = (long)_sqlLiteOffset;
-                    if (fileStream1.Length + (long)_sqlLiteOffset > _numberOfFilesInSave * 2097152)
+                    fileStream_0.Write(buffer1, 0, (int)SqlLiteOffset);
+                    WriteLongToFileStream((long)SqlLiteOffset - 9L, fileStream_0, 0L, 4L, fileStream1.Length + 10L);
+                    WriteLongToFileStream((long)SqlLiteOffset - 4L, fileStream_0, 0L, 4L, fileStream1.Length);
+                    fileStream_0.Position = (long)SqlLiteOffset;
+                    if (fileStream1.Length + (long)SqlLiteOffset > _numberOfFilesInSave * 2097152)
                         flag = true;
-                    if (fileStream1.Length + (long)_sqlLiteOffset < num)
+                    if (fileStream1.Length + (long)SqlLiteOffset < num)
                     {
-                        fileStream_0.Write(buffer1, (int)_sqlLiteOffset, (int)fileStream1.Length);
+                        fileStream_0.Write(buffer1, (int)SqlLiteOffset, (int)fileStream1.Length);
                         fileStream_0.WriteByte(0);
                         fileStream_0.Close();
                     }
-                    else if (fileStream1.Length + (long)_sqlLiteOffset > num && fileStream1.Length + (long)_sqlLiteOffset < 2 * num)
+                    else if (fileStream1.Length + (long)SqlLiteOffset > num && fileStream1.Length + (long)SqlLiteOffset < 2 * num)
                     {
                         var fileStream3 = new FileStream(string_4 + "\\GT5.1", FileMode.Create);
                         fileStream3.SetLength(1L);
-                        fileStream_0.Write(buffer1, (int)_sqlLiteOffset, num - (int)_sqlLiteOffset);
-                        fileStream3.Write(buffer1, num, (int)fileStream1.Length + (int)_sqlLiteOffset - num);
+                        fileStream_0.Write(buffer1, (int)SqlLiteOffset, num - (int)SqlLiteOffset);
+                        fileStream3.Write(buffer1, num, (int)fileStream1.Length + (int)SqlLiteOffset - num);
                         fileStream3.WriteByte(0);
                         fileStream_0.Close();
                         fileStream3.Close();
                     }
-                    else if (fileStream1.Length + (long)_sqlLiteOffset > 2 * num && fileStream1.Length + (long)_sqlLiteOffset < 3 * num)
+                    else if (fileStream1.Length + (long)SqlLiteOffset > 2 * num && fileStream1.Length + (long)SqlLiteOffset < 3 * num)
                     {
                         var fileStream3 = new FileStream(string_4 + "\\GT5.1", FileMode.Create);
                         fileStream3.SetLength(1L);
                         var fileStream4 = new FileStream(string_4 + "\\GT5.2", FileMode.Create);
                         fileStream4.SetLength(1L);
-                        fileStream_0.Write(buffer1, (int)_sqlLiteOffset, num - (int)_sqlLiteOffset);
+                        fileStream_0.Write(buffer1, (int)SqlLiteOffset, num - (int)SqlLiteOffset);
                         fileStream3.Write(buffer1, num, num);
-                        fileStream4.Write(buffer1, 2 * num, (int)fileStream1.Length + (int)_sqlLiteOffset - 2 * num);
+                        fileStream4.Write(buffer1, 2 * num, (int)fileStream1.Length + (int)SqlLiteOffset - 2 * num);
                         fileStream4.WriteByte(0);
                         fileStream_0.Close();
                         fileStream3.Close();
                         fileStream4.Close();
                     }
-                    else if (fileStream1.Length + (long)_sqlLiteOffset > 3 * num && fileStream1.Length + (long)_sqlLiteOffset < 4 * num)
+                    else if (fileStream1.Length + (long)SqlLiteOffset > 3 * num && fileStream1.Length + (long)SqlLiteOffset < 4 * num)
                     {
                         var fileStream3 = new FileStream(string_4 + "\\GT5.1", FileMode.Create);
                         fileStream3.SetLength(1L);
@@ -2484,10 +2483,10 @@ namespace GT5_Garage_Editor
                         fileStream4.SetLength(1L);
                         var fileStream5 = new FileStream(string_4 + "\\GT5.3", FileMode.Create);
                         fileStream5.SetLength(1L);
-                        fileStream_0.Write(buffer1, (int)_sqlLiteOffset, num - (int)_sqlLiteOffset);
+                        fileStream_0.Write(buffer1, (int)SqlLiteOffset, num - (int)SqlLiteOffset);
                         fileStream3.Write(buffer1, num, num);
                         fileStream4.Write(buffer1, 2 * num, num);
-                        fileStream5.Write(buffer1, 3 * num, (int)fileStream1.Length + (int)_sqlLiteOffset - 3 * num);
+                        fileStream5.Write(buffer1, 3 * num, (int)fileStream1.Length + (int)SqlLiteOffset - 3 * num);
                         fileStream5.WriteByte(0);
                         fileStream_0.Close();
                         fileStream3.Close();
@@ -2606,9 +2605,9 @@ namespace GT5_Garage_Editor
                         radioButton_secretOn.Checked = true;
                     if ((long)FindItemInPddb(_pathToPddb, "rtext_debug", 1) == 1L)
                         rb_txtdebug_on.Checked = true;
-                    _sqlLiteOffset = FindSqlLiteOffset("SQLite format 3", _pathToPddb);
+                    SqlLiteOffset = FindSqlLiteOffset("SQLite format 3", _pathToPddb);
                     CompileSaveIntoSingleDb(_pathToSave);
-                    _sqlHelper2 = new SqlHelper(Application.StartupPath + "\\temp", true, passBytes);
+                    _sqlHelper2 = new SqlHelper(Application.StartupPath + "\\temp", true, _passBytes);
                     GetTuners(_sqlHelper2, ref dataTable_6);
                     PopulateComboBoxFromDatatable(ref comboBox_DMake, ref dataTable_6);
                     Cursor = Cursors.Default;
@@ -3323,7 +3322,7 @@ namespace GT5_Garage_Editor
                     stringBuilder2.Append(" WHERE tuner_label LIKE '" + strArray[4] + "'");
                 var dataTable = _sqlHelper2.ExecuteReader(stringBuilder2.ToString());
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
-                connection.SetPassword(passBytes);
+                connection.SetPassword(_passBytes);
                 connection.Open();
                 foreach (DataRow dataRow in (InternalDataCollectionBase)dataTable.Rows)
                 {
@@ -3397,7 +3396,7 @@ namespace GT5_Garage_Editor
             {
                 var num1 = int.Parse(dataTable_9.Rows[cB_Name_Model.SelectedIndex].ItemArray[1].ToString());
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
-                connection.SetPassword(passBytes);
+                connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection);
                 sqLiteCommand.CommandText = string.Concat(new object[4]
@@ -3581,7 +3580,7 @@ namespace GT5_Garage_Editor
                 num3 = 0U;
                 label_20:
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
-                connection.SetPassword(passBytes);
+                connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection);
                 sqLiteCommand.CommandText = "INSERT INTO t_itembox_user VALUES (" + (ulong)((long)num1 + 1L) + ",212157493902,1,1,5," + (string)(object)num3 + "," + (string)(object)num2 + ",0,'Inserted :" + (string)(object)num2 + "',null ,null ,null ,null ,null ,1,null,null,null,null,null ,null )";
@@ -3608,7 +3607,7 @@ namespace GT5_Garage_Editor
                 var num2 = uint.Parse(dataTable_2.Rows[comboBox_gift_paintNum.SelectedIndex].ItemArray[0].ToString());
                 var num3 = (uint)comboBox__gift_paintCat.SelectedIndex;
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
-                connection.SetPassword(passBytes);
+                connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection);
                 sqLiteCommand.CommandText = "INSERT INTO t_itembox_user VALUES (" + (ulong)((long)num1 + 1L) + ",212157493902,1,1,6,601,101,0,'none',null ,null ,null ,null ,null ," + (string)(object)num2 + "," + (string)(object)num3 + ",0 ,0,'',null , 1 )";
@@ -3635,7 +3634,7 @@ namespace GT5_Garage_Editor
                 var num1 = ulong.Parse(_sqlHelper2.ExecuteScalar("SELECT MAX (itembox_id) FROM t_itembox_user"));
                 var num2 = (uint)(comboBox_tickets.SelectedIndex + 114);
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
-                connection.SetPassword(passBytes);
+                connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection)
                 {
@@ -3684,7 +3683,7 @@ namespace GT5_Garage_Editor
                 var num1 = ulong.Parse(_sqlHelper2.ExecuteScalar("SELECT MAX (itembox_id) FROM t_itembox_user"));
                 var selectedIndex = comboBox_tickets.SelectedIndex;
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
-                connection.SetPassword(passBytes);
+                connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection);
                 var parameter = new SQLiteParameter("@X30", DbType.Binary);
@@ -3748,7 +3747,7 @@ namespace GT5_Garage_Editor
             {
                 var nextId = ulong.Parse(_sqlHelper2.ExecuteScalar("SELECT MAX (garage_id) FROM t_garage")) + 1UL;
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
-                connection.SetPassword(passBytes);
+                connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection);
                 switch (cB_special_car.SelectedIndex)
@@ -3793,35 +3792,35 @@ namespace GT5_Garage_Editor
 
         private void button_delete_item_Click(object sender, EventArgs e)
         {
-            if (itemsDataTable.Rows.Count <= 0)
+            if (_itemsDataTable.Rows.Count <= 0)
                 return;
-            _sqlHelper2.ExecuteNonQuery("DELETE FROM t_itembox_user WHERE itembox_id = " + itemsDataTable.Rows[cB_itemControl.SelectedIndex].ItemArray[0]);
+            _sqlHelper2.ExecuteNonQuery("DELETE FROM t_itembox_user WHERE itembox_id = " + _itemsDataTable.Rows[cB_itemControl.SelectedIndex].ItemArray[0]);
             RefreshItemsComboBox();
             var num = (int)MessageBox.Show(this, "Item Deleted Successfully  ", "Message", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
         public void RefreshItemsComboBox()
         {
-            itemsDataTable.Clear();
-            itemsDataTable = _sqlHelper2.ExecuteReader("SELECT itembox_id,item_name FROM t_itembox_user WHERE category_id = 901 AND status =1");
+            _itemsDataTable.Clear();
+            _itemsDataTable = _sqlHelper2.ExecuteReader("SELECT itembox_id,item_name FROM t_itembox_user WHERE category_id = 901 AND status =1");
             cB_itemControl.Items.Clear();
-            if (itemsDataTable.Rows.Count <= 0)
+            if (_itemsDataTable.Rows.Count <= 0)
                 return;
-            foreach (DataRow dataRow in (InternalDataCollectionBase)itemsDataTable.Rows)
+            foreach (DataRow dataRow in (InternalDataCollectionBase)_itemsDataTable.Rows)
                 cB_itemControl.Items.Add(dataRow.ItemArray[1].ToString());
             cB_itemControl.SelectedIndex = 0;
         }
 
-        public void method_18()
+        public void RefreshCarFromDgv()
         {
             LoadCarSheet(_currentSheet);
             var carBlob = new byte[679];
             if (_currentSheet.Equals('a'))
-                carBlob = _currentCar.SheetA.FullBlob();
+                carBlob = _currentCar.SheetA.FullBlob;
             if (_currentSheet.Equals('b'))
-                carBlob = _currentCar.SheetB.FullBlob();
+                carBlob = _currentCar.SheetB.FullBlob;
             if (_currentSheet.Equals('c'))
-                carBlob = _currentCar.SheetC.FullBlob();
+                carBlob = _currentCar.SheetC.FullBlob;
             UpdateCarParamBlobFromDgv(ref dataGridView_Dest, ref carBlob);
             if (tabControl_garage.SelectedIndex == tabControl_garage.TabPages.IndexOf(tabPage_garage))
             {
@@ -3831,7 +3830,7 @@ namespace GT5_Garage_Editor
                 LoadCurrentCarDetails();
             }
             else
-                _currentCar.SheetA = new CarParameterBlob(_currentCar.SheetA.FullBlob());
+                _currentCar.SheetA = new CarParameterBlob(_currentCar.SheetA.FullBlob);
         }
 
         public bool IsNumeric(string string_4)
@@ -3905,21 +3904,21 @@ namespace GT5_Garage_Editor
 
         private void radioButton_A_CheckedChanged(object sender, EventArgs e)
         {
-            method_18();
+            RefreshCarFromDgv();
             _currentSheet = 'a';
             LoadCarSheet(_currentSheet);
         }
 
         private void radioButton_B_CheckedChanged(object sender, EventArgs e)
         {
-            method_18();
+            RefreshCarFromDgv();
             _currentSheet = 'b';
             LoadCarSheet(_currentSheet);
         }
 
         private void radioButton_C_CheckedChanged(object sender, EventArgs e)
         {
-            method_18();
+            RefreshCarFromDgv();
             _currentSheet = 'c';
             LoadCarSheet(_currentSheet);
         }
