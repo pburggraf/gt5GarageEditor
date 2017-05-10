@@ -3448,11 +3448,11 @@ namespace GT5_Garage_Editor
 
         private void button_gift_tune_add_Click(object sender, EventArgs e)
         {
-            method_14(sender, e);
+            InsertTuningItem(sender, e);
             var num = (int)MessageBox.Show(this, "Finished Adding Items  ", "Message", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
-        public void method_14(object sender, EventArgs e)
+        public void InsertTuningItem(object sender, EventArgs e)
         {
             try
             {
@@ -3592,11 +3592,11 @@ namespace GT5_Garage_Editor
 
         private void button_gift_paintAdd_Click(object sender, EventArgs e)
         {
-            method_15(sender, e);
+            InsertItem(sender, e);
             var num = (int)MessageBox.Show(this, "Finished Adding Items  ", "Message", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
-        public void method_15(object sender, EventArgs e)
+        public void InsertItem(object sender, EventArgs e)
         {
             try
             {
@@ -3619,12 +3619,12 @@ namespace GT5_Garage_Editor
 
         private void button_carTicket_Click(object sender, EventArgs e)
         {
-            method_16(sender, e);
+            InsertTicket(sender, e);
             RefreshItemsComboBox();
             var num = (int)MessageBox.Show(this, "Finished Adding Items  ", "Message", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
-        public void method_16(object sender, EventArgs e)
+        public void InsertTicket(object sender, EventArgs e)
         {
             try
             {
@@ -3705,21 +3705,21 @@ namespace GT5_Garage_Editor
         private void btn_gift_paintBy10_Click(object sender, EventArgs e)
         {
             for (var index = 0; index < 10; ++index)
-                method_15(sender, e);
+                InsertItem(sender, e);
             var num = (int)MessageBox.Show(this, "Finished Adding Ten Items  ", "Message", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
         private void btn_gift_tune_give10_Click(object sender, EventArgs e)
         {
             for (var index = 0; index < 10; ++index)
-                method_14(sender, e);
+                InsertTuningItem(sender, e);
             var num = (int)MessageBox.Show(this, "Finished Adding Ten Items  ", "Message", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
         private void btn_Year_tickets_give10_Click(object sender, EventArgs e)
         {
             for (var index = 0; index < 10; ++index)
-                method_16(sender, e);
+                InsertTicket(sender, e);
             RefreshItemsComboBox();
             var num = (int)MessageBox.Show(this, "Finished Adding Ten Items  ", "Message", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
