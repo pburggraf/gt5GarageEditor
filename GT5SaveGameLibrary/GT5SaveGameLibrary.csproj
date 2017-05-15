@@ -83,6 +83,8 @@
     <Compile Include="GT5SqlModel\EarlyVersion\t_colour.cs" />
     <Compile Include="GT5SqlModel\EarlyVersion\t_garage.cs" />
     <Compile Include="GT5SqlModel\EarlyVersion\t_tuner.cs" />
+    <Compile Include="Models\CarModels\Car.cs" />
+    <Compile Include="Models\CarModels\CarParameterBlob.cs" />
     <Compile Include="Pddb.cs" />
     <Compile Include="SaveGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

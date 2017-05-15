@@ -111,7 +111,7 @@ namespace GT5_Garage_Editor
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 101");
+                var num = (int)MessageBox.Show("Something went wrong: Error 101");
             }
         }
 
@@ -145,7 +145,7 @@ namespace GT5_Garage_Editor
                 _currentCar = new Car();
                 int num = FindOffsetForItem("riding_car");
                 var numArray = new byte[679];
-                var fileStream = new FileStream(PathToPddb, FileMode.Open) {Position = num};
+                var fileStream = new FileStream(PathToPddb, FileMode.Open) { Position = num };
                 fileStream.ReadByte();
                 if (fileStream.ReadByte() <= sbyte.MaxValue)
                     fileStream.Position = num + 22;
@@ -191,7 +191,7 @@ namespace GT5_Garage_Editor
                     _sqlHelper.ExecuteReader("SELECT * FROM t_colour WHERE Colour_Category = " +
                                              comboBox__gift_paintCat.SelectedIndex + " ORDER BY Colour_Number");
                 comboBox_gift_paintNum.Items.Clear();
-                foreach (DataRow dataRow in (InternalDataCollectionBase) dataTable_2.Rows)
+                foreach (DataRow dataRow in (InternalDataCollectionBase)dataTable_2.Rows)
                     comboBox_gift_paintNum.Items.Add(dataRow.ItemArray[2].ToString());
                 comboBox_gift_paintNum.SelectedIndex = 0;
             }
@@ -207,13 +207,13 @@ namespace GT5_Garage_Editor
                 cB_special_car.SelectedIndex = 0;
                 dataTable_1 = _sqlHelper.ExecuteReader("SELECT DISTINCT tuner FROM t_cars");
                 cB_insert_tuner.Items.Clear();
-                foreach (DataRow dataRow in (InternalDataCollectionBase) dataTable_1.Rows)
+                foreach (DataRow dataRow in (InternalDataCollectionBase)dataTable_1.Rows)
                     cB_insert_tuner.Items.Add(dataRow.ItemArray[0].ToString());
                 cB_insert_tuner.SelectedIndex = 0;
                 dataTable_2 =
                     _sqlHelper.ExecuteReader("SELECT * FROM t_colour WHERE Colour_Category = 0 ORDER BY Colour_Number");
                 comboBox_gift_paintNum.Items.Clear();
-                foreach (DataRow dataRow in (InternalDataCollectionBase) dataTable_2.Rows)
+                foreach (DataRow dataRow in (InternalDataCollectionBase)dataTable_2.Rows)
                     comboBox_gift_paintNum.Items.Add(dataRow.ItemArray[2].ToString());
                 comboBox_category_name.SelectedIndex = 0;
                 comboBox_gameitem_id.SelectedIndex = 0;
@@ -287,7 +287,7 @@ namespace GT5_Garage_Editor
         public void PopulateComboBoxFromDatatable(ref ComboBox comboBox_0, ref DataTable dataTable_10)
         {
             comboBox_0.Items.Clear();
-            foreach (DataRow dataRow in (InternalDataCollectionBase) dataTable_10.Rows)
+            foreach (DataRow dataRow in (InternalDataCollectionBase)dataTable_10.Rows)
                 comboBox_0.Items.Add(dataRow.ItemArray[0].ToString());
         }
 
@@ -1702,7 +1702,7 @@ namespace GT5_Garage_Editor
 
         public static void UpdateBlobWithSByte(byte[] carParamBlob, uint pos, sbyte value)
         {
-            carParamBlob[pos] = (byte) value;
+            carParamBlob[pos] = (byte)value;
         }
 
         public static void InsertUIntToByteArray(byte[] carParamBlob, uint position, uint byteLength, uint value)
@@ -1710,17 +1710,17 @@ namespace GT5_Garage_Editor
             switch (byteLength)
             {
                 case 1U:
-                    carParamBlob[position] = (byte) (value & byte.MaxValue);
+                    carParamBlob[position] = (byte)(value & byte.MaxValue);
                     break;
                 case 2U:
-                    carParamBlob[position] = (byte) (value >> 8 & byte.MaxValue);
-                    carParamBlob[(position + 1U)] = (byte) (value & byte.MaxValue);
+                    carParamBlob[position] = (byte)(value >> 8 & byte.MaxValue);
+                    carParamBlob[(position + 1U)] = (byte)(value & byte.MaxValue);
                     break;
                 case 4U:
-                    carParamBlob[position] = (byte) (value >> 24 & byte.MaxValue);
-                    carParamBlob[(position + 1U)] = (byte) (value >> 16 & byte.MaxValue);
-                    carParamBlob[(position + 2U)] = (byte) (value >> 8 & byte.MaxValue);
-                    carParamBlob[(position + 3U)] = (byte) (value & byte.MaxValue);
+                    carParamBlob[position] = (byte)(value >> 24 & byte.MaxValue);
+                    carParamBlob[(position + 1U)] = (byte)(value >> 16 & byte.MaxValue);
+                    carParamBlob[(position + 2U)] = (byte)(value >> 8 & byte.MaxValue);
+                    carParamBlob[(position + 3U)] = (byte)(value & byte.MaxValue);
                     break;
             }
         }
@@ -1831,7 +1831,7 @@ namespace GT5_Garage_Editor
             uint num = 0U;
             for (uint index = begin; index <= end; ++index)
             {
-                num = (int) index != (int) begin
+                num = (int)index != (int)begin
                     ? num << 8 | byteArray[index]
                     : byteArray[index];
             }
@@ -1845,7 +1845,7 @@ namespace GT5_Garage_Editor
 
         public static void smethod_9(byte[] byte_3, uint uint_0, sbyte sbyte_0)
         {
-            byte_3[uint_0] = (byte) sbyte_0;
+            byte_3[uint_0] = (byte)sbyte_0;
         }
 
         public static void smethod_10(byte[] byte_3, uint uint_0, uint uint_1, uint uint_2)
@@ -1853,17 +1853,17 @@ namespace GT5_Garage_Editor
             switch (uint_1)
             {
                 case 1U:
-                    byte_3[uint_0] = (byte) (uint_2 & byte.MaxValue);
+                    byte_3[uint_0] = (byte)(uint_2 & byte.MaxValue);
                     break;
                 case 2U:
-                    byte_3[uint_0] = (byte) (uint_2 >> 8 & byte.MaxValue);
-                    byte_3[(uint_0 + 1U)] = (byte) (uint_2 & byte.MaxValue);
+                    byte_3[uint_0] = (byte)(uint_2 >> 8 & byte.MaxValue);
+                    byte_3[(uint_0 + 1U)] = (byte)(uint_2 & byte.MaxValue);
                     break;
                 case 4U:
-                    byte_3[uint_0] = (byte) (uint_2 >> 24 & byte.MaxValue);
-                    byte_3[(uint_0 + 1U)] = (byte) (uint_2 >> 16 & byte.MaxValue);
-                    byte_3[(uint_0 + 2U)] = (byte) (uint_2 >> 8 & byte.MaxValue);
-                    byte_3[(uint_0 + 3U)] = (byte) (uint_2 & byte.MaxValue);
+                    byte_3[uint_0] = (byte)(uint_2 >> 24 & byte.MaxValue);
+                    byte_3[(uint_0 + 1U)] = (byte)(uint_2 >> 16 & byte.MaxValue);
+                    byte_3[(uint_0 + 2U)] = (byte)(uint_2 >> 8 & byte.MaxValue);
+                    byte_3[(uint_0 + 3U)] = (byte)(uint_2 & byte.MaxValue);
                     break;
             }
         }
@@ -1873,32 +1873,32 @@ namespace GT5_Garage_Editor
             switch (dataLength)
             {
                 case 1U:
-                    byteArray[start] = (byte) (value & byte.MaxValue);
+                    byteArray[start] = (byte)(value & byte.MaxValue);
                     break;
                 case 2U:
-                    byteArray[start] = (byte) (value >> 8 & byte.MaxValue);
-                    byteArray[(start + 1U)] = (byte) (value & byte.MaxValue);
+                    byteArray[start] = (byte)(value >> 8 & byte.MaxValue);
+                    byteArray[(start + 1U)] = (byte)(value & byte.MaxValue);
                     break;
                 case 4U:
-                    byteArray[start] = (byte) (value >> 24 & byte.MaxValue);
-                    byteArray[(start + 1U)] = (byte) (value >> 16 & byte.MaxValue);
-                    byteArray[(start + 2U)] = (byte) (value >> 8 & byte.MaxValue);
-                    byteArray[(start + 3U)] = (byte) (value & byte.MaxValue);
+                    byteArray[start] = (byte)(value >> 24 & byte.MaxValue);
+                    byteArray[(start + 1U)] = (byte)(value >> 16 & byte.MaxValue);
+                    byteArray[(start + 2U)] = (byte)(value >> 8 & byte.MaxValue);
+                    byteArray[(start + 3U)] = (byte)(value & byte.MaxValue);
                     break;
                 case 8U:
-                    byteArray[start] = (byte) (value >> 56 & byte.MaxValue);
-                    byteArray[(start + 1U)] = (byte) (value >> 48 & byte.MaxValue);
-                    byteArray[(start + 2U)] = (byte) (value >> 40 & byte.MaxValue);
-                    byteArray[(start + 3U)] = (byte) (value >> 32 & byte.MaxValue);
-                    byteArray[(start + 4U)] = (byte) (value >> 24 & byte.MaxValue);
-                    byteArray[(start + 5U)] = (byte) (value >> 16 & byte.MaxValue);
-                    byteArray[(start + 6U)] = (byte) (value >> 8 & byte.MaxValue);
-                    byteArray[(start + 7U)] = (byte) (value & byte.MaxValue);
+                    byteArray[start] = (byte)(value >> 56 & byte.MaxValue);
+                    byteArray[(start + 1U)] = (byte)(value >> 48 & byte.MaxValue);
+                    byteArray[(start + 2U)] = (byte)(value >> 40 & byte.MaxValue);
+                    byteArray[(start + 3U)] = (byte)(value >> 32 & byte.MaxValue);
+                    byteArray[(start + 4U)] = (byte)(value >> 24 & byte.MaxValue);
+                    byteArray[(start + 5U)] = (byte)(value >> 16 & byte.MaxValue);
+                    byteArray[(start + 6U)] = (byte)(value >> 8 & byte.MaxValue);
+                    byteArray[(start + 7U)] = (byte)(value & byte.MaxValue);
                     break;
             }
         }
 
-        private static void smethod_12(string filePath)
+        private static void GetPddbItemListNames(string filePath)
         {
             try
             {
@@ -1916,7 +1916,7 @@ namespace GT5_Garage_Editor
                 byte byte_3 = 0;
                 fileStream.Position = 33L;
                 fileStream.Read(numArray, 0, 4);
-                var pddbStringsOffset = (uint) ReverseEndedness(0U, 3U, numArray);
+                var pddbStringsOffset = (uint)ReverseEndedness(0U, 3U, numArray);
                 fileStream.Position = 42L;
                 while (fileStream.Position < pddbStringsOffset + 32U)
                     smethod_13(fileStream, logWriter, byte_3, byte_4, byte_5, ref stringBuilder_0, ref bool_0, ref int_0);
@@ -1924,7 +1924,7 @@ namespace GT5_Garage_Editor
                 list_1.Sort();
                 int num2 = 0;
                 foreach (int num3 in list_1)
-                    PddbItemListNames.Add(smethod_16(fileStream, num2++));
+                    PddbItemListNames.Add(ReadPddbSymbols(fileStream, num2++));
                 fileStream.Close();
             }
             catch
@@ -1937,25 +1937,25 @@ namespace GT5_Garage_Editor
         {
             try
             {
-                byte_3 = (byte) fileStream_0.ReadByte();
+                byte_3 = (byte)fileStream_0.ReadByte();
                 byte_4[0] = byte_3;
                 if (byte_3 != 7)
                     return;
-                byte_3 = (byte) fileStream_0.ReadByte();
+                byte_3 = (byte)fileStream_0.ReadByte();
                 byte_4[1] = byte_3;
                 if (byte_3 <= sbyte.MaxValue)
                 {
                     ReadPddbTable(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0,
-                        ref bool_0, ref int_0, (int) fileStream_0.Position - 2);
+                        ref bool_0, ref int_0, (int)fileStream_0.Position - 2);
                 }
                 else
                 {
                     if (byte_3 != 128 && byte_3 != 129)
                         return;
-                    byte_3 = (byte) fileStream_0.ReadByte();
+                    byte_3 = (byte)fileStream_0.ReadByte();
                     byte_4[2] = byte_3;
                     ReadPddbTable(fileStream_0, streamWriter_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0,
-                        ref bool_0, ref int_0, (int) fileStream_0.Position - 3);
+                        ref bool_0, ref int_0, (int)fileStream_0.Position - 3);
                 }
             }
             catch
@@ -1981,32 +1981,32 @@ namespace GT5_Garage_Editor
                 switch (pddbDataType[0])
                 {
                     case 0:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         break;
                     case 1:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         FileStream fileStream2 = fileStream_0;
                         long num3 = fileStream2.Position + 1L;
                         fileStream2.Position = num3;
                         break;
                     case 2:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         FileStream fileStream3 = fileStream_0;
                         long num4 = fileStream3.Position + 2L;
                         fileStream3.Position = num4;
                         break;
                     case 3:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         FileStream fileStream4 = fileStream_0;
                         long num5 = fileStream4.Position + 4L;
                         fileStream4.Position = num5;
                         break;
                     case 4:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         num1 = 8;
                         FileStream fileStream5 = fileStream_0;
@@ -2014,7 +2014,7 @@ namespace GT5_Garage_Editor
                         fileStream5.Position = num6;
                         break;
                     case 5:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         num1 = 4;
                         FileStream fileStream6 = fileStream_0;
@@ -2022,7 +2022,7 @@ namespace GT5_Garage_Editor
                         fileStream6.Position = num7;
                         break;
                     case 6:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         fileStream_0.Read(numArray, 0, 4);
                         var num8 = (int) ReverseEndedness(0U, 3U, numArray);
@@ -2032,14 +2032,14 @@ namespace GT5_Garage_Editor
                         break;
                     case 7:
                         bool_0 = false;
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         FileStream fileStream8 = fileStream_0;
                         long num10 = fileStream8.Position - 1L;
                         fileStream8.Position = num10;
                         break;
                     case 8:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         stringBuilder_0.Append("[]");
                         fileStream_0.Read(numArray, 0, 4);
@@ -2066,7 +2066,7 @@ namespace GT5_Garage_Editor
                         stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
                         break;
                     case 9:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         fileStream_0.Read(numArray, 0, 4);
                         stringBuilder_0.Append("{}");
@@ -2096,7 +2096,7 @@ namespace GT5_Garage_Editor
                         byte_3 = (byte) fileStream_0.ReadByte();
                         if (byte_3 == 9)
                         {
-                            smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                            GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                                 ref bool_0, ref int_0, int_1);
                             stringBuilder_0.Append("<>");
                             fileStream_0.Read(numArray, 0, 4);
@@ -2111,7 +2111,7 @@ namespace GT5_Garage_Editor
                         {
                             if (byte_3 != 6)
                                 break;
-                            smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                            GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                                 ref bool_0, ref int_0, int_1);
                             stringBuilder_0.Append("<>");
                             FileStream fileStream11 = fileStream_0;
@@ -2126,7 +2126,7 @@ namespace GT5_Garage_Editor
                             break;
                         }
                     case 12:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         num1 = 1;
                         FileStream fileStream13 = fileStream_0;
@@ -2134,7 +2134,7 @@ namespace GT5_Garage_Editor
                         fileStream13.Position = num18;
                         break;
                     case 13:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         num1 = 2;
                         FileStream fileStream14 = fileStream_0;
@@ -2142,7 +2142,7 @@ namespace GT5_Garage_Editor
                         fileStream14.Position = num19;
                         break;
                     case 14:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         num1 = 4;
                         FileStream fileStream15 = fileStream_0;
@@ -2150,7 +2150,7 @@ namespace GT5_Garage_Editor
                         fileStream15.Position = num20;
                         break;
                     case 15:
-                        smethod_15(fileStream_0, streamWriter_0, ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
                             ref bool_0, ref int_0, int_1);
                         num1 = 8;
                         FileStream fileStream16 = fileStream_0;
@@ -2164,45 +2164,45 @@ namespace GT5_Garage_Editor
             }
         }
 
-        public static void smethod_15(FileStream fileStream_0, StreamWriter streamWriter_0, ref byte[] byte_3,
-            ref byte[] byte_4, ref StringBuilder stringBuilder_0, ref bool bool_0, ref int int_0, int int_1)
+        public static void GetPddbItemOffset(ref byte[] byte3,
+            ref byte[] byte4, ref StringBuilder stringBuilder0, ref bool bool0, ref int int0, int int1)
         {
             try
             {
-                if (bool_0 || byte_4[0] < 0 || byte_4[0] >= 16)
+                if (bool0 || byte4[0] < 0 || byte4[0] >= 16)
                     return;
-                Console.Write(stringBuilder_0.ToString());
-                if (byte_4[0] == 7)
+                Console.Write(stringBuilder0.ToString());
+                if (byte4[0] == 7)
                 {
-                    if (byte_3[1] >= 128 && byte_3[1] <= 129)
+                    if (byte3[1] >= 128 && byte3[1] <= 129)
                     {
-                        list_0.Add((int) ReverseEndedness(0U, 2U, byte_3));
-                        ItemOffsets.Add(int_1);
+                        list_0.Add((int)ReverseEndedness(0U, 2U, byte3));
+                        ItemOffsets.Add(int1);
                     }
                     else
                     {
-                        ItemOffsets.Add(int_1);
-                        list_0.Add((int) ReverseEndedness(0U, 1U, byte_3));
+                        ItemOffsets.Add(int1);
+                        list_0.Add((int)ReverseEndedness(0U, 1U, byte3));
                     }
                 }
-                else if (byte_3[1] <= sbyte.MaxValue)
+                else if (byte3[1] <= sbyte.MaxValue)
                 {
-                    ItemOffsets.Add(int_1);
-                    list_0.Add((int) ReverseEndedness(0U, 1U, byte_3));
+                    ItemOffsets.Add(int1);
+                    list_0.Add((int)ReverseEndedness(0U, 1U, byte3));
                 }
-                else if (byte_3[1] <= 129)
+                else if (byte3[1] <= 129)
                 {
-                    ItemOffsets.Add(int_1);
-                    list_0.Add((int) ReverseEndedness(0U, 2U, byte_3));
+                    ItemOffsets.Add(int1);
+                    list_0.Add((int)ReverseEndedness(0U, 2U, byte3));
                 }
-                ++int_0;
+                ++int0;
             }
             catch
             {
             }
         }
 
-        public static string smethod_16(FileStream fs, int value)
+        public static string ReadPddbSymbols(FileStream fs, int value)
         {
             try
             {
@@ -2210,14 +2210,14 @@ namespace GT5_Garage_Editor
                 var numArray = new byte[4];
                 fs.Position = 33L;
                 fs.Read(numArray, 0, 4);
-                var num1 = (uint) ReverseEndedness(0U, 3U, numArray);
+                var num1 = (uint)ReverseEndedness(0U, 3U, numArray);
                 fs.Position = num1 + 34U;
                 for (int index1 = 0; index1 <= value; ++index1)
                 {
                     stringBuilder.Remove(0, stringBuilder.Length);
                     int num2 = fs.ReadByte();
                     for (int index2 = 0; index2 < num2; ++index2)
-                        stringBuilder.Append((char) fs.ReadByte());
+                        stringBuilder.Append((char)fs.ReadByte());
                 }
                 return stringBuilder.ToString();
             }
@@ -2247,10 +2247,10 @@ namespace GT5_Garage_Editor
             {
                 ulong num1 = 0UL;
                 var numArray = new byte[8];
-                var fileStream1 = new FileStream(pathPddb, FileMode.Open) {Position = FindOffsetForItem(itemKey)};
-                if ((byte) fileStream1.ReadByte() == 7)
+                var fileStream1 = new FileStream(pathPddb, FileMode.Open) { Position = FindOffsetForItem(itemKey) };
+                if ((byte)fileStream1.ReadByte() == 7)
                 {
-                    var num2 = (byte) fileStream1.ReadByte();
+                    var num2 = (byte)fileStream1.ReadByte();
                     if (num2 <= sbyte.MaxValue)
                     {
                         FileStream fileStream2 = fileStream1;
@@ -2297,10 +2297,10 @@ namespace GT5_Garage_Editor
             try
             {
                 var numArray = new byte[8];
-                var fileStream1 = new FileStream(pathToPddb, FileMode.Open) {Position = FindOffsetForItem(itemToUpdate)};
-                if ((byte) fileStream1.ReadByte() == 7)
+                var fileStream1 = new FileStream(pathToPddb, FileMode.Open) { Position = FindOffsetForItem(itemToUpdate) };
+                if ((byte)fileStream1.ReadByte() == 7)
                 {
-                    var nextByte = (byte) fileStream1.ReadByte();
+                    var nextByte = (byte)fileStream1.ReadByte();
                     if (nextByte <= sbyte.MaxValue)
                     {
                         FileStream fileStream2 = fileStream1;
@@ -2352,7 +2352,7 @@ namespace GT5_Garage_Editor
                 ++_numberOfFilesInSave;
             var process = new Process
             {
-                StartInfo = {FileName = Application.StartupPath + @"\Dependencies" + "\\pfdtool.exe"}
+                StartInfo = { FileName = Application.StartupPath + @"\Dependencies" + "\\pfdtool.exe" }
             };
             switch (_numberOfFilesInSave)
             {
@@ -2444,50 +2444,50 @@ namespace GT5_Garage_Editor
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 151");
+                var num = (int)MessageBox.Show("Something went wrong: Error 151");
             }
             try
             {
                 var buffer = new byte[2097152];
-                fileStream1.Position = (long) SqlLiteOffset;
+                fileStream1.Position = (long)SqlLiteOffset;
                 switch (_numberOfFilesInSave)
                 {
                     case 1:
-                        fileStream1.Read(buffer, 0, (int) fileStream1.Length - (int) SqlLiteOffset - 1);
-                        fileStream5.Write(buffer, 0, (int) fileStream1.Length - (int) SqlLiteOffset - 1);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset - 1);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset - 1);
                         fileStream1.Close();
                         fileStream5.Close();
                         break;
                     case 2:
-                        fileStream1.Read(buffer, 0, (int) fileStream1.Length - (int) SqlLiteOffset);
-                        fileStream5.Write(buffer, 0, (int) fileStream1.Length - (int) SqlLiteOffset);
-                        fileStream2.Read(buffer, 0, (int) fileStream2.Length - 1);
-                        fileStream5.Write(buffer, 0, (int) fileStream2.Length - 1);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
+                        fileStream2.Read(buffer, 0, (int)fileStream2.Length - 1);
+                        fileStream5.Write(buffer, 0, (int)fileStream2.Length - 1);
                         fileStream1.Close();
                         fileStream2.Close();
                         fileStream5.Close();
                         break;
                     case 3:
-                        fileStream1.Read(buffer, 0, (int) fileStream1.Length - (int) SqlLiteOffset);
-                        fileStream5.Write(buffer, 0, (int) fileStream1.Length - (int) SqlLiteOffset);
-                        fileStream2.Read(buffer, 0, (int) fileStream2.Length);
-                        fileStream5.Write(buffer, 0, (int) fileStream2.Length);
-                        fileStream3.Read(buffer, 0, (int) fileStream3.Length - 1);
-                        fileStream5.Write(buffer, 0, (int) fileStream3.Length - 1);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
+                        fileStream2.Read(buffer, 0, (int)fileStream2.Length);
+                        fileStream5.Write(buffer, 0, (int)fileStream2.Length);
+                        fileStream3.Read(buffer, 0, (int)fileStream3.Length - 1);
+                        fileStream5.Write(buffer, 0, (int)fileStream3.Length - 1);
                         fileStream1.Close();
                         fileStream2.Close();
                         fileStream3.Close();
                         fileStream5.Close();
                         break;
                     case 4:
-                        fileStream1.Read(buffer, 0, (int) fileStream1.Length - (int) SqlLiteOffset);
-                        fileStream5.Write(buffer, 0, (int) fileStream1.Length - (int) SqlLiteOffset);
-                        fileStream2.Read(buffer, 0, (int) fileStream2.Length);
-                        fileStream5.Write(buffer, 0, (int) fileStream2.Length);
-                        fileStream3.Read(buffer, 0, (int) fileStream3.Length);
-                        fileStream5.Write(buffer, 0, (int) fileStream3.Length);
-                        fileStream4.Read(buffer, 0, (int) fileStream4.Length - 1);
-                        fileStream5.Write(buffer, 0, (int) fileStream4.Length - 1);
+                        fileStream1.Read(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
+                        fileStream5.Write(buffer, 0, (int)fileStream1.Length - (int)SqlLiteOffset);
+                        fileStream2.Read(buffer, 0, (int)fileStream2.Length);
+                        fileStream5.Write(buffer, 0, (int)fileStream2.Length);
+                        fileStream3.Read(buffer, 0, (int)fileStream3.Length);
+                        fileStream5.Write(buffer, 0, (int)fileStream3.Length);
+                        fileStream4.Read(buffer, 0, (int)fileStream4.Length - 1);
+                        fileStream5.Write(buffer, 0, (int)fileStream4.Length - 1);
                         fileStream1.Close();
                         fileStream2.Close();
                         fileStream3.Close();
@@ -2498,7 +2498,7 @@ namespace GT5_Garage_Editor
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 152");
+                var num = (int)MessageBox.Show("Something went wrong: Error 152");
             }
             try
             {
@@ -2513,7 +2513,7 @@ namespace GT5_Garage_Editor
             catch
             {
                 EncryptSave(_pathToSave);
-                var num = (int) MessageBox.Show("Something went wrong: Error 100");
+                var num = (int)MessageBox.Show("Something went wrong: Error 100");
             }
         }
 
@@ -2534,53 +2534,53 @@ namespace GT5_Garage_Editor
                     Thread.Sleep(100);
                     var buffer1 = new byte[16777216];
                     var fileStream2 = new FileStream(string_4 + "\\GT5.0", FileMode.Open);
-                    fileStream2.Read(buffer1, 0, (int) SqlLiteOffset);
+                    fileStream2.Read(buffer1, 0, (int)SqlLiteOffset);
                     fileStream2.Close();
                     fileStream1 = new FileStream(Application.StartupPath + "\\temp", FileMode.Open);
-                    fileStream1.Read(buffer1, (int) SqlLiteOffset, (int) fileStream1.Length);
+                    fileStream1.Read(buffer1, (int)SqlLiteOffset, (int)fileStream1.Length);
                     int num = 2097152;
                     var fileStream_0 = new FileStream(string_4 + "\\GT5.0", FileMode.Create);
                     fileStream_0.SetLength(1L);
-                    fileStream_0.Write(buffer1, 0, (int) SqlLiteOffset);
-                    WriteLongToFileStream((long) SqlLiteOffset - 9L, fileStream_0, 0L, 4L, fileStream1.Length + 10L);
-                    WriteLongToFileStream((long) SqlLiteOffset - 4L, fileStream_0, 0L, 4L, fileStream1.Length);
-                    fileStream_0.Position = (long) SqlLiteOffset;
-                    if (fileStream1.Length + (long) SqlLiteOffset > _numberOfFilesInSave*2097152)
+                    fileStream_0.Write(buffer1, 0, (int)SqlLiteOffset);
+                    WriteLongToFileStream((long)SqlLiteOffset - 9L, fileStream_0, 0L, 4L, fileStream1.Length + 10L);
+                    WriteLongToFileStream((long)SqlLiteOffset - 4L, fileStream_0, 0L, 4L, fileStream1.Length);
+                    fileStream_0.Position = (long)SqlLiteOffset;
+                    if (fileStream1.Length + (long)SqlLiteOffset > _numberOfFilesInSave * 2097152)
                         flag = true;
-                    if (fileStream1.Length + (long) SqlLiteOffset < num)
+                    if (fileStream1.Length + (long)SqlLiteOffset < num)
                     {
-                        fileStream_0.Write(buffer1, (int) SqlLiteOffset, (int) fileStream1.Length);
+                        fileStream_0.Write(buffer1, (int)SqlLiteOffset, (int)fileStream1.Length);
                         fileStream_0.WriteByte(0);
                         fileStream_0.Close();
                     }
-                    else if (fileStream1.Length + (long) SqlLiteOffset > num &&
-                             fileStream1.Length + (long) SqlLiteOffset < 2*num)
+                    else if (fileStream1.Length + (long)SqlLiteOffset > num &&
+                             fileStream1.Length + (long)SqlLiteOffset < 2 * num)
                     {
                         var fileStream3 = new FileStream(string_4 + "\\GT5.1", FileMode.Create);
                         fileStream3.SetLength(1L);
-                        fileStream_0.Write(buffer1, (int) SqlLiteOffset, num - (int) SqlLiteOffset);
-                        fileStream3.Write(buffer1, num, (int) fileStream1.Length + (int) SqlLiteOffset - num);
+                        fileStream_0.Write(buffer1, (int)SqlLiteOffset, num - (int)SqlLiteOffset);
+                        fileStream3.Write(buffer1, num, (int)fileStream1.Length + (int)SqlLiteOffset - num);
                         fileStream3.WriteByte(0);
                         fileStream_0.Close();
                         fileStream3.Close();
                     }
-                    else if (fileStream1.Length + (long) SqlLiteOffset > 2*num &&
-                             fileStream1.Length + (long) SqlLiteOffset < 3*num)
+                    else if (fileStream1.Length + (long)SqlLiteOffset > 2 * num &&
+                             fileStream1.Length + (long)SqlLiteOffset < 3 * num)
                     {
                         var fileStream3 = new FileStream(string_4 + "\\GT5.1", FileMode.Create);
                         fileStream3.SetLength(1L);
                         var fileStream4 = new FileStream(string_4 + "\\GT5.2", FileMode.Create);
                         fileStream4.SetLength(1L);
-                        fileStream_0.Write(buffer1, (int) SqlLiteOffset, num - (int) SqlLiteOffset);
+                        fileStream_0.Write(buffer1, (int)SqlLiteOffset, num - (int)SqlLiteOffset);
                         fileStream3.Write(buffer1, num, num);
-                        fileStream4.Write(buffer1, 2*num, (int) fileStream1.Length + (int) SqlLiteOffset - 2*num);
+                        fileStream4.Write(buffer1, 2 * num, (int)fileStream1.Length + (int)SqlLiteOffset - 2 * num);
                         fileStream4.WriteByte(0);
                         fileStream_0.Close();
                         fileStream3.Close();
                         fileStream4.Close();
                     }
-                    else if (fileStream1.Length + (long) SqlLiteOffset > 3*num &&
-                             fileStream1.Length + (long) SqlLiteOffset < 4*num)
+                    else if (fileStream1.Length + (long)SqlLiteOffset > 3 * num &&
+                             fileStream1.Length + (long)SqlLiteOffset < 4 * num)
                     {
                         var fileStream3 = new FileStream(string_4 + "\\GT5.1", FileMode.Create);
                         fileStream3.SetLength(1L);
@@ -2588,11 +2588,11 @@ namespace GT5_Garage_Editor
                         fileStream4.SetLength(1L);
                         var fileStream5 = new FileStream(string_4 + "\\GT5.3", FileMode.Create);
                         fileStream5.SetLength(1L);
-                        fileStream_0.Write(buffer1, (int) SqlLiteOffset, num - (int) SqlLiteOffset);
+                        fileStream_0.Write(buffer1, (int)SqlLiteOffset, num - (int)SqlLiteOffset);
                         fileStream3.Write(buffer1, num, num);
-                        fileStream4.Write(buffer1, 2*num, num);
-                        fileStream5.Write(buffer1, 3*num,
-                            (int) fileStream1.Length + (int) SqlLiteOffset - 3*num);
+                        fileStream4.Write(buffer1, 2 * num, num);
+                        fileStream5.Write(buffer1, 3 * num,
+                            (int)fileStream1.Length + (int)SqlLiteOffset - 3 * num);
                         fileStream5.WriteByte(0);
                         fileStream_0.Close();
                         fileStream3.Close();
@@ -2606,10 +2606,10 @@ namespace GT5_Garage_Editor
                         var buffer2 = new byte[272];
                         fileStream3.Position = 848L;
                         fileStream3.Read(buffer2, 0, 272);
-                        fileStream3.Position = 848 + 272*_numberOfFilesInSave;
+                        fileStream3.Position = 848 + 272 * _numberOfFilesInSave;
                         fileStream3.Write(buffer2, 0, 272);
-                        fileStream3.Position = 848 + 272*_numberOfFilesInSave + 12;
-                        fileStream3.WriteByte((byte) (_numberOfFilesInSave & 15U));
+                        fileStream3.Position = 848 + 272 * _numberOfFilesInSave + 12;
+                        fileStream3.WriteByte((byte)(_numberOfFilesInSave & 15U));
                         fileStream3.Close();
                         DecryptSave(_pathToSave);
                         EncryptSave(_pathToSave);
@@ -2619,7 +2619,7 @@ namespace GT5_Garage_Editor
             catch
             {
                 fileStream1.Close();
-                var num = (int) MessageBox.Show("Something went wrong: Error 113");
+                var num = (int)MessageBox.Show("Something went wrong: Error 113");
                 Cursor = Cursors.Default;
             }
             if (File.Exists(Application.StartupPath + "\\temp"))
@@ -2636,7 +2636,7 @@ namespace GT5_Garage_Editor
             var numArray = new byte[sqlLiteFileMagic.Length];
             while (!flag && fileStream1.Position < fileStream1.Length)
             {
-                if ((char) fileStream1.ReadByte() == magicBytes[0])
+                if ((char)fileStream1.ReadByte() == magicBytes[0])
                 {
                     FileStream fileStream2 = fileStream1;
                     long num2 = fileStream2.Position - 1L;
@@ -2645,7 +2645,7 @@ namespace GT5_Garage_Editor
                     if (ByteArrayComparer.AreByteArraysEquivalent(magicBytes, numArray))
                     {
                         flag = true;
-                        num1 = (ulong) fileStream1.Position - (ulong) sqlLiteFileMagic.Length;
+                        num1 = (ulong)fileStream1.Position - (ulong)sqlLiteFileMagic.Length;
                     }
                 }
             }
@@ -2690,11 +2690,11 @@ namespace GT5_Garage_Editor
                 FileStream fileStream2 = fileStream1;
                 long num1 = fileStream2.Position + 3L;
                 fileStream2.Position = num1;
-                var num2 = (byte) fileStream1.ReadByte();
+                var num2 = (byte)fileStream1.ReadByte();
                 fileStream1.Close();
                 if (num2 == 249)
                 {
-                    smethod_12(PathToPddb);
+                    GetPddbItemListNames(PathToPddb);
                     tb_creditcap.Text = FindItemInPddb(PathToPddb, "cash_limit", 8).ToString();
                     tb_car_avail.Text = FindItemInPddb(PathToPddb, "car_available", 1).ToString();
                     tb_course_avail.Text = FindItemInPddb(PathToPddb, "course_available", 4).ToString();
@@ -2704,13 +2704,13 @@ namespace GT5_Garage_Editor
                     textBox_used_car_day.Text = FindItemInPddb(PathToPddb, "used_car_visit_day", 4).ToString();
                     textBox_gamedays.Text = FindItemInPddb(PathToPddb, "gameday", 8).ToString();
                     textBox_Credits.Text = FindItemInPddb(PathToPddb, "cash", 8).ToString();
-                    comboBox_spec_LeveLA.SelectedIndex = (int) FindItemInPddb(PathToPddb, "aspec_lv", 4);
-                    comboBox_spec_LevelB.SelectedIndex = (int) FindItemInPddb(PathToPddb, "bspec_lv", 4);
+                    comboBox_spec_LeveLA.SelectedIndex = (int)FindItemInPddb(PathToPddb, "aspec_lv", 4);
+                    comboBox_spec_LevelB.SelectedIndex = (int)FindItemInPddb(PathToPddb, "bspec_lv", 4);
                     radioButton_secretOff.Checked = true;
                     rb_textdebug_off.Checked = true;
-                    if ((long) FindItemInPddb(PathToPddb, "open_special_option", 1) == 1L)
+                    if ((long)FindItemInPddb(PathToPddb, "open_special_option", 1) == 1L)
                         radioButton_secretOn.Checked = true;
-                    if ((long) FindItemInPddb(PathToPddb, "rtext_debug", 1) == 1L)
+                    if ((long)FindItemInPddb(PathToPddb, "rtext_debug", 1) == 1L)
                         rb_txtdebug_on.Checked = true;
                     SqlLiteOffset = FindSqlLiteOffset("SQLite format 3", PathToPddb);
                     CompileSaveIntoSingleDb(_pathToSave);
@@ -2735,7 +2735,7 @@ namespace GT5_Garage_Editor
             catch
             {
                 var num =
-                    (int) MessageBox.Show(this, "An Error Occurred", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    (int)MessageBox.Show(this, "An Error Occurred", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
         }
 
@@ -2766,16 +2766,16 @@ namespace GT5_Garage_Editor
                 if (IsNumeric(textBox_Credits.Text) && ulong.Parse(textBox_Credits.Text) < ulong.MaxValue)
                 {
                     UpdatePddb(PathToPddb, "cash", 8, ulong.Parse(textBox_Credits.Text));
-                    var num = (int) MessageBox.Show("Credits Updated Successfully!");
+                    var num = (int)MessageBox.Show("Credits Updated Successfully!");
                 }
                 else
                 {
-                    var num1 = (int) MessageBox.Show("Bad Input!");
+                    var num1 = (int)MessageBox.Show("Bad Input!");
                 }
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 701");
+                var num = (int)MessageBox.Show("Something went wrong: Error 701");
             }
         }
 
@@ -2785,12 +2785,12 @@ namespace GT5_Garage_Editor
             {
                 UpdatePddb(PathToPddb, "aspec_point", 8,
                     ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LeveLA.SelectedIndex]));
-                UpdatePddb(PathToPddb, "aspec_lv", 4, (ulong) comboBox_spec_LeveLA.SelectedIndex);
-                var num = (int) MessageBox.Show("Applied Successfully");
+                UpdatePddb(PathToPddb, "aspec_lv", 4, (ulong)comboBox_spec_LeveLA.SelectedIndex);
+                var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 704");
+                var num = (int)MessageBox.Show("Something went wrong: Error 704");
             }
         }
 
@@ -2800,12 +2800,12 @@ namespace GT5_Garage_Editor
             {
                 UpdatePddb(PathToPddb, "bspec_point", 8,
                     ulong.Parse(Utilities.PlayerExperienceByRank[comboBox_spec_LevelB.SelectedIndex]));
-                UpdatePddb(PathToPddb, "bspec_lv", 4, (ulong) comboBox_spec_LevelB.SelectedIndex);
-                var num = (int) MessageBox.Show("Applied Successfully");
+                UpdatePddb(PathToPddb, "bspec_lv", 4, (ulong)comboBox_spec_LevelB.SelectedIndex);
+                var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 704");
+                var num = (int)MessageBox.Show("Something went wrong: Error 704");
             }
         }
 
@@ -2814,11 +2814,11 @@ namespace GT5_Garage_Editor
             try
             {
                 UpdatePddb(PathToPddb, "open_special_option", 1, radioButton_secretOn.Checked ? 1UL : 0UL);
-                var num = (int) MessageBox.Show("Applied Successfully");
+                var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 704");
+                var num = (int)MessageBox.Show("Something went wrong: Error 704");
             }
         }
 
@@ -2829,16 +2829,16 @@ namespace GT5_Garage_Editor
                 if (IsNumeric(textBox_gamedays.Text) && ulong.Parse(textBox_gamedays.Text) < ulong.MaxValue)
                 {
                     UpdatePddb(PathToPddb, "gameday", 8, ulong.Parse(textBox_gamedays.Text));
-                    var num = (int) MessageBox.Show("Gameday Updated Successfully!");
+                    var num = (int)MessageBox.Show("Gameday Updated Successfully!");
                 }
                 else
                 {
-                    var num1 = (int) MessageBox.Show("Bad Input!");
+                    var num1 = (int)MessageBox.Show("Bad Input!");
                 }
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 721");
+                var num = (int)MessageBox.Show("Something went wrong: Error 721");
             }
         }
 
@@ -2849,16 +2849,16 @@ namespace GT5_Garage_Editor
                 if (IsNumeric(textBox_used_car_day.Text) && ulong.Parse(textBox_used_car_day.Text) < uint.MaxValue)
                 {
                     UpdatePddb(PathToPddb, "used_car_visit_day", 4, ulong.Parse(textBox_used_car_day.Text));
-                    var num = (int) MessageBox.Show("Used Car Visit Day Updated Successfully!");
+                    var num = (int)MessageBox.Show("Used Car Visit Day Updated Successfully!");
                 }
                 else
                 {
-                    var num1 = (int) MessageBox.Show("Bad Input!");
+                    var num1 = (int)MessageBox.Show("Bad Input!");
                 }
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 731");
+                var num = (int)MessageBox.Show("Something went wrong: Error 731");
             }
         }
 
@@ -2869,16 +2869,16 @@ namespace GT5_Garage_Editor
                 if (IsNumeric(tb_course_avail.Text) && ulong.Parse(tb_course_avail.Text) <= uint.MaxValue)
                 {
                     UpdatePddb(PathToPddb, "course_available", 4, ulong.Parse(tb_course_avail.Text));
-                    var num = (int) MessageBox.Show("Updated Successfully!");
+                    var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
                 {
-                    var num1 = (int) MessageBox.Show("Bad Input!");
+                    var num1 = (int)MessageBox.Show("Bad Input!");
                 }
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 745");
+                var num = (int)MessageBox.Show("Something went wrong: Error 745");
             }
         }
 
@@ -2889,16 +2889,16 @@ namespace GT5_Garage_Editor
                 if (IsNumeric(tb_car_avail.Text) && ulong.Parse(tb_car_avail.Text) <= byte.MaxValue)
                 {
                     UpdatePddb(PathToPddb, "car_available", 1, ulong.Parse(tb_car_avail.Text));
-                    var num = (int) MessageBox.Show("Updated Successfully!");
+                    var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
                 {
-                    var num1 = (int) MessageBox.Show("Bad Input!");
+                    var num1 = (int)MessageBox.Show("Bad Input!");
                 }
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 743");
+                var num = (int)MessageBox.Show("Something went wrong: Error 743");
             }
         }
 
@@ -2909,16 +2909,16 @@ namespace GT5_Garage_Editor
                 if (IsNumeric(tb_creditcap.Text) && ulong.Parse(tb_creditcap.Text) <= 999999999999999999UL)
                 {
                     UpdatePddb(PathToPddb, "cash_limit", 8, ulong.Parse(tb_creditcap.Text));
-                    var num = (int) MessageBox.Show("Credit Cap Updated Successfully!");
+                    var num = (int)MessageBox.Show("Credit Cap Updated Successfully!");
                 }
                 else
                 {
-                    var num1 = (int) MessageBox.Show("Bad Input!");
+                    var num1 = (int)MessageBox.Show("Bad Input!");
                 }
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 742");
+                var num = (int)MessageBox.Show("Something went wrong: Error 742");
             }
         }
 
@@ -2929,16 +2929,16 @@ namespace GT5_Garage_Editor
                 if (IsNumeric(tb_aspec_wins.Text) && ulong.Parse(tb_aspec_wins.Text) <= uint.MaxValue)
                 {
                     UpdatePddb(PathToPddb, "total_aspec_win", 4, ulong.Parse(tb_aspec_wins.Text));
-                    var num = (int) MessageBox.Show("Updated Successfully!");
+                    var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
                 {
-                    var num1 = (int) MessageBox.Show("Bad Input!");
+                    var num1 = (int)MessageBox.Show("Bad Input!");
                 }
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 755");
+                var num = (int)MessageBox.Show("Something went wrong: Error 755");
             }
         }
 
@@ -2949,16 +2949,16 @@ namespace GT5_Garage_Editor
                 if (IsNumeric(tb_bspec_wins.Text) && ulong.Parse(tb_bspec_wins.Text) <= uint.MaxValue)
                 {
                     UpdatePddb(PathToPddb, "total_bspec_win", 4, ulong.Parse(tb_bspec_wins.Text));
-                    var num = (int) MessageBox.Show("Updated Successfully!");
+                    var num = (int)MessageBox.Show("Updated Successfully!");
                 }
                 else
                 {
-                    var num1 = (int) MessageBox.Show("Bad Input!");
+                    var num1 = (int)MessageBox.Show("Bad Input!");
                 }
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 756");
+                var num = (int)MessageBox.Show("Something went wrong: Error 756");
             }
         }
 
@@ -2970,11 +2970,11 @@ namespace GT5_Garage_Editor
                     UpdatePddb(PathToPddb, "rtext_debug", 1, 1UL);
                 else
                     UpdatePddb(PathToPddb, "rtext_debug", 1, 0UL);
-                var num = (int) MessageBox.Show("Applied Successfully");
+                var num = (int)MessageBox.Show("Applied Successfully");
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 704");
+                var num = (int)MessageBox.Show("Something went wrong: Error 704");
             }
         }
 
@@ -3411,7 +3411,7 @@ namespace GT5_Garage_Editor
             catch
             {
                 Enabled = true;
-                var num = (int) MessageBox.Show("Something went wrong: Error 303");
+                var num = (int)MessageBox.Show("Something went wrong: Error 303");
             }
         }
 
@@ -3421,7 +3421,7 @@ namespace GT5_Garage_Editor
             {
                 var stringBuilder1 = new StringBuilder();
                 var stringBuilder2 = new StringBuilder();
-                var strArray = (string[]) e.Argument;
+                var strArray = (string[])e.Argument;
                 var numArray1 = new uint[4]
                 {
                     uint.Parse(strArray[0]),
@@ -3440,16 +3440,16 @@ namespace GT5_Garage_Editor
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
                 connection.SetPassword(_passBytes);
                 connection.Open();
-                foreach (DataRow dataRow in (InternalDataCollectionBase) dataTable.Rows)
+                foreach (DataRow dataRow in (InternalDataCollectionBase)dataTable.Rows)
                 {
                     bool flag = false;
                     uint num2 = uint.Parse(dataRow["garage_id"].ToString());
                     var sqLiteCommand = new SQLiteCommand(connection);
                     stringBuilder1.Remove(0, stringBuilder1.Length);
                     stringBuilder1.Append("UPDATE t_garage SET ");
-                    if (((int) numArray1[3] & 1) == 1)
+                    if (((int)numArray1[3] & 1) == 1)
                     {
-                        var byte_3 = (byte[]) dataRow["carparameter"];
+                        var byte_3 = (byte[])dataRow["carparameter"];
                         InsertUIntToByteArray(byte_3, numArray1[0], numArray1[1], numArray1[2]);
                         var parameter = new SQLiteParameter("@blobA", DbType.Binary);
                         parameter.Value = byte_3;
@@ -3457,9 +3457,9 @@ namespace GT5_Garage_Editor
                         stringBuilder1.Append(" carparameter = @blobA ");
                         flag = true;
                     }
-                    if (((int) numArray1[3] & 2) == 2)
+                    if (((int)numArray1[3] & 2) == 2)
                     {
-                        var byte_3 = (byte[]) dataRow["carparameterB"];
+                        var byte_3 = (byte[])dataRow["carparameterB"];
                         InsertUIntToByteArray(byte_3, numArray1[0], numArray1[1], numArray1[2]);
                         var parameter = new SQLiteParameter("@blobB", DbType.Binary);
                         parameter.Value = byte_3;
@@ -3469,9 +3469,9 @@ namespace GT5_Garage_Editor
                         stringBuilder1.Append(" carparameterB = @blobB ");
                         flag = true;
                     }
-                    if (((int) numArray1[3] & 4) == 4)
+                    if (((int)numArray1[3] & 4) == 4)
                     {
-                        var byte_3 = (byte[]) dataRow["carparameterC"];
+                        var byte_3 = (byte[])dataRow["carparameterC"];
                         InsertUIntToByteArray(byte_3, numArray1[0], numArray1[1], numArray1[2]);
                         var parameter = new SQLiteParameter("@blobC", DbType.Binary);
                         parameter.Value = byte_3;
@@ -3489,7 +3489,7 @@ namespace GT5_Garage_Editor
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 301");
+                var num = (int)MessageBox.Show("Something went wrong: Error 301");
             }
             backgroundWorker_0.ReportProgress(-1);
         }
@@ -3524,14 +3524,14 @@ namespace GT5_Garage_Editor
                 });
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
-                var num2 = (int) MessageBox.Show("Name Change was Successful!");
+                var num2 = (int)MessageBox.Show("Name Change was Successful!");
                 cB_Name_Make.SelectedIndex = 1;
                 cB_Name_Make.SelectedIndex = 0;
                 tB_Name_New.Text = string.Empty;
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 101");
+                var num = (int)MessageBox.Show("Something went wrong: Error 101");
             }
         }
 
@@ -3564,7 +3564,7 @@ namespace GT5_Garage_Editor
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 401");
+                var num = (int)MessageBox.Show("Something went wrong: Error 401");
             }
         }
 
@@ -3582,7 +3582,7 @@ namespace GT5_Garage_Editor
             try
             {
                 ulong num1 = ulong.Parse(_sqlHelper2.ExecuteScalar("SELECT MAX (itembox_id) FROM t_itembox_user"));
-                var num2 = (uint) (comboBox_gameitem_id.SelectedIndex + 1);
+                var num2 = (uint)(comboBox_gameitem_id.SelectedIndex + 1);
                 string key1;
                 uint num3;
                 if ((key1 = comboBox_category_name.Items[comboBox_category_name.SelectedIndex].ToString()) != null)
@@ -3700,21 +3700,21 @@ namespace GT5_Garage_Editor
                     }
                 }
                 num3 = 0U;
-                label_20:
+            label_20:
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
                 connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection);
-                sqLiteCommand.CommandText = "INSERT INTO t_itembox_user VALUES (" + (ulong) ((long) num1 + 1L) +
-                                            ",212157493902,1,1,5," + (string) (object) num3 + "," +
-                                            (string) (object) num2 + ",0,'Inserted :" + (string) (object) num2 +
+                sqLiteCommand.CommandText = "INSERT INTO t_itembox_user VALUES (" + (ulong)((long)num1 + 1L) +
+                                            ",212157493902,1,1,5," + (string)(object)num3 + "," +
+                                            (string)(object)num2 + ",0,'Inserted :" + (string)(object)num2 +
                                             "',null ,null ,null ,null ,null ,1,null,null,null,null,null ,null )";
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 402");
+                var num = (int)MessageBox.Show("Something went wrong: Error 402");
             }
         }
 
@@ -3733,21 +3733,21 @@ namespace GT5_Garage_Editor
             {
                 ulong num1 = ulong.Parse(_sqlHelper2.ExecuteScalar("SELECT MAX (itembox_id) FROM t_itembox_user"));
                 uint num2 = uint.Parse(dataTable_2.Rows[comboBox_gift_paintNum.SelectedIndex].ItemArray[0].ToString());
-                var num3 = (uint) comboBox__gift_paintCat.SelectedIndex;
+                var num3 = (uint)comboBox__gift_paintCat.SelectedIndex;
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
                 connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection);
-                sqLiteCommand.CommandText = "INSERT INTO t_itembox_user VALUES (" + (ulong) ((long) num1 + 1L) +
+                sqLiteCommand.CommandText = "INSERT INTO t_itembox_user VALUES (" + (ulong)((long)num1 + 1L) +
                                             ",212157493902,1,1,6,601,101,0,'none',null ,null ,null ,null ,null ," +
-                                            (string) (object) num2 + "," + (string) (object) num3 +
+                                            (string)(object)num2 + "," + (string)(object)num3 +
                                             ",0 ,0,'',null , 1 )";
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 412");
+                var num = (int)MessageBox.Show("Something went wrong: Error 412");
             }
         }
 
@@ -3766,15 +3766,15 @@ namespace GT5_Garage_Editor
             try
             {
                 ulong num1 = ulong.Parse(_sqlHelper2.ExecuteScalar("SELECT MAX (itembox_id) FROM t_itembox_user"));
-                var num2 = (uint) (comboBox_tickets.SelectedIndex + 114);
+                var num2 = (uint)(comboBox_tickets.SelectedIndex + 114);
                 var connection = new SQLiteConnection("Data Source=" + Application.StartupPath + "\\temp");
                 connection.SetPassword(_passBytes);
                 connection.Open();
                 var sqLiteCommand = new SQLiteCommand(connection)
                 {
                     CommandText =
-                        "INSERT INTO t_itembox_user VALUES (" + (ulong) ((long) num1 + 1L) + ",112111413102,1,1,9,901," +
-                        (string) (object) num2 + ",0,'" + comboBox_tickets.SelectedItem +
+                        "INSERT INTO t_itembox_user VALUES (" + (ulong)((long)num1 + 1L) + ",112111413102,1,1,9,901," +
+                        (string)(object)num2 + ",0,'" + comboBox_tickets.SelectedItem +
                         "',null ,null ,null ,null ,null ,1,0,0,0,'',null,1)"
                 };
                 sqLiteCommand.ExecuteNonQuery();
@@ -3782,7 +3782,7 @@ namespace GT5_Garage_Editor
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 414");
+                var num = (int)MessageBox.Show("Something went wrong: Error 414");
             }
         }
 
@@ -3792,7 +3792,7 @@ namespace GT5_Garage_Editor
             dataTable_1 =
                 _sqlHelper.ExecuteReader("SELECT name_EN, max_dealer_colour,ticket_name FROM t_cars WHERE tuner = '" +
                                          cB_insert_tuner.SelectedItem + "'");
-            foreach (DataRow dataRow in (InternalDataCollectionBase) dataTable_1.Rows)
+            foreach (DataRow dataRow in (InternalDataCollectionBase)dataTable_1.Rows)
                 cB_insert_model.Items.Add(dataRow.ItemArray[0].ToString());
             cB_insert_model.SelectedIndex = 0;
         }
@@ -3829,11 +3829,11 @@ namespace GT5_Garage_Editor
                 };
                 parameter.Value = numArray;
                 sqLiteCommand.Parameters.Add(parameter);
-                sqLiteCommand.CommandText = "INSERT INTO t_itembox_user VALUES (" + (ulong) ((long) num1 + 1L) +
+                sqLiteCommand.CommandText = "INSERT INTO t_itembox_user VALUES (" + (ulong)((long)num1 + 1L) +
                                             ",112111413102,1,1,9,901,266,0,'" +
                                             cB_insert_model.SelectedItem.ToString().Replace("'", "''") +
                                             "',null ,null ,null ,null ,null ," +
-                                            (string) (object) cB_insert_colour.SelectedIndex + ",0,0,266,'" +
+                                            (string)(object)cB_insert_colour.SelectedIndex + ",0,0,266,'" +
                                             dataTable_1.Rows[cB_insert_model.SelectedIndex].ItemArray[2] + "',@X30,1)";
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
@@ -3845,7 +3845,7 @@ namespace GT5_Garage_Editor
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 414");
+                var num = (int)MessageBox.Show("Something went wrong: Error 414");
             }
         }
 
@@ -3941,15 +3941,15 @@ namespace GT5_Garage_Editor
                                                     ",'1808','0','1','JP','polyphony','---','0','2010','0','0','0','0','0','0','Red Bull X2010 5G','Red Bull X2010 5G',@blob,'0','0','0','0','0','0','0',@blob,@blob,'','','','0','0','0')";
                         break;
                 }
-                var parameter = new SQLiteParameter("@blob", DbType.Binary) {Value = carBlob};
+                var parameter = new SQLiteParameter("@blob", DbType.Binary) { Value = carBlob };
                 sqLiteCommand.Parameters.Add(parameter);
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
-                var num = (int) MessageBox.Show("Special Car Successfully Added!");
+                var num = (int)MessageBox.Show("Special Car Successfully Added!");
             }
             catch
             {
-                var num = (int) MessageBox.Show("Something went wrong: Error 101");
+                var num = (int)MessageBox.Show("Something went wrong: Error 101");
             }
         }
 
@@ -3975,7 +3975,7 @@ namespace GT5_Garage_Editor
             cB_itemControl.Items.Clear();
             if (_itemsDataTable.Rows.Count <= 0)
                 return;
-            foreach (DataRow dataRow in (InternalDataCollectionBase) _itemsDataTable.Rows)
+            foreach (DataRow dataRow in (InternalDataCollectionBase)_itemsDataTable.Rows)
                 cB_itemControl.Items.Add(dataRow.ItemArray[1].ToString());
             cB_itemControl.SelectedIndex = 0;
         }
@@ -4023,7 +4023,7 @@ namespace GT5_Garage_Editor
         public static void WriteSbyteToFileStream(uint uint_0, FileStream fs, uint uint_1, sbyte sbyte_0)
         {
             fs.Position = uint_0 + uint_1;
-            fs.WriteByte((byte) sbyte_0);
+            fs.WriteByte((byte)sbyte_0);
         }
 
         public static void WriteUintToFileStream(uint uint_0, FileStream fs, uint uint_1, uint uint_2, uint uint_3)
@@ -4032,19 +4032,19 @@ namespace GT5_Garage_Editor
             {
                 case 1U:
                     fs.Position = uint_0 + uint_1;
-                    fs.WriteByte((byte) (uint_3 & byte.MaxValue));
+                    fs.WriteByte((byte)(uint_3 & byte.MaxValue));
                     break;
                 case 2U:
                     fs.Position = uint_0 + uint_1;
-                    fs.WriteByte((byte) (uint_3 >> 8 & byte.MaxValue));
-                    fs.WriteByte((byte) (uint_3 & byte.MaxValue));
+                    fs.WriteByte((byte)(uint_3 >> 8 & byte.MaxValue));
+                    fs.WriteByte((byte)(uint_3 & byte.MaxValue));
                     break;
                 case 4U:
                     fs.Position = uint_0 + uint_1;
-                    fs.WriteByte((byte) (uint_3 >> 24 & byte.MaxValue));
-                    fs.WriteByte((byte) (uint_3 >> 16 & byte.MaxValue));
-                    fs.WriteByte((byte) (uint_3 >> 8 & byte.MaxValue));
-                    fs.WriteByte((byte) (uint_3 & byte.MaxValue));
+                    fs.WriteByte((byte)(uint_3 >> 24 & byte.MaxValue));
+                    fs.WriteByte((byte)(uint_3 >> 16 & byte.MaxValue));
+                    fs.WriteByte((byte)(uint_3 >> 8 & byte.MaxValue));
+                    fs.WriteByte((byte)(uint_3 & byte.MaxValue));
                     break;
             }
         }
@@ -4055,15 +4055,15 @@ namespace GT5_Garage_Editor
             {
                 case 2L:
                     fs.Position = long0 + long1;
-                    fs.WriteByte((byte) (long_3 >> 8 & byte.MaxValue));
-                    fs.WriteByte((byte) (long_3 & byte.MaxValue));
+                    fs.WriteByte((byte)(long_3 >> 8 & byte.MaxValue));
+                    fs.WriteByte((byte)(long_3 & byte.MaxValue));
                     break;
                 case 4L:
                     fs.Position = long0 + long1;
-                    fs.WriteByte((byte) (long_3 >> 24 & byte.MaxValue));
-                    fs.WriteByte((byte) (long_3 >> 16 & byte.MaxValue));
-                    fs.WriteByte((byte) (long_3 >> 8 & byte.MaxValue));
-                    fs.WriteByte((byte) (long_3 & byte.MaxValue));
+                    fs.WriteByte((byte)(long_3 >> 24 & byte.MaxValue));
+                    fs.WriteByte((byte)(long_3 >> 16 & byte.MaxValue));
+                    fs.WriteByte((byte)(long_3 >> 8 & byte.MaxValue));
+                    fs.WriteByte((byte)(long_3 & byte.MaxValue));
                     break;
             }
         }
@@ -4109,7 +4109,7 @@ namespace GT5_Garage_Editor
 
         public static byte[] StringToByteArray(string str)
         {
-            int length = str.Length/2;
+            int length = str.Length / 2;
             var numArray = new byte[length];
             var stringReader = new StringReader(str);
             for (int index = 0; index < length; ++index)
@@ -4125,7 +4125,7 @@ namespace GT5_Garage_Editor
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var formOptions = new FormOptions();
-            var num = (int) formOptions.ShowDialog();
+            var num = (int)formOptions.ShowDialog();
             formOptions.Dispose();
         }
 

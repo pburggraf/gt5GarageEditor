@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Mime;
-using GT5SaveGameLibrary;
+﻿using GT5SaveGameLibrary;
 
 namespace GT5Console
 {
@@ -8,8 +6,8 @@ namespace GT5Console
     {
         static void Main(string[] args)
         {
-            var savePath = System.Reflection.Assembly.GetExecutingAssembly().Location + @"\_svg";
-            var dbPath = System.Reflection.Assembly.GetExecutingAssembly().Location + @"\_db";
+            var savePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\_svg";
+            var dbPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\_db";
             var save = new SaveGame(savePath);
         }
     }
