@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MiscUtil.Conversion;
+using MiscUtil.IO;
 
 namespace GT5SaveGameLibrary
 {
     public class Pddb
     {
+        private static uint _pddbStringsOffset;
+        private const decimal SaveFileHeaderMagic = 249;
+        private const long PddbFirstItemOffset = 42L;
+        private const long PddbStartOffset = 33L;
+
         public Pddb(string savePath)
         {
             SavePath = savePath;
@@ -30,13 +37,11 @@ namespace GT5SaveGameLibrary
 
         private void ExtractPddb()
         {
-            var fileStream1 = new FileStream(SavePath, FileMode.Open);
-            FileStream fileStream2 = fileStream1;
-            long num1 = fileStream2.Position + 3L;
-            fileStream2.Position = num1;
-            var num2 = (byte)fileStream1.ReadByte();
-            fileStream1.Close();
-            if (num2 == 249)
+            var fs = new FileStream(SavePath, FileMode.Open);
+            fs.Position = fs.Position + 3L;
+            var saveHeaderMagic = (byte)fs.ReadByte();
+            fs.Close();
+            if (saveHeaderMagic == SaveFileHeaderMagic)
             {
                 GetPddbItemListNames(SavePath);
                 ulong creditcap = FindItemInPddb(SavePath, "cash_limit", 8);
@@ -52,6 +57,39 @@ namespace GT5SaveGameLibrary
                 var openSpecialOption = (long)FindItemInPddb(SavePath, "open_special_option", 1);
                 var rTextDebug = (long)FindItemInPddb(SavePath, "rtext_debug", 1);
                 ulong sqlLiteOffset = FindSqlLiteOffset("SQLite format 3", SavePath);
+            }
+        }
+
+        private static void GetPddbItemListNames(string filePath)
+        {
+            try
+            {
+                if (!File.Exists(filePath))
+                    return;
+                var fs = new FileStream(filePath, FileMode.Open);
+                var ebr = new EndianBinaryReader(new BigEndianBitConverter(), fs);
+                fs.Position = PddbStartOffset;
+                _pddbStringsOffset = ebr.ReadUInt32();
+                fs.Position = PddbFirstItemOffset;
+
+                byte byte_3 = 0;
+                var stringBuilder0 = new StringBuilder(string.Empty);
+                bool bool0 = false;
+                int int0 = 0;
+                var byte4 = new byte[5];
+                var byte5 = new byte[2];
+
+                while (fs.Position < _pddbStringsOffset + 32U)
+                    ReadPddbValues(fs, byte_3, byte4, byte5, ref stringBuilder0, ref bool0, ref int0);
+                List1 = List0.Distinct().ToList();
+                List1.Sort();
+                int num2 = 0;
+                foreach (int num3 in List1)
+                    PddbItemListNames.Add(ReadPddbSymbols(fs, num2++));
+                fs.Close();
+            }
+            catch
+            {
             }
         }
 
@@ -120,38 +158,6 @@ namespace GT5SaveGameLibrary
             }
         }
 
-        private static void GetPddbItemListNames(string filePath)
-        {
-            try
-            {
-                if (!File.Exists(filePath))
-                    return;
-                var stringBuilder0 = new StringBuilder(string.Empty);
-                bool bool0 = false;
-                int int0 = 0;
-                var byte4 = new byte[5];
-                var byte5 = new byte[2];
-                var numArray = new byte[4];
-                var fileStream = new FileStream(filePath, FileMode.Open);
-                byte byte_3 = 0;
-                fileStream.Position = 33L;
-                fileStream.Read(numArray, 0, 4);
-                var pddbStringsOffset = (uint)ReverseEndedness(0U, 3U, numArray);
-                fileStream.Position = 42L;
-                while (fileStream.Position < pddbStringsOffset + 32U)
-                    smethod_13(fileStream, byte_3, byte4, byte5, ref stringBuilder0, ref bool0, ref int0);
-                List1 = List0.Distinct().ToList();
-                List1.Sort();
-                int num2 = 0;
-                foreach (int num3 in List1)
-                    PddbItemListNames.Add(ReadPddbSymbols(fileStream, num2++));
-                fileStream.Close();
-            }
-            catch
-            {
-            }
-        }
-
         public static string ReadPddbSymbols(FileStream fs, int value)
         {
             try
@@ -177,7 +183,7 @@ namespace GT5SaveGameLibrary
             }
         }
 
-        public static void smethod_13(FileStream fileStream_0, byte byte_3, byte[] byte_4,
+        public static void ReadPddbValues(FileStream fileStream_0, byte byte_3, byte[] byte_4,
             byte[] byte_5, ref StringBuilder stringBuilder_0, ref bool bool_0, ref int int_0)
         {
             try
@@ -190,7 +196,7 @@ namespace GT5SaveGameLibrary
                 byte_4[1] = byte_3;
                 if (byte_3 <= sbyte.MaxValue)
                 {
-                    ReadPddbTable(fileStream_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0,
+                    ReadPddbValue(fileStream_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0,
                         ref bool_0, ref int_0, (int)fileStream_0.Position - 2);
                 }
                 else
@@ -199,7 +205,7 @@ namespace GT5SaveGameLibrary
                         return;
                     byte_3 = (byte)fileStream_0.ReadByte();
                     byte_4[2] = byte_3;
-                    ReadPddbTable(fileStream_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0,
+                    ReadPddbValue(fileStream_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0,
                         ref bool_0, ref int_0, (int)fileStream_0.Position - 3);
                 }
             }
@@ -208,7 +214,7 @@ namespace GT5SaveGameLibrary
             }
         }
 
-        public static void ReadPddbTable(FileStream fileStream_0, byte byte_3,
+        public static void ReadPddbValue(FileStream fileStream_0, byte byte_3,
             ref byte[] byte_4, ref byte[] pddbDataType, ref StringBuilder stringBuilder_0, ref bool bool_0,
             ref int int_0, int int_1)
         {
@@ -297,14 +303,14 @@ namespace GT5SaveGameLibrary
                         {
                             bool_0 = false;
                             for (int index = 0; index < num11; ++index)
-                                smethod_13(fileStream_0, byte_3, byte_4, pddbDataType,
+                                ReadPddbValues(fileStream_0, byte_3, byte_4, pddbDataType,
                                     ref stringBuilder_0, ref bool_0, ref int_0);
                         }
                         else
                         {
                             bool_0 = true;
                             for (int index = 0; index < num11; ++index)
-                                ReadPddbTable(fileStream_0, byte_3, ref byte_4, ref pddbDataType,
+                                ReadPddbValue(fileStream_0, byte_3, ref byte_4, ref pddbDataType,
                                     ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                             bool_0 = false;
                         }
@@ -324,14 +330,14 @@ namespace GT5SaveGameLibrary
                         {
                             bool_0 = false;
                             for (int index = 0; index < num13; ++index)
-                                smethod_13(fileStream_0, byte_3, byte_4, pddbDataType,
+                                ReadPddbValues(fileStream_0, byte_3, byte_4, pddbDataType,
                                     ref stringBuilder_0, ref bool_0, ref int_0);
                         }
                         else
                         {
                             bool_0 = true;
                             for (int index = 0; index < num13 * 2; ++index)
-                                ReadPddbTable(fileStream_0, byte_3, ref byte_4, ref pddbDataType,
+                                ReadPddbValue(fileStream_0, byte_3, ref byte_4, ref pddbDataType,
                                     ref stringBuilder_0, ref bool_0, ref int_0, int_1);
                             bool_0 = false;
                         }
@@ -347,7 +353,7 @@ namespace GT5SaveGameLibrary
                             fileStream_0.Read(numArray, 0, 4);
                             var num15 = (int)ReverseEndedness(0U, 3U, numArray);
                             for (int index = 0; index < num15; ++index)
-                                smethod_13(fileStream_0, byte_3, byte_4, pddbDataType,
+                                ReadPddbValues(fileStream_0, byte_3, byte_4, pddbDataType,
                                     ref stringBuilder_0, ref bool_0, ref int_0);
                             stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
                             break;
