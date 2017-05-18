@@ -10,10 +10,13 @@ namespace GT5SaveGameLibrary
 {
     public class Pddb
     {
-        private static uint _pddbStringsOffset;
+        private static uint _pddbTableLength;
+        private static long _pddbSymbolsOffset;
+        private const long PddbEotPadding = 2; //81 F2
         private const decimal SaveFileHeaderMagic = 249;
         private const long PddbFirstItemOffset = 42L;
-        private const long PddbStartOffset = 33L;
+        private const long PddbStartOffsetReadStart = 33L;
+        private const long SaveFileHeaderLength = 32L;
 
         public Pddb(string savePath)
         {
@@ -22,7 +25,50 @@ namespace GT5SaveGameLibrary
             List1 = new List<int>();
             ItemOffsets = new List<int>();
             PddbItemListNames = new List<string>();
-            ExtractPddb();
+            Extract();
+            //ExtractPddb();
+        }
+
+        private void Extract()
+        {
+            var fs = new FileStream(SavePath, FileMode.Open);
+            var ebr = new EndianBinaryReader(new BigEndianBitConverter(), fs);
+            ebr.BaseStream.Position = SaveFileHeaderLength;
+
+            var nextDataType = ebr.ReadByte();
+            switch (nextDataType)
+            {
+                case 0x0E: //4bytes
+                    _pddbTableLength = ebr.ReadUInt32();
+                    _pddbSymbolsOffset = SaveFileHeaderLength + _pddbTableLength + PddbEotPadding;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            while (true)
+            {
+                nextDataType = ebr.ReadByte();
+                switch (nextDataType)
+                {
+                    case 0x09: //4bytes
+                        ebr.ReadUInt32();
+                        break;
+                    case 0x0E: //4bytes
+                        ebr.ReadUInt32();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                var pddbPointer = fs.Position;
+                fs.Position = _pddbSymbolsOffset;
+                var nextSymbolLength = ebr.ReadByte();
+                var symbolByteArray = new byte[nextSymbolLength];
+                fs.Read(symbolByteArray, 0, nextSymbolLength);
+                var symbolString = System.Text.Encoding.ASCII.GetString(symbolByteArray);
+                fs.Position = pddbPointer;
+            }
         }
 
         public string SavePath { get; private set; }
@@ -68,19 +114,20 @@ namespace GT5SaveGameLibrary
                     return;
                 var fs = new FileStream(filePath, FileMode.Open);
                 var ebr = new EndianBinaryReader(new BigEndianBitConverter(), fs);
-                fs.Position = PddbStartOffset;
-                _pddbStringsOffset = ebr.ReadUInt32();
+                fs.Position = PddbStartOffsetReadStart;
+                _pddbTableLength = ebr.ReadUInt32();
                 fs.Position = PddbFirstItemOffset;
+                _pddbSymbolsOffset = _pddbTableLength + SaveFileHeaderLength;
 
-                byte byte_3 = 0;
-                var stringBuilder0 = new StringBuilder(string.Empty);
+                byte pdddbDataType = 0;
+                var sb = new StringBuilder(string.Empty);
                 bool bool0 = false;
                 int int0 = 0;
                 var byte4 = new byte[5];
                 var byte5 = new byte[2];
 
-                while (fs.Position < _pddbStringsOffset + 32U)
-                    ReadPddbValues(fs, byte_3, byte4, byte5, ref stringBuilder0, ref bool0, ref int0);
+                while (fs.Position < _pddbSymbolsOffset)
+                    ReadPddbValues(fs, pdddbDataType, byte4, byte5, ref sb, ref bool0, ref int0);
                 List1 = List0.Distinct().ToList();
                 List1.Sort();
                 int num2 = 0;
@@ -183,30 +230,30 @@ namespace GT5SaveGameLibrary
             }
         }
 
-        public static void ReadPddbValues(FileStream fileStream_0, byte byte_3, byte[] byte_4,
-            byte[] byte_5, ref StringBuilder stringBuilder_0, ref bool bool_0, ref int int_0)
+        public static void ReadPddbValues(FileStream fs, byte pddbDataType, byte[] pddbDataTypeExtended,
+            byte[] byte_5, ref StringBuilder sb, ref bool bool_0, ref int int_0)
         {
             try
             {
-                byte_3 = (byte)fileStream_0.ReadByte();
-                byte_4[0] = byte_3;
-                if (byte_3 != 7)
+                pddbDataType = (byte)fs.ReadByte();
+                pddbDataTypeExtended[0] = pddbDataType;
+                if (pddbDataType != 7)
                     return;
-                byte_3 = (byte)fileStream_0.ReadByte();
-                byte_4[1] = byte_3;
-                if (byte_3 <= sbyte.MaxValue)
+                pddbDataType = (byte)fs.ReadByte();
+                pddbDataTypeExtended[1] = pddbDataType;
+                if (pddbDataType <= sbyte.MaxValue)
                 {
-                    ReadPddbValue(fileStream_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0,
-                        ref bool_0, ref int_0, (int)fileStream_0.Position - 2);
+                    ReadPddbValue(fs, pddbDataType, ref pddbDataTypeExtended, ref byte_5, ref sb,
+                        ref bool_0, ref int_0, (int)fs.Position - 2);
                 }
                 else
                 {
-                    if (byte_3 != 128 && byte_3 != 129)
+                    if (pddbDataType != 128 && pddbDataType != 129)
                         return;
-                    byte_3 = (byte)fileStream_0.ReadByte();
-                    byte_4[2] = byte_3;
-                    ReadPddbValue(fileStream_0, byte_3, ref byte_4, ref byte_5, ref stringBuilder_0,
-                        ref bool_0, ref int_0, (int)fileStream_0.Position - 3);
+                    pddbDataType = (byte)fs.ReadByte();
+                    pddbDataTypeExtended[2] = pddbDataType;
+                    ReadPddbValue(fs, pddbDataType, ref pddbDataTypeExtended, ref byte_5, ref sb,
+                        ref bool_0, ref int_0, (int)fs.Position - 3);
                 }
             }
             catch
@@ -214,197 +261,190 @@ namespace GT5SaveGameLibrary
             }
         }
 
-        public static void ReadPddbValue(FileStream fileStream_0, byte byte_3,
-            ref byte[] byte_4, ref byte[] pddbDataType, ref StringBuilder stringBuilder_0, ref bool bool_0,
+        public static void ReadPddbValue(FileStream fs, byte pddbDataType,
+            ref byte[] byte_4, ref byte[] byte_1, ref StringBuilder sb, ref bool bool_0,
             ref int int_0, int int_1)
         {
             try
             {
-                int num1 = 0;
                 var numArray = new byte[4];
-                fileStream_0.Read(pddbDataType, 0, 2);
-                FileStream fileStream1 = fileStream_0;
+                fs.Read(byte_1, 0, 2);
+                FileStream fileStream1 = fs;
                 long num2 = fileStream1.Position - 1L;
                 fileStream1.Position = num2;
                 int_1 = (int)byte_4[1] > (int)sbyte.MaxValue
-                    ? (int)fileStream_0.Position - 4
-                    : (int)fileStream_0.Position - 3;
-                switch (pddbDataType[0])
+                    ? (int)fs.Position - 4
+                    : (int)fs.Position - 3;
+                switch (byte_1[0])
                 {
                     case 0:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
                         break;
                     case 1:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        FileStream fileStream2 = fileStream_0;
+                        FileStream fileStream2 = fs;
                         long num3 = fileStream2.Position + 1L;
                         fileStream2.Position = num3;
                         break;
                     case 2:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        FileStream fileStream3 = fileStream_0;
+                        FileStream fileStream3 = fs;
                         long num4 = fileStream3.Position + 2L;
                         fileStream3.Position = num4;
                         break;
                     case 3:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        FileStream fileStream4 = fileStream_0;
+                        FileStream fileStream4 = fs;
                         long num5 = fileStream4.Position + 4L;
                         fileStream4.Position = num5;
                         break;
                     case 4:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        num1 = 8;
-                        FileStream fileStream5 = fileStream_0;
+                        FileStream fileStream5 = fs;
                         long num6 = fileStream5.Position + 8L;
                         fileStream5.Position = num6;
                         break;
                     case 5:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        num1 = 4;
-                        FileStream fileStream6 = fileStream_0;
+                        FileStream fileStream6 = fs;
                         long num7 = fileStream6.Position + 4L;
                         fileStream6.Position = num7;
                         break;
                     case 6:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        fileStream_0.Read(numArray, 0, 4);
+                        fs.Read(numArray, 0, 4);
                         var num8 = (int)ReverseEndedness(0U, 3U, numArray);
-                        FileStream fileStream7 = fileStream_0;
+                        FileStream fileStream7 = fs;
                         long num9 = fileStream7.Position + num8;
                         fileStream7.Position = num9;
                         break;
                     case 7:
                         bool_0 = false;
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        FileStream fileStream8 = fileStream_0;
+                        FileStream fileStream8 = fs;
                         long num10 = fileStream8.Position - 1L;
                         fileStream8.Position = num10;
                         break;
                     case 8:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        stringBuilder_0.Append("[]");
-                        fileStream_0.Read(numArray, 0, 4);
+                        sb.Append("[]");
+                        fs.Read(numArray, 0, 4);
                         var num11 = (int)ReverseEndedness(0U, 3U, numArray);
-                        byte_3 = (byte)fileStream_0.ReadByte();
-                        FileStream fileStream9 = fileStream_0;
+                        pddbDataType = (byte)fs.ReadByte();
+                        FileStream fileStream9 = fs;
                         long num12 = fileStream9.Position - 1L;
                         fileStream9.Position = num12;
-                        if (byte_3 == 7)
+                        if (pddbDataType == 7)
                         {
                             bool_0 = false;
                             for (int index = 0; index < num11; ++index)
-                                ReadPddbValues(fileStream_0, byte_3, byte_4, pddbDataType,
-                                    ref stringBuilder_0, ref bool_0, ref int_0);
+                                ReadPddbValues(fs, pddbDataType, byte_4, byte_1,
+                                    ref sb, ref bool_0, ref int_0);
                         }
                         else
                         {
                             bool_0 = true;
                             for (int index = 0; index < num11; ++index)
-                                ReadPddbValue(fileStream_0, byte_3, ref byte_4, ref pddbDataType,
-                                    ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                                ReadPddbValue(fs, pddbDataType, ref byte_4, ref byte_1,
+                                    ref sb, ref bool_0, ref int_0, int_1);
                             bool_0 = false;
                         }
-                        stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
+                        sb.Remove(sb.Length - 2, 2);
                         break;
                     case 9:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        fileStream_0.Read(numArray, 0, 4);
-                        stringBuilder_0.Append("{}");
+                        fs.Read(numArray, 0, 4);
+                        sb.Append("{}");
                         var num13 = (int)ReverseEndedness(0U, 3U, numArray);
-                        byte_3 = (byte)fileStream_0.ReadByte();
-                        FileStream fileStream10 = fileStream_0;
+                        pddbDataType = (byte)fs.ReadByte();
+                        FileStream fileStream10 = fs;
                         long num14 = fileStream10.Position - 1L;
                         fileStream10.Position = num14;
-                        if (byte_3 == 7)
+                        if (pddbDataType == 7)
                         {
                             bool_0 = false;
                             for (int index = 0; index < num13; ++index)
-                                ReadPddbValues(fileStream_0, byte_3, byte_4, pddbDataType,
-                                    ref stringBuilder_0, ref bool_0, ref int_0);
+                                ReadPddbValues(fs, pddbDataType, byte_4, byte_1,
+                                    ref sb, ref bool_0, ref int_0);
                         }
                         else
                         {
                             bool_0 = true;
                             for (int index = 0; index < num13 * 2; ++index)
-                                ReadPddbValue(fileStream_0, byte_3, ref byte_4, ref pddbDataType,
-                                    ref stringBuilder_0, ref bool_0, ref int_0, int_1);
+                                ReadPddbValue(fs, pddbDataType, ref byte_4, ref byte_1,
+                                    ref sb, ref bool_0, ref int_0, int_1);
                             bool_0 = false;
                         }
-                        stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
+                        sb.Remove(sb.Length - 2, 2);
                         break;
                     case 10:
-                        byte_3 = (byte)fileStream_0.ReadByte();
-                        if (byte_3 == 9)
+                        pddbDataType = (byte)fs.ReadByte();
+                        if (pddbDataType == 9)
                         {
-                            GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                            GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                                 ref bool_0, ref int_0, int_1);
-                            stringBuilder_0.Append("<>");
-                            fileStream_0.Read(numArray, 0, 4);
+                            sb.Append("<>");
+                            fs.Read(numArray, 0, 4);
                             var num15 = (int)ReverseEndedness(0U, 3U, numArray);
                             for (int index = 0; index < num15; ++index)
-                                ReadPddbValues(fileStream_0, byte_3, byte_4, pddbDataType,
-                                    ref stringBuilder_0, ref bool_0, ref int_0);
-                            stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
+                                ReadPddbValues(fs, pddbDataType, byte_4, byte_1,
+                                    ref sb, ref bool_0, ref int_0);
+                            sb.Remove(sb.Length - 2, 2);
                             break;
                         }
                         else
                         {
-                            if (byte_3 != 6)
+                            if (pddbDataType != 6)
                                 break;
-                            GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                            GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                                 ref bool_0, ref int_0, int_1);
-                            stringBuilder_0.Append("<>");
-                            FileStream fileStream11 = fileStream_0;
+                            sb.Append("<>");
+                            FileStream fileStream11 = fs;
                             long num15 = fileStream11.Position + 8L;
                             fileStream11.Position = num15;
-                            fileStream_0.Read(numArray, 0, 4);
+                            fs.Read(numArray, 0, 4);
                             var num16 = (int)ReverseEndedness(0U, 3U, numArray);
-                            FileStream fileStream12 = fileStream_0;
+                            FileStream fileStream12 = fs;
                             long num17 = fileStream12.Position + num16 * 16;
                             fileStream12.Position = num17;
-                            stringBuilder_0.Remove(stringBuilder_0.Length - 2, 2);
+                            sb.Remove(sb.Length - 2, 2);
                             break;
                         }
                     case 12:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        num1 = 1;
-                        FileStream fileStream13 = fileStream_0;
+                        FileStream fileStream13 = fs;
                         long num18 = fileStream13.Position + 1L;
                         fileStream13.Position = num18;
                         break;
                     case 13:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        num1 = 2;
-                        FileStream fileStream14 = fileStream_0;
+                        FileStream fileStream14 = fs;
                         long num19 = fileStream14.Position + 2L;
                         fileStream14.Position = num19;
                         break;
                     case 14:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        num1 = 4;
-                        FileStream fileStream15 = fileStream_0;
+                        FileStream fileStream15 = fs;
                         long num20 = fileStream15.Position + 4L;
                         fileStream15.Position = num20;
                         break;
                     case 15:
-                        GetPddbItemOffset(ref byte_4, ref pddbDataType, ref stringBuilder_0,
+                        GetPddbItemOffset(ref byte_4, ref byte_1, ref sb,
                             ref bool_0, ref int_0, int_1);
-                        num1 = 8;
-                        FileStream fileStream16 = fileStream_0;
+                        FileStream fileStream16 = fs;
                         long num21 = fileStream16.Position + 8L;
                         fileStream16.Position = num21;
                         break;
@@ -420,7 +460,7 @@ namespace GT5SaveGameLibrary
         {
             try
             {
-                if (bool0 || byte4[0] < 0 || byte4[0] >= 16)
+                if (bool0 || byte4[0] >= 16)
                     return;
                 Console.Write(stringBuilder0.ToString());
                 if (byte4[0] == 7)
