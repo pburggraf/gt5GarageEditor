@@ -11,9 +11,8 @@ namespace GT5SaveGameLibrary
         public object Value { get; set; }
         public IEnumerable<PddbObject> ChildObjects { get; set; }
 
-        public PddbObject(string symbol, byte byteValue, Type valuetype, object value, List<PddbObject> childObjects)
+        public PddbObject(byte byteValue, Type valuetype, object value, IEnumerable<PddbObject> childObjects)
         {
-            Symbol = symbol;
             ByteValue = byteValue;
             ValueType = valuetype;
             Value = value;
