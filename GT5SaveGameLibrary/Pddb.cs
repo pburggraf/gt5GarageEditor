@@ -35,8 +35,8 @@ namespace GT5SaveGameLibrary
             var ebr = new EndianBinaryReader(new BigEndianBitConverter(), fs);
             ebr.BaseStream.Position = SaveFileHeaderLength;
 
-            var nextDataType = ebr.ReadByte();
-            switch (nextDataType)
+            var dataTypeByte = ebr.ReadByte();
+            switch (dataTypeByte)
             {
                 case 0x0E: //4bytes
                     _pddbTableLength = ebr.ReadUInt32();
@@ -46,28 +46,65 @@ namespace GT5SaveGameLibrary
                     throw new NotImplementedException();
             }
 
+            var pddbObjects = new List<PddbObject>();
+            var pddbTablePointer = fs.Position;
+            var pddbSymbolPointer = _pddbSymbolsOffset;
+
             while (true)
             {
-                nextDataType = ebr.ReadByte();
-                switch (nextDataType)
+                dataTypeByte = ebr.ReadByte();
+                object dataValue;
+                switch (dataTypeByte)
                 {
-                    case 0x09: //4bytes
-                        ebr.ReadUInt32();
+                    case 0x01: //1bytes
+                        dataValue = ebr.ReadByte();
+                        break;
+                    case 0x02: //2bytes
+                        dataValue = ebr.ReadUInt16();
+                        break;
+                    case 0x03: //4bytes
+                        dataValue = ebr.ReadUInt32();
+                        break;
+                    case 0x04: //8bytes
+                        dataValue = ebr.ReadUInt64();
+                        break;
+                    case 0x05: //4bytes
+                        dataValue = ebr.ReadUInt32();
+                        break;
+                    case 0x07: //
+                        var nextByte = ebr.ReadByte();
+                        if (nextByte >= 128 && nextByte <= 129)
+                        {
+                            dataValue = ebr.ReadInt16();
+                        }
+                        else
+                        {
+                            dataValue = nextByte;
+                        }
+                        break;
+                    case 0x09: //4bytes //Array
+                        dataValue = ebr.ReadUInt32();
                         break;
                     case 0x0E: //4bytes
-                        ebr.ReadUInt32();
+                        dataValue = ebr.ReadUInt32();
                         break;
                     default:
                         throw new NotImplementedException();
                 }
 
-                var pddbPointer = fs.Position;
-                fs.Position = _pddbSymbolsOffset;
+                pddbTablePointer = fs.Position;
+                fs.Position = pddbSymbolPointer;
+
                 var nextSymbolLength = ebr.ReadByte();
                 var symbolByteArray = new byte[nextSymbolLength];
                 fs.Read(symbolByteArray, 0, nextSymbolLength);
-                var symbolString = System.Text.Encoding.ASCII.GetString(symbolByteArray);
-                fs.Position = pddbPointer;
+                var symbol = System.Text.Encoding.ASCII.GetString(symbolByteArray);
+
+                pddbSymbolPointer = fs.Position;
+                fs.Position = pddbTablePointer;
+
+                pddbObjects.Add(new PddbObject(symbol, dataTypeByte, dataValue.GetType(), dataValue, null));
+
             }
         }
 

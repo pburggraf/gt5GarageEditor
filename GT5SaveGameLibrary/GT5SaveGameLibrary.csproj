@@ -89,6 +89,7 @@
     <Compile Include="Models\CarModels\Car.cs" />
     <Compile Include="Models\CarModels\CarParameterBlob.cs" />
     <Compile Include="Pddb.cs" />
+    <Compile Include="PddbObject.cs" />
     <Compile Include="SaveGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlLiteDb.cs" />
