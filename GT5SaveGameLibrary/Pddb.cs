@@ -47,8 +47,8 @@ namespace GT5SaveGameLibrary
             }
 
             var pddbObjects = new List<PddbObject>();
-            var pddbTablePointer = fs.Position;
             var pddbSymbolPointer = _pddbSymbolsOffset;
+            var symbol = String.Empty;
 
             while (true)
             {
@@ -91,21 +91,22 @@ namespace GT5SaveGameLibrary
                     default:
                         throw new NotImplementedException();
                 }
-
-                pddbTablePointer = fs.Position;
-                fs.Position = pddbSymbolPointer;
-
-                var nextSymbolLength = ebr.ReadByte();
-                var symbolByteArray = new byte[nextSymbolLength];
-                fs.Read(symbolByteArray, 0, nextSymbolLength);
-                var symbol = System.Text.Encoding.ASCII.GetString(symbolByteArray);
-
-                pddbSymbolPointer = fs.Position;
-                fs.Position = pddbTablePointer;
-
+                symbol = ReadNextSymbol(fs, ebr, ref pddbSymbolPointer);
                 pddbObjects.Add(new PddbObject(symbol, dataTypeByte, dataValue.GetType(), dataValue, null));
 
             }
+        }
+
+        private string ReadNextSymbol(FileStream fs, EndianBinaryReader ebr, ref long pddbSymbolPointer)
+        {
+            var pddbTablePointer = fs.Position;
+            fs.Position = pddbSymbolPointer;
+            var nextSymbolLength = ebr.ReadByte();
+            var symbolByteArray = new byte[nextSymbolLength];
+            fs.Read(symbolByteArray, 0, nextSymbolLength);
+            pddbSymbolPointer = fs.Position;
+            fs.Position = pddbTablePointer;
+            return Encoding.ASCII.GetString(symbolByteArray);
         }
 
         public string SavePath { get; private set; }
